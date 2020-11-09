@@ -1,0 +1,15 @@
+{
+  "env": {
+    "rootUrl": "http://localhost:9000/",
+    "clientRootUrl":"http://localhost:3000/",
+    "host":"localhost",
+    "database":"easymarket",
+    "dbUser":"root",
+    "dbPassword":"",
+    "JWT_KEY": "knakprn4y922okewnin4202iKSKNFPJABGDKNNA2329U492P4NDSDSJ",
+    "mailUser": "ekomobongarchibong002@gmail.com",
+    "mailPassword": "nelsonmandela",
+    "adminEmail": "admin_easymarket@gmail.com",
+    "adminPassword": "Tesla123@+Starboy123+nelsonmandela123@"
+  }
+}

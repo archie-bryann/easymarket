@@ -1,0 +1,5 @@
+AFTER BACKEND:
+- design 404 & redesign no results page
+- preloader for fetching {{ install necessary libraries }}
+- orders component & their status
+- redirect user pages

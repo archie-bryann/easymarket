@@ -1,0 +1,10 @@
+.cat-cover {
+    height: 80px;
+    object-fit: cover;
+    }
+
+.cat-title {
+    text-align: center;
+    line-height: 60px;
+    color: white;
+}

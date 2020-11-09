@@ -1,0 +1,4 @@
+.col-3:hover {
+    transform: translateY(-10px);
+    opacity: .9;
+}

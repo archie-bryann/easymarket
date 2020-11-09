@@ -1,0 +1,10 @@
+- sqlstring { real escape string } after the project
+- {{ set myWebToken in localStorage when user logged in }}
+- when user makes an order, it fires off an event and the admin is immediately notifies & the hosing company too
+- when the logistics have taken care of it, they indicate such to make sure
+- ADD LOGISTICS TOKEN INTEGRATION {{ App: Start with username & password for them }}
+- PAYSTACK INTEGRATION
+- instead of deleting products -- just hide them -- avoiding legal issues -- same for products under a category
+
+- ORDER :: MAKE SURE PAYMENTS ARE MADE + MOVE FROM CART TO HERE
+{{ Categories should have a banner picture at the top }}
