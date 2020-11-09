@@ -3,3 +3,6 @@ AFTER BACKEND:
 - preloader for fetching {{ install necessary libraries }}
 - orders component & their status
 - redirect user pages
+
+- email: support@foodnet.ng
+- 

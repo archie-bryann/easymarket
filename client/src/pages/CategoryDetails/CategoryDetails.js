@@ -4,8 +4,20 @@ import { Redirect } from 'react-router-dom';
 import Header from '../../components/Header/Header';
 import Products from '../../components/Products/Products'; 
 import './CategoryDetails.css'
+import Backdrop from '@material-ui/core/Backdrop';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import { makeStyles } from '@material-ui/core/styles';
+
+const useStyles = makeStyles((theme) => ({
+    backdrop: {
+      zIndex: theme.zIndex.drawer + 1,
+      color: '#fff',
+    },      
+}));
 
 function CategoryDetails({title,apiRootUrl, clientRootUrl ,match}) {
+
+    const classes = useStyles();
 
     const categoryId = match.match.params.categoryId; 
 
@@ -14,6 +26,8 @@ function CategoryDetails({title,apiRootUrl, clientRootUrl ,match}) {
 
     const [notFoundStatus, setNotFoundStatus] = useState(false);
 
+    const [isLoading, setIsLoading] = useState(true);
+
     useEffect(() => {
         axios.get(`${apiRootUrl}category/${categoryId}`)
         .then(res=>{
@@ -21,7 +35,8 @@ function CategoryDetails({title,apiRootUrl, clientRootUrl ,match}) {
                 setNotFoundStatus(true);
             } else {
                 setCategory(res.data);
-                setProducts(res.data.products)    
+                setProducts(res.data.products)   
+                setIsLoading(false) 
             }
         })
         .catch(err=>console.log(err))
@@ -33,7 +48,15 @@ function CategoryDetails({title,apiRootUrl, clientRootUrl ,match}) {
         <React.Fragment>
             { notFoundStatus && (
                 <Redirect to = "/404" />
-            ) }
+            )
+            }
+            {
+                 isLoading && (
+                    <Backdrop className={classes.backdrop} open>
+                    <CircularProgress color="inherit" />
+                    </Backdrop>
+                )
+            }
             <Header title = {title} clientRootUrl = {clientRootUrl} />
             <Products products = {products} apiRootUrl = {apiRootUrl}>
                 <br />
@@ -42,6 +65,8 @@ function CategoryDetails({title,apiRootUrl, clientRootUrl ,match}) {
                 </div>
                 <div style = {{marginTop:'22px'}}></div>
             </Products>
+
+            
         </React.Fragment>
     )
 }

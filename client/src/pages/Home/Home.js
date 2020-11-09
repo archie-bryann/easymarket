@@ -8,17 +8,34 @@ import axios from 'axios'
 // import Offer from '../../components/Offer/Offer'
 import Testimonials from '../../components/Testimonials/Testimonial'
 import Brands from '../../components/Brands/Brands'
+import Backdrop from '@material-ui/core/Backdrop';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import { makeStyles } from '@material-ui/core/styles';
+
+const useStyles = makeStyles((theme) => ({
+    backdrop: {
+      zIndex: theme.zIndex.drawer + 1,
+      color: '#fff',
+    },      
+}));
 
 function Home({title,apiRootUrl, clientRootUrl}) {
+
+    const classes = useStyles();
 
     document.title = title;
 
     const [products, setProducts] = useState([]);
     const [q, setQ] = useState('');
 
+    const [isLoading, setIsLoading] = useState(true);
+
     useEffect(() => {
         axios.get(`${apiRootUrl}product/starred/8`)
-        .then(res=>setProducts(res.data))
+        .then(res=>{
+            setProducts(res.data);
+            setIsLoading(false);
+        })
         .catch(err=>console.log(err))
     }, [apiRootUrl])
 
@@ -26,10 +43,15 @@ function Home({title,apiRootUrl, clientRootUrl}) {
         setQ(e.target.value);
     }
 
-  
-
     return (
         <React.Fragment>
+            {
+                 isLoading && (
+                    <Backdrop className={classes.backdrop} open>
+                    <CircularProgress color="inherit" />
+                    </Backdrop>
+                )
+            }
             <Header title={title} clientRootUrl = {clientRootUrl} >
                 <div className = "row"> 
                     <div className = "col-2">

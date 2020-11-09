@@ -16,9 +16,9 @@ function NavBar({title, clientRootUrl}) {
     return (
         <div className = "navbar">
             <div className = "logo">
-                {/* <h1>{title}</h1> */}
                 <Link to = "/">
-                <img src = {`${clientRootUrl}images/logo.png`} width="125px" />                
+                <h1 style = {{fontSize:'15px'}}>{title}</h1>
+                {/* <img src = {`${clientRootUrl}images/logo.png`} width="125px" />                 */}
                 </Link>
             </div>
             <nav>

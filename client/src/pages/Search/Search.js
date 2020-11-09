@@ -7,8 +7,21 @@ import FeaturedCategories from '../../components/FeaturedCategories/FeaturedCate
 import { Link } from 'react-router-dom/cjs/react-router-dom.min'
 import axios from 'axios'
 import Category from '../../components/Category/Category'
+import Backdrop from '@material-ui/core/Backdrop';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import { makeStyles } from '@material-ui/core/styles';
+
+const useStyles = makeStyles((theme) => ({
+    backdrop: {
+      zIndex: theme.zIndex.drawer + 1,
+      color: '#fff',
+    },      
+}));
+
 
 function Search({title,apiRootUrl,clientRootUrl, location}) {
+
+    const classes = useStyles();
 
     const inputRef = useRef(null);
 
@@ -19,9 +32,15 @@ function Search({title,apiRootUrl,clientRootUrl, location}) {
 
     const [resultReadyStatus, setResultReadyStatus] = useState(false);
 
+    const [isLoading, setIsLoading] = useState(true);
+
     const { q } = queryString.parse(location.search);
 
     document.title = `${searchInput} - ${title}`;
+
+    useEffect(()=>{
+        setIsLoading(true);
+    }, [q])
 
     useEffect(() => {
         
@@ -34,9 +53,11 @@ function Search({title,apiRootUrl,clientRootUrl, location}) {
                 setResultReadyStatus(true);
                 setProductResults(res.data.products);
                 setCategoryResults(res.data.categories)
+                setIsLoading(false)
             })
             .catch(err=>console.log(err))
         } else {
+            setIsLoading(true) 
             inputRef.current.focus()
         }
     }, [q])
@@ -53,6 +74,13 @@ function Search({title,apiRootUrl,clientRootUrl, location}) {
 
     return (
         <React.Fragment>
+            {
+                 (isLoading && q) && (
+                    <Backdrop className={classes.backdrop} open>
+                    <CircularProgress color="inherit" />
+                    </Backdrop>
+                )
+            }
             <Header title = {title} clientRootUrl = {clientRootUrl} />
             <br />
             <div className = "container">

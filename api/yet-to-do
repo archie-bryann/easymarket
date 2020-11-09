@@ -8,3 +8,11 @@
 
 - ORDER :: MAKE SURE PAYMENTS ARE MADE + MOVE FROM CART TO HERE
 {{ Categories should have a banner picture at the top }}
+
+
+- live secret key: sk_live_a1dcea8728533113e2ed504cf833d372b9b6a737
+- live public key: pk_live_0c00d37b5b15ddfac6da8942824febacee13f712
+
+Test later(put in test mode to test):
+- test secret key: sk_test_f12711e9277e1a27aba8e58f3394b9717098efaf
+- test public key: pk_test_71fcbd166959c23469deda0eed300f1282274ab8
