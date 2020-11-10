@@ -1,9 +1,8 @@
 import React, { Fragment } from 'react'
 import Header from '../../components/Header/Header'
 
-function Order({title,clientRootUrl, apiRootUrl}) {
-
-    document.title = ``;
+function Order({title, apiRootUrl, clientRootUrl, loggedInStatus}) {
+    document.title = `Order`;
 
     return (
         <Fragment>

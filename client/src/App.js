@@ -19,6 +19,9 @@ import axios from 'axios'
 import About from './pages/About/About';
 import Contact from './pages/Contact/Contact';
 
+export const UserContext = React.createContext();
+export const PageContext = React.createContext();
+
 function App() {
     
   const title = "Mutiny"; // FoodNet
@@ -26,8 +29,8 @@ function App() {
   const apiRootUrl = "http://localhost:9000/";
   const email = "support@foodnet.ng";
 
-  const token = localStorage.getItem('myToken');
-  const [loggedInStatus, setLoggedInStatus] = useState(false);
+  const token = localStorage.getItem('token');
+  const [loggedInStatus, setLoggedInStatus] = useState(null);
 
   useEffect(() => {
     
@@ -47,11 +50,17 @@ function App() {
           setLoggedInStatus(false);
         }
       })
-      .catch(err=>console.log(err))
+      .catch(err=>{
+        // error
+        setLoggedInStatus(false);
+      })
     } else {
       setLoggedInStatus(false);
     }
+
   }, [token])
+
+
 
   //  NEXT: block pages
 
@@ -60,7 +69,10 @@ function App() {
         <Router>
           <ScrollToTop />
           <Switch>
-            <Route path = "/" exact = {true} component = {()=>(<Home title = {title} apiRootUrl = {apiRootUrl} clientRootUrl = {clientRootUrl} />
+            <Route path = "/" exact = {true} component = {({match})=>(
+              // <UserContext.Provider value = {loggedInStatus}>
+                <Home title = {title} apiRootUrl = {apiRootUrl} clientRootUrl = {clientRootUrl} loggedInStatus = {loggedInStatus}  />
+              // </UserContext.Provider>
             )} />
 
             <Route path = "/categories" exact = {true} component = {()=><Categories title = {title} apiRootUrl = {apiRootUrl} clientRootUrl = {clientRootUrl} />} />
@@ -82,8 +94,7 @@ function App() {
 
             <Route path = "/cart" exact = {true} component = {()=><Cart title = {title} apiRootUrl = {apiRootUrl} clientRootUrl = {clientRootUrl} />} />
 
-
-            <Route path = "/orders" exact = {true} component = {()=><Orders title = {title} apiRootUrl = {apiRootUrl} clientRootUrl = {clientRootUrl} />} />
+            <Route path = "/orders" exact = {true} component = {()=><Orders title = {title} apiRootUrl = {apiRootUrl} clientRootUrl = {clientRootUrl} loggedInStatus = {loggedInStatus} />} />
 
             <Route path = "/order/:orderId" exact = {true} component = {()=><Order title = {title} apiRootUrl = {apiRootUrl} clientRootUrl = {clientRootUrl}  />} />
 

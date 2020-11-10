@@ -3,6 +3,9 @@ import Header from '../../components/Header/Header'
 import './Orders.css'
 
 function Orders({title, apiRootUrl, clientRootUrl}) {
+
+    document.title = `My Orders - ${title}`;
+
     return (
         <Fragment>
             <Header title = {title} clientRootUrl = {clientRootUrl} />

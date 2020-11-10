@@ -85,3 +85,7 @@ a {
         flex-basis: 100%;
     }
 }
+
+nav ul li:hover {
+    font-weight: bold;
+}
