@@ -15,30 +15,59 @@ import ErrorPage from './pages/ErrorPage/ErrorPage'
 import ResetPassword from './pages/ResetPassword/ResetPassword';
 import Orders from './pages/Orders/Orders'
 import Order from './pages/Order/Order'
+import axios from 'axios'
+import About from './pages/About/About';
+import Contact from './pages/Contact/Contact';
 
 function App() {
     
-  const title = "Restful Market";
+  const title = "Mutiny"; // FoodNet
   const clientRootUrl = "http://localhost:3000/";
   const apiRootUrl = "http://localhost:9000/";
+  const email = "support@foodnet.ng";
 
   const token = localStorage.getItem('myToken');
   const [loggedInStatus, setLoggedInStatus] = useState(false);
 
   useEffect(() => {
-      
+    
+    if(token) {
+      // verify token
+      axios(`${apiRootUrl}user/verify`, {
+        headers: {
+          'Authorization':`Basic ${token}`
+        }
+      })
+      .then(res=>{
+        console.log(res.data)
+        if(res.data.valid === 1) {
+          // user is valid
+          setLoggedInStatus(true);
+        } else {
+          setLoggedInStatus(false);
+        }
+      })
+      .catch(err=>console.log(err))
+    } else {
+      setLoggedInStatus(false);
+    }
   }, [token])
+
+  //  NEXT: block pages
 
   return (
     <React.Fragment>
         <Router>
           <ScrollToTop />
           <Switch>
-            
             <Route path = "/" exact = {true} component = {()=>(<Home title = {title} apiRootUrl = {apiRootUrl} clientRootUrl = {clientRootUrl} />
             )} />
 
             <Route path = "/categories" exact = {true} component = {()=><Categories title = {title} apiRootUrl = {apiRootUrl} clientRootUrl = {clientRootUrl} />} />
+
+            <Route path = "/about" exact = {true} component = {()=><About title = {title} apiRootUrl = {apiRootUrl} clientRootUrl = {clientRootUrl} />} />
+
+            <Route path = "/contact" exact = {true} component = {()=><Contact title = {title} apiRootUrl = {apiRootUrl} clientRootUrl = {clientRootUrl} email = {email} />} />
 
             <Route path = "/search" exact = {true} component = {({location})=><Search title = {title} apiRootUrl = {apiRootUrl} clientRootUrl = {clientRootUrl} location = {location} />} />
 

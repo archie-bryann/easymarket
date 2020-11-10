@@ -60,7 +60,8 @@ function CategoryDetails({title,apiRootUrl, clientRootUrl ,match}) {
             <Header title = {title} clientRootUrl = {clientRootUrl} />
             <Products products = {products} apiRootUrl = {apiRootUrl}>
                 <br />
-                <div className = "cat-cover" style = {{background:"url('http://localhost:9000/uploads/categoryImage-004f2d0d-1f8f-4e84-9b32-e4717557c7f7-sWyuAS.jpg')"}}>
+                {/* // correct this // */}
+                <div className = "cat-cover" style = {{background:`url('${apiRootUrl}uploads/${category.image}')`}}>
                 <h2 className = "cat-title">{category.name}</h2>
                 </div>
                 <div style = {{marginTop:'22px'}}></div>

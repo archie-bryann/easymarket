@@ -35,6 +35,7 @@ function ProductDetails({title, apiRootUrl, clientRootUrl, match}) {
     document.title = `${product.name} - ${title}`;
 
     useEffect(() => {
+        setIsLoading(true);
         axios.get(`${apiRootUrl}product/${productId}`)
         .then(res=>{
             if(res.data.error) {

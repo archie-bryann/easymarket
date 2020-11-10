@@ -24,6 +24,7 @@ function Search({title,apiRootUrl,clientRootUrl, location}) {
     const classes = useStyles();
 
     const inputRef = useRef(null);
+    const linkRef = useRef(null);
 
     const [searchInput, setSearchInput] = useState('');
     const [status, setStatus] = useState(false);
@@ -88,8 +89,9 @@ function Search({title,apiRootUrl,clientRootUrl, location}) {
                     <div className = "col-1">
                         <form onSubmit = {(e)=>{
                             e.preventDefault();
-                            const a = document.getElementById("searchButton");
-                            a.click();
+                            // const a = document.getElementById("searchButton");
+                            // a.click();
+                            linkRef.current.click();
                         }}>
                             <input 
                                 ref = {inputRef} 
@@ -98,7 +100,7 @@ function Search({title,apiRootUrl,clientRootUrl, location}) {
                                 placeholder = "Search for a product or category..." 
                                 onChange = {changeHandler} 
                             />
-                            <Link to = {`/search?q=${searchInput}`} style = {{width:'100px',height:'35px', borderRadius:'0'}} id = "searchButton" className = "btn search-btn">Search</Link> 
+                            <Link to = {`/search?q=${searchInput}`} ref = {linkRef} style = {{width:'100px',height:'35px', borderRadius:'0'}} id = "searchButton" className = "btn search-btn">Search</Link> 
                         </form>
                     </div>
                 </div>

@@ -112,6 +112,11 @@ exports.get_people_online = (req,res,next) => { // put middleware - admin
     }
 }
 
+
+exports.verify_user = (req,res,next) => {
+    res.status(200).json({valid:1});
+}
+
 // do middleware before i continue
 
 exports.user_signup = (req,res,next) => {

@@ -9,6 +9,8 @@ router.get('/online_users', checkAuth, UserController.get_users_online); // only
 
 router.get('/online_people', checkAuth, UserController.get_people_online); // only admin
 
+router.get('/verify', checkAuth, UserController.verify_user);
+
 router.post('/signup', UserController.user_signup); // open
 
 router.post('/login', UserController.user_login); // open
@@ -22,6 +24,7 @@ router.post('/password_reset/:email/:token', UserController.user_reset_password)
 router.get('/v/:userId', checkAuth, UserController.users_get_user); // admin & particular user
 
 router.patch('/v/:userId', checkAuth, UserController.users_update_user); // admin & particular user
+
 
 module.exports = router;
 

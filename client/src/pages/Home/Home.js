@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect, useRef} from 'react'
 import { Link} from 'react-router-dom'
 import './Home.css'
 import FeaturedCategories from '../../components/FeaturedCategories/FeaturedCategories'
@@ -22,6 +22,8 @@ const useStyles = makeStyles((theme) => ({
 function Home({title,apiRootUrl, clientRootUrl}) {
 
     const classes = useStyles();
+
+    const linkRef = useRef(null);
 
     document.title = title;
 
@@ -59,8 +61,9 @@ function Home({title,apiRootUrl, clientRootUrl}) {
                         <p>Success isn't always about greatness. It's about consistency. Consistent<br/>hard work gains success. Greatness will come.</p>
                         <form onSubmit = {(e)=>{
                             e.preventDefault();
-                            const a = document.getElementById("searchButton");
-                            a.click();
+                            // const a = document.getElementById("searchButton");
+                            // a.click();
+                            linkRef.current.click();
                         }}>
                         <input 
                             style = {{width:'300px',borderRadius:'15px',height:'35px'}} 
@@ -70,7 +73,7 @@ function Home({title,apiRootUrl, clientRootUrl}) {
                         />
                         </form>
                         <div style = {{marginTop:'-30px'}}></div>
-                        <Link id = "searchButton" to = {`/search?q=${q}`} className="btn">Search</Link>
+                        <Link id = "searchButton" to = {`/search?q=${q}`} ref = {linkRef} className="btn">Search</Link>
                     </div>
                     <div className = "col-2">
                         <img src = "images/image1.png" style={{width:'200px',height:'600px'}} alt = "" />
