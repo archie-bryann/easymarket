@@ -24,7 +24,7 @@ export const PageContext = React.createContext();
 
 function App() {
     
-  const title = "FoodNet"; // FoodNet
+  const title = "Mutiny"; // FoodNet
   const clientRootUrl = "http://localhost:3000/";
   const apiRootUrl = "http://localhost:9000/";
   const email = "support@foodnet.ng";

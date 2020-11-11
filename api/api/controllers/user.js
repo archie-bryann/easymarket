@@ -161,6 +161,7 @@ exports.user_signup = (req,res,next) => {
         
                                         transporter.sendMail(mailOptions, function(err,info){
                                             if(err) {
+                                                console.log(err);
                                                 res.status(500).json({error:'An error occured. Please try again!'});
                                             } else {
                                                 // the mail is sent before the user is saved to make sure the mail is sent first
