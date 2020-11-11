@@ -40,6 +40,7 @@
 
 .btn:hover {
     background: #563434;
+    cursor: pointer;
 }
 
 .header {

@@ -1,8 +1,21 @@
 import React,  {useState} from 'react'
 import Header from '../../components/Header/Header';
 import './Account.css'
+import Backdrop from '@material-ui/core/Backdrop';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import { makeStyles } from '@material-ui/core/styles';
+import axios from 'axios'
 
-function Account({title, clientRootUrl}) {
+const useStyles = makeStyles((theme) => ({
+    backdrop: {
+      zIndex: theme.zIndex.drawer + 1,
+      color: '#fff',
+    },      
+}));
+
+function Account({title, clientRootUrl, apiRootUrl}) {
+
+    const classes = useStyles();
 
     const [loginFormTransform, setLoginFormTransform] = useState('translateX(-300px)');
     const [regFormTransform, setRegFormTransform] = useState('');
@@ -10,6 +23,17 @@ function Account({title, clientRootUrl}) {
 
     const [status, setStatus] = useState('hide');
 
+    const [signupErr, setSignupErr] = useState(null);
+    const [loginErr, setLoginErr] = useState(null);
+
+    const [firstname, setFirstname] = useState('');
+    const [lastname, setLastname] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+
+    const [isLoading, setIsLoading] = useState(false);
+
+    const [color, setColor] = useState('red');
 
     function registerTab() {
         setRegFormTransform('translateX(0px)');
@@ -23,14 +47,119 @@ function Account({title, clientRootUrl}) {
         setIndicatorTransform('translateX(0px)');
     }
 
-    function myChangeHandler() {
+    function changeFirstname(e) {
+        setFirstname(e.target.value);
+    }
 
+    function changeLastname(e) {
+        setLastname(e.target.value);
+    }
+
+    function changeEmail(e) {
+        setEmail(e.target.value);
+    }
+
+    function changePassword(e) {
+        setPassword(e.target.value);
+    }
+
+    function IsEmail(email) {
+        if(email.includes("@")) {
+            var array = email.split("@")
+            var sub = array[1]
+            if(sub.includes(".")) {
+                return true // email
+            } else {
+                return false // not an email
+            }
+        } else {
+            return false // not an email
+        }
+    }
+
+    function signup(e) {
+        e.preventDefault();
+        setSignupErr(null);
+        if(firstname.trim() === '' || lastname.trim() === '' || email.trim() === '' || password.trim() === '') {
+            setSignupErr("All fields are required!");
+        } else {
+            // validate email
+            const checker = IsEmail(email);
+            if(checker === false) {
+                setSignupErr("You used an invalid email!");
+            } else {
+                // password checker
+                if(password.length < 6) {
+                    setSignupErr("Your password must be greater than 6 characters!");
+                } else {
+                    // signup
+                    setIsLoading(true);
+                    axios.post(`${apiRootUrl}user/signup`, {
+                        firstname,
+                        lastname,
+                        email,
+                        password
+                    })
+                    .then(res=>{
+                        setIsLoading(false);
+                        if(res.data.error === 0) {
+                            // clear all input
+                            setFirstname('');
+                            setLastname('');
+                            setEmail('');
+                            setPassword('');
+                            // color of message
+                            setColor('green');
+                            console.log(1)
+                            // show success message
+                            setSignupErr(res.data.message);
+                        } else {
+                            setSignupErr(res.data.error);
+                        }
+                    })
+                    .catch(err=>{
+                        setIsLoading(false);
+                        setSignupErr("An error occurred. Please try again!");
+                    })
+                }
+            }
+        }
+    }
+
+    function login(e) {
+        e.preventDefault();
+        setLoginErr(null);
+        if(email.trim() === '' || password.trim() === '') {
+            setLoginErr("All fields are required!");
+        } else {
+            // login
+            setIsLoading(true);
+            axios.post(`${apiRootUrl}user/login`, {
+                email,
+                password
+            })
+            .then(({data})=>{
+                console.log(data);
+            })
+            .catch(err=>{
+                setIsLoading(false);
+                setLoginErr("An error occurred. Please try again!");
+            })
+            
+        }
     }
 
     // signup with { firstname, lastname, email, password }
 
     return (
         <React.Fragment>
+             {
+                 isLoading && (
+                    <Backdrop className={classes.backdrop} open>
+                    <CircularProgress color="inherit" />
+                    </Backdrop>
+                )
+            }
             <Header title = {title} clientRootUrl = {clientRootUrl} />
             <div className = "account-page">
                 <div className = "container">
@@ -48,20 +177,23 @@ function Account({title, clientRootUrl}) {
                                 </div>
 
 
-                                <form id = "LoginForm" style = {{transform:loginFormTransform}}>
-                                    <input type = "text" name = "username" placeholder = "Username" onChange = {myChangeHandler} />
-                                    <input type = "password" name = "password" placeholder = "Password" onChange = {myChangeHandler} />
-                                    <button type = "submit" className = "btn">Login</button>
+
+                                <form id = "LoginForm" style = {{transform:loginFormTransform,marginTop:'-40px'}}>
+                                    <p style = {{color,fontSize:'13.5px',float:'left'}}>{loginErr}</p>
+                                    <input type = "text" name = "email" placeholder = "Email" onChange = {changeEmail} value = {email} />
+                                    <input type = "password" name = "password" placeholder = "Password" onChange = {changePassword} value = {password} />
+                                    <button type = "submit" className = "btn" onClick = {login}>Login</button>
                                     <a href = "/forgot_password">Forgot password</a>
                                 </form>
 
 
-                                <form id = "RegForm" style = {{transform:regFormTransform}}>
-                                    <input type = "text" placeholder = "Firstname" />
-                                    <input type = "text" placeholder = "Lastname" />
-                                    <input type = "text" placeholder = "Email" />
-                                    <input type = "password" placeholder = "Password" />
-                                    <button type = "submit" className = "btn">Register</button>
+                                <form id = "RegForm" style = {{transform:regFormTransform,marginTop:'-40px'}}>
+                                    <p style = {{color,fontSize:'13.5px',float:'left'}}>{signupErr}</p>
+                                    <input type = "text" name = "firstname" placeholder = "Firstname" onChange = {changeFirstname} value = {firstname} />
+                                    <input type = "text" name = "lastname" placeholder = "Lastname" onChange = {changeLastname} value = {lastname} />
+                                    <input type = "text" name = "email" placeholder = "Email" onChange = {changeEmail} value = {email} />
+                                    <input type = "password" name = "password" placeholder = "Password" onChange = {changePassword} value = {password} />
+                                    <button type = "submit" className = "btn" onClick = {signup}>Register</button>
                                 </form>
 
                             </div>

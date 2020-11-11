@@ -1,11 +1,18 @@
 import React, { Fragment } from 'react'
+import { Redirect } from 'react-router-dom';
 import Header from '../../components/Header/Header'
 
 function Order({title, apiRootUrl, clientRootUrl, loggedInStatus}) {
+    
     document.title = `Order`;
 
     return (
         <Fragment>
+            {
+                (!loggedInStatus) && (
+                    <Redirect to = "/account" />
+                )
+            }
             <Header title = {title} clientRootUrl = {clientRootUrl}  />
             <br />
             <br />

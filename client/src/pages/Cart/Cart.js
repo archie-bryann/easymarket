@@ -1,14 +1,20 @@
 import React from 'react'
+import { Redirect } from 'react-router-dom';
 import Header from '../../components/Header/Header'
 import './Cart.css'
 
 
-function Cart({title, clientRootUrl, apiRootUrl}) {
+function Cart({title, clientRootUrl, apiRootUrl, loggedInStatus}) {
 
     document.title = `Cart - ${title}`;
  
     return (
         <React.Fragment>
+            {
+                (!loggedInStatus) && (
+                    <Redirect to = "/account" />
+                )
+            }
             <Header title = {title} clientRootUrl = {clientRootUrl} />
 
             <br />

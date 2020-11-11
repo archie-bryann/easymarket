@@ -19,7 +19,7 @@ function CategoryDetails({title,apiRootUrl, clientRootUrl ,match}) {
 
     const classes = useStyles();
 
-    const categoryId = match.match.params.categoryId; 
+    const categoryId = match.params.categoryId; 
 
     const [category,setCategory] = useState([]);
     const [products,setProducts] = useState([]);

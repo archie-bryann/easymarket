@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
     },      
 }));
 
-function Home({title,apiRootUrl, clientRootUrl, loggedInStatus}) {
+function Home({title,apiRootUrl, clientRootUrl, loggedInStatus, match}) {
 
 
     const classes = useStyles();
@@ -55,7 +55,7 @@ function Home({title,apiRootUrl, clientRootUrl, loggedInStatus}) {
                     </Backdrop>
                 )
             }
-            <Header title={title} clientRootUrl = {clientRootUrl} loggedInStatus = {loggedInStatus} >
+            <Header title={title} clientRootUrl = {clientRootUrl} loggedInStatus = {loggedInStatus} match = {match} >
                 <div className = "row"> 
                     <div className = "col-2">
                         <h1>Give Your Workout <br/>A New Style!</h1>

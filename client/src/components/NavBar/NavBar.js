@@ -3,7 +3,8 @@ import { Link } from 'react-router-dom'
 import './NavBar.css'
 import {UserContext,PageContext} from '../../App'
 
-function NavBar({title, clientRootUrl, loggedInStatus}) {
+function NavBar({title, clientRootUrl, loggedInStatus, match}) {
+
     const [maxHeight, setMaxHeight] = useState("0px");
 
     function menuToggle() {
@@ -12,7 +13,7 @@ function NavBar({title, clientRootUrl, loggedInStatus}) {
         } else {
             setMaxHeight("0px");
         }
-    }
+    }    
 
     return (
         <div className = "navbar">

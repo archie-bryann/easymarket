@@ -1,5 +1,20 @@
-@media only screen and (max-width: 495px) {
+.top-space {
+    display: none;
+}
+
+.feedback-2 {
+    display: none;
+}
+
+@media(max-width: 495px) {
     .feedback {
-        font-size: 1em;
+        display: none;
+    }
+    .feedback-2 {
+        display: block;
+        font-size: 50px;
+    }
+    .top-space {
+        display: block;
     }
 }

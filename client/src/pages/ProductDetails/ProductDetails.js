@@ -15,22 +15,25 @@ const useStyles = makeStyles((theme) => ({
     },    
 }));
 
-function ProductDetails({title, apiRootUrl, clientRootUrl, match}) {
+function ProductDetails({title, apiRootUrl, clientRootUrl, match, logggedInStatus}) {
 
     const classes = useStyles();
 
-    const { productId, categoryId } = match.match.params;
+    const { productId, categoryId } = match.params;
 
-    const [image, setImage] = useState('images/gallery-3.jpg');
+    // const [image, setImage] = useState('images/gallery-3.jpg');
     const [quantity, setQuantity] = useState(1);
 
 
     const [product, setProduct] = useState({});
+
     const [relatedProducts, setRelatedProducts] = useState([]);
 
     const [notFoundstatus, setNotFoundStatus] = useState(false);
 
     const [isLoading, setIsLoading] = useState(true);
+
+    const [redirect, setRedirect] = useState(false);
 
     document.title = `${product.name} - ${title}`;
 
@@ -46,7 +49,7 @@ function ProductDetails({title, apiRootUrl, clientRootUrl, match}) {
             }
         })
         .catch(err=>console.log(err))
-    }, [productId,categoryId])
+    }, [productId,categoryId]);
 
     useEffect(() => {
         axios.get(`${apiRootUrl}category/related/${categoryId}/${productId}`)
@@ -54,7 +57,11 @@ function ProductDetails({title, apiRootUrl, clientRootUrl, match}) {
             setRelatedProducts(res.data)
         })
         .catch(err=>console.log(err))
-    }, [productId,categoryId])
+    }, [productId,categoryId]);
+
+    function addToCart() {
+        console.log('Added to Cart');
+    }
 
     // function changeImage(e) {
     //     setImage(e.target.src);
@@ -63,8 +70,11 @@ function ProductDetails({title, apiRootUrl, clientRootUrl, match}) {
     return (
         <React.Fragment>
             {
+                redirect && <Redirect to = "/account" />
+            }
+            {
                 // check to redirect
-                (notFoundstatus) && <Redirect to = "/404" />
+                notFoundstatus && <Redirect to = "/404" />
             }
             {
                  isLoading && (
@@ -108,7 +118,15 @@ function ProductDetails({title, apiRootUrl, clientRootUrl, match}) {
                         </select>
                         <div style = {{marginTop:'-20px'}}></div>
                         <input type = "number" value = {quantity} onChange = {(e)=>setQuantity(e.target.value)} />
-                        <Link to = "" className = "link btn">Add To Cart</Link>
+
+                        <a onClick = {
+                            (logggedInStatus) 
+                            ?
+                            addToCart
+                            :
+                            null//setRedirect(true)
+                        } className = "link btn">Add To Cart</a>
+
                         <h3>Product Details <i className = "fa fa-indent"></i></h3>
                         <p>{product.description}</p>
                     </div>
