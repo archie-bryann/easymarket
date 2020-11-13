@@ -2,22 +2,11 @@ import axios from 'axios';
 import React, {useState,useEffect} from 'react'
 import { Redirect } from 'react-router-dom';
 import Header from '../../components/Header/Header';
+import Loader from '../../components/Loader/Loader';
 import Products from '../../components/Products/Products'; 
 import './CategoryDetails.css'
-import Backdrop from '@material-ui/core/Backdrop';
-import CircularProgress from '@material-ui/core/CircularProgress';
-import { makeStyles } from '@material-ui/core/styles';
-
-const useStyles = makeStyles((theme) => ({
-    backdrop: {
-      zIndex: theme.zIndex.drawer + 1,
-      color: '#fff',
-    },      
-}));
 
 function CategoryDetails({title,apiRootUrl, clientRootUrl ,match}) {
-
-    const classes = useStyles();
 
     const categoryId = match.params.categoryId; 
 
@@ -52,9 +41,7 @@ function CategoryDetails({title,apiRootUrl, clientRootUrl ,match}) {
             }
             {
                  isLoading && (
-                    <Backdrop className={classes.backdrop} open>
-                    <CircularProgress color="inherit" />
-                    </Backdrop>
+                    <Loader />
                 )
             }
             <Header title = {title} clientRootUrl = {clientRootUrl} />

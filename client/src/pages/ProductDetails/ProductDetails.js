@@ -4,20 +4,9 @@ import './ProductDetails.css'
 import { Link, Redirect } from 'react-router-dom' 
 import axios from 'axios'
 import Products from '../../components/Products/Products'
-import Backdrop from '@material-ui/core/Backdrop';
-import CircularProgress from '@material-ui/core/CircularProgress';
-import { makeStyles } from '@material-ui/core/styles';
-
-const useStyles = makeStyles((theme) => ({
-    backdrop: {
-      zIndex: theme.zIndex.drawer + 1,
-      color: '#fff',
-    },    
-}));
+import Loader from '../../components/Loader/Loader'
 
 function ProductDetails({title, apiRootUrl, clientRootUrl, match, logggedInStatus}) {
-
-    const classes = useStyles();
 
     const { productId, categoryId } = match.params;
 
@@ -78,9 +67,7 @@ function ProductDetails({title, apiRootUrl, clientRootUrl, match, logggedInStatu
             }
             {
                  isLoading && (
-                    <Backdrop className={classes.backdrop} open>
-                    <CircularProgress color="inherit" />
-                    </Backdrop>
+                    <Loader />
                 )
             }
             <Header title = {title} clientRootUrl = {clientRootUrl} />

@@ -7,21 +7,9 @@ import FeaturedCategories from '../../components/FeaturedCategories/FeaturedCate
 import { Link } from 'react-router-dom/cjs/react-router-dom.min'
 import axios from 'axios'
 import Category from '../../components/Category/Category'
-import Backdrop from '@material-ui/core/Backdrop';
-import CircularProgress from '@material-ui/core/CircularProgress';
-import { makeStyles } from '@material-ui/core/styles';
-
-const useStyles = makeStyles((theme) => ({
-    backdrop: {
-      zIndex: theme.zIndex.drawer + 1,
-      color: '#fff',
-    },      
-}));
-
+import Loader from '../../components/Loader/Loader'
 
 function Search({title,apiRootUrl,clientRootUrl, location}) {
-
-    const classes = useStyles();
 
     const inputRef = useRef(null);
     const linkRef = useRef(null);
@@ -77,9 +65,7 @@ function Search({title,apiRootUrl,clientRootUrl, location}) {
         <React.Fragment>
             {
                  (isLoading && q) && (
-                    <Backdrop className={classes.backdrop} open>
-                    <CircularProgress color="inherit" />
-                    </Backdrop>
+                    <Loader />
                 )
             }
             <Header title = {title} clientRootUrl = {clientRootUrl} />

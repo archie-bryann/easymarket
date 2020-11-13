@@ -28,11 +28,15 @@ nav ul li {
 a {
     text-decoration: none;
     color: #555;
-
 }
 .link {
     text-decoration: none;
     color: #555;
+}
+
+
+.c {
+    color:white;
 }
 
 .cart-icon:hover {
@@ -89,3 +93,4 @@ a {
 nav ul li:hover {
     font-weight: bold;
 }
+

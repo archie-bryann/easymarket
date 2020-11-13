@@ -5,24 +5,13 @@ import FeaturedCategories from '../../components/FeaturedCategories/FeaturedCate
 import Products from '../../components/Products/Products'
 import Header from '../../components/Header/Header'
 import axios from 'axios'
-// import Offer from '../../components/Offer/Offer'
+import Offer from '../../components/Offer/Offer'
 import Testimonials from '../../components/Testimonials/Testimonial'
 import Brands from '../../components/Brands/Brands'
-import Backdrop from '@material-ui/core/Backdrop';
-import CircularProgress from '@material-ui/core/CircularProgress';
-import { makeStyles } from '@material-ui/core/styles';
-
-const useStyles = makeStyles((theme) => ({
-    backdrop: {
-      zIndex: theme.zIndex.drawer + 1,
-      color: '#fff',
-    },      
-}));
+import Loader from '../../components/Loader/Loader'
 
 function Home({title,apiRootUrl, clientRootUrl, loggedInStatus, match}) {
 
-
-    const classes = useStyles();
 
     const linkRef = useRef(null);
 
@@ -50,9 +39,7 @@ function Home({title,apiRootUrl, clientRootUrl, loggedInStatus, match}) {
         <React.Fragment>
             {
                  isLoading && (
-                    <Backdrop className={classes.backdrop} open>
-                    <CircularProgress color="inherit" />
-                    </Backdrop>
+                    <Loader />
                 )
             }
             <Header title={title} clientRootUrl = {clientRootUrl} loggedInStatus = {loggedInStatus} match = {match} >
@@ -85,8 +72,7 @@ function Home({title,apiRootUrl, clientRootUrl, loggedInStatus, match}) {
             <Products products = {products} apiRootUrl = {apiRootUrl}>
                 <h2 className = "title">Featured Products</h2>
             </Products>
-
-            {/* <Offer /> */}
+            <Offer />
             <div style = {{marginTop:'-30px'}}></div>
             <Testimonials />
             <br />

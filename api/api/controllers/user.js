@@ -138,7 +138,6 @@ exports.user_signup = (req,res,next) => {
                     res.status(500).json({error:'An error occured. Please try again!'});
                 } else {
                     conn.query(`select * from userSchema where email = ?`, [email], function(err,user) {
-                        conn.release();
                         if(err) {
                             res.status(500).json({error:'An error occured. Please try again!'});
                         } else {
@@ -151,46 +150,42 @@ exports.user_signup = (req,res,next) => {
                                             error: err
                                         });
                                     } else {
-        
+                                        /** Use Website mail (when i've bought & paid for my domain & hosting) not gmail for my MAIL */
                                         const mailOptions = {
-                                            from: process.env.mailUser,
+                                            from: "webfulservices@gmail.com",
                                             to: email,
                                             subject: "E-mail Account Confirmation", 
-                                            text: `<a href = "${process.env.rootUrl}user/verify/{${email}/${token}">${process.env.rootUrl}user/verify/{${email}/${token}</a>`
+                                            html: `<a href = "${process.env.rootUrl}user/verify/${email}/${token}">${process.env.rootUrl}user/verify/${email}/${token}</a>`
                                         }   
-        
+
                                         transporter.sendMail(mailOptions, function(err,info){
+                                            
                                             if(err) {
-                                                console.log(err);
                                                 res.status(500).json({error:'An error occured. Please try again!'});
                                             } else {
                                                 // the mail is sent before the user is saved to make sure the mail is sent first
-                                                pool.getConnection(function(err,conn){
+                                                conn.query(`insert into userSchema (firstname, lastname, email, password, token, joined_timestamp) values (?, ?, ?, ?, ?, ?)`, [firstname,lastname,email,hash,token,timestamp], function (err,result){
+                                                    conn.release();
                                                     if(err) {
                                                         res.status(500).json({error:'An error occured. Please try again!'});
                                                     } else {
-                                                        conn.query(`insert into userSchema (firstname, lastname, email, password, token, joined_timestamp) values (?, ?, ?, ?, ?, ?)`, [firstname,lastname,email,hash,token,timestamp], function (err,result){
-                                                        conn.release();
-                                                        if(err) {
-                                                            res.status(500).json({error:'An error occured. Please try again!'});
-                                                        } else {
-                                                            res.status(201).json({
-                                                                error: 0,
-                                                                message: 'You have successfully signed up. A confirmation link has been sent to your email for verification!',    
-                                                                user: {
-                                                                    firstname,
-                                                                    lastname,
-                                                                    email,
-                                                                    password, // store the password in cookie and save in login input // same for login
-                                                                    timestamp
-                                                                }
-                                                            })
-                                                        }
-                                                    });
-                                            }
-                                        });
+                                                        res.status(201).json({
+                                                            error: 0,
+                                                            message: 'You have successfully signed up. A confirmation link has been sent to your email for verification!',    
+                                                            user: {
+                                                                firstname,
+                                                                lastname,
+                                                                email,
+                                                                password, // store the password in cookie and save in login input // same for login
+                                                                timestamp
+                                                            }
+                                                        })
+                                                    }
+                                                });
                                     }
                                 });
+
+
                                     }
                                 });
                             }

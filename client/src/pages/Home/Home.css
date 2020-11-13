@@ -30,7 +30,8 @@
 
 .btn {
     display: inline-block;
-    background: #ff523b;
+    /* background: #ff523b;  */
+    background: green; 
     color: #fff;
     padding: 8px 30px;
     margin: 30px 0;
@@ -44,7 +45,10 @@
 }
 
 .header {
-    background: radial-gradient(#fff,#ffd6d6);
+    /* background: radial-gradient(#fff,#ffd6d6); */
+    /* background: radial-gradient(#fff ,#7fad39); */
+    /* background: white; */
+    background: #7fad39;
 }
 
 .header .row {

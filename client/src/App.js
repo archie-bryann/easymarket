@@ -22,6 +22,7 @@ import Contact from './pages/Contact/Contact';
 export const UserContext = React.createContext();
 export const PageContext = React.createContext();
 
+
 function App() {
     
   const title = "Mutiny"; // FoodNet

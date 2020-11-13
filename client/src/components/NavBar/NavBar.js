@@ -19,7 +19,7 @@ function NavBar({title, clientRootUrl, loggedInStatus, match}) {
         <div className = "navbar">
             <div className = "logo">
                 <Link to = "/">
-                <h1 style = {{fontSize:'30px'}}>{title}</h1>
+                <h1 style = {{fontSize:'30px',color:'white'}}>{title}</h1>
                 {/* <h1 style = {{fontSize:'23px'}}>{title}</h1> */}
                 {/* <img src = {`${clientRootUrl}images/logo.png`} width="125px" />                 */}
                 </Link>
@@ -29,12 +29,12 @@ function NavBar({title, clientRootUrl, loggedInStatus, match}) {
         
             <nav>
                 <ul style={{maxHeight}}>
-                    <li><Link to="/" className = "link">Home</Link></li>
+                    <li><Link to="/" className = "link c">Home</Link></li>
 
-                    <li><Link to="/categories" className = "link">Categories</Link></li>
+                    <li><Link to="/categories" className = "link c">Categories</Link></li>
 
-                    <li><Link to="/about" className = "link">About</Link></li>
-                    <li><Link to="/contact" className = "link">Contact</Link></li>
+                    <li><Link to="/about" className = "link c">About</Link></li>
+                    <li><Link to="/contact" className = "link c">Contact</Link></li>
                     {/* <UserContext.Consumer>
                         {
                             loggedIn => {
@@ -42,8 +42,8 @@ function NavBar({title, clientRootUrl, loggedInStatus, match}) {
                                     <Fragment> */}
                                         {(loggedInStatus) && (
                                             <Fragment>
-                                                <li><Link to="/orders" className = "link">My Orders</Link></li>
-                                                <li><Link to="/orders" className = "link">My Profile</Link></li>
+                                                <li><Link to="/orders" className = "link c">My Orders</Link></li>
+                                                <li><Link to="/orders" className = "link c">My Profile</Link></li>
                                             </Fragment>
                                         )}
                                         
@@ -53,11 +53,11 @@ function NavBar({title, clientRootUrl, loggedInStatus, match}) {
                         }
                     </UserContext.Consumer>
                      */}
-                    <li><Link to="/account" className = "link">Account</Link></li>
+                    <li><Link to="/account" className = "link c">Account</Link></li>
                 </ul>
             </nav>
             {/* <Link to="/search" className = "link"><img src = {`${clientRootUrl}images/search.png`} width="22px" height="22px" className = "search-icon" alt = "" /></Link> */}
-            <Link to="/search" className = "link"><i className = "fa fa-search" style = {{fontSize:'21px',marginRight:'18px'}}></i></Link>
+            <Link to="/search" className = "link c"><i className = "fa fa-search" style = {{fontSize:'21px',marginRight:'18px'}}></i></Link>
             {/* <UserContext.Consumer>
                 {
                     loggedIn => {
@@ -65,7 +65,7 @@ function NavBar({title, clientRootUrl, loggedInStatus, match}) {
                             <Fragment> */}
                             {
                                 (loggedInStatus) && (
-                                        <Link to="/cart" className = "link"><i className = "fa fa-shopping-cart cart-icon" style = {{fontSize:'22px'}}></i></Link>
+                                        <Link to="/cart" className = "link c"><i className = "fa fa-shopping-cart cart-icon" style = {{fontSize:'22px'}}></i></Link>
                                 )
                             }
                                
@@ -77,7 +77,8 @@ function NavBar({title, clientRootUrl, loggedInStatus, match}) {
             {/* <Link to="/cart" className = "link"><img src = {`${clientRootUrl}images/cart.png`} width="25px" height="25px" className = "cart-icon" alt = "" /></Link> */}
            
            
-            <img src = {`${clientRootUrl}images/menu.png`} width="30px" height="30px" className = "menu-icon" onClick = {menuToggle} alt = "" />{/* remove height & width for this when found */}
+            {/* <img src = {`${clientRootUrl}images/menu.png`} width="30px" height="30px" className = "menu-icon c" onClick = {menuToggle} alt = "" /> // remove height & width for this when found */}
+            <i className = "fa fa-bars menu-icon c" style = {{fontSize:'23px'}} onClick = {menuToggle} ></i>
         </div>
     )
 }

@@ -43,7 +43,9 @@
 - send message (POST) to user/admin - user & admin
 - get unanswered messages (GET) - only admin
 
-7. market (chat)
+7. cart
+
+8. market (chat)
 - get market status (r open/closed) - open
 - update market status (1/0) - only admin
 
@@ -60,7 +62,7 @@
 
 - admin can suspend an account
 
-- 500 naira per delivery
+- 500 naira per delivery - 1,000 // 2,000 --->> 500 for hosting company
 
 - Strict Address(Games Village):
   Address - [], Games Vilage

@@ -1,6 +1,7 @@
 .account-page {
     padding: 50px 0;
-    background: radial-gradient(#fff, #ffd6d6);
+    /* background: radial-gradient(#fff, #ffd6d6); */
+    background: #7fad39;
 }
 
 .form-container {

@@ -3,6 +3,7 @@ import NavBar from '../NavBar/NavBar'
 import './Header.css'
 
 function Header({title,children, clientRootUrl, loggedInStatus, match}) {
+
     return (
         <React.Fragment>
             <div className = "header">

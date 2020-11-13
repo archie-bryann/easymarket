@@ -221,7 +221,7 @@ exports.get_status_orders = (req,res,next) => {
             if(err) {
                 res.status(500).json({error:'An error occured. Please try again!'});
             } else {
-                conn.query(`select * from orderSchema where status = ?`, [status], function(err,orders){
+                conn.query(`select * from orderSchema where status = ? order by id DESC`, [status], function(err,orders){ /** order by latest */
                     conn.release();
                     if(err) {
                         res.status(500).json({error:'An error occured. Please try again!'});
