@@ -155,7 +155,7 @@ exports.user_signup = (req,res,next) => {
                                             from: "webfulservices@gmail.com",
                                             to: email,
                                             subject: "E-mail Account Confirmation", 
-                                            html: `<a href = "${process.env.rootUrl}user/verify/${email}/${token}">${process.env.rootUrl}user/verify/${email}/${token}</a>`
+                                            html: `<a href = "${process.env.clientRootUrl}verify/${email}/${token}">${process.env.clientRootUrl}verify/${email}/${token}</a>`
                                         }   
 
                                         transporter.sendMail(mailOptions, function(err,info){
@@ -202,21 +202,22 @@ exports.user_login = (req,res,next) => {
 
     pool.getConnection(function(err,conn){
         if(err) {
-            res.status(500).json({error:'An error occured. Please try again!'});
+            res.status(200).json({error:'An error occured. Please try again!'});
         } else {
             conn.query(`select * from userSchema where email =  ?`, [email], function(err,user){
                 conn.release();
                 if(err) {
-                    res.status(500).json({error:'An error occured. Please try again!'});
+                    res.status(200).json({error:'An error occured. Please try again!'});
                 } else {
                     if(user.length < 1) {
-                        res.status(404).json({error:'You used an invalid email!'});
+                        res.status(200).json({error:'You used an invalid email or password!'}); // email
                     } else {
                         // check if user is verified / NOT
                         if(user[0].verified === 1) {
                             bcrypt.compare(password, user[0].password, (err,result)=>{
                                 if(err) {
-                                    return res.status(500).json({error:'You used an invalid password!'});
+                                    res.status(200).json({error:'An error occured. Please try again!'});
+                                    // return res.status(200).json({error:'You used an invalid password!'});
                                 } else {
                                     if(result) { // true
                                         const token = jwt.sign(
@@ -233,12 +234,12 @@ exports.user_login = (req,res,next) => {
                                         // update token to database
                                         pool.getConnection(function(err,conn){
                                             if(err) {
-                                                res.status(500).json({error:'An error occured. Please try again!'});
+                                                res.status(200).json({error:'An error occured. Please try again!'});
                                             } else {
                                                 conn.query(`update userSchema set jsonwebtoken = '${token}' where email = '${email}'`, function(err,result){
                                                     conn.release();
                                                     if(err) {
-                                                        res.status(500).json({error:'An error occured. Please try again!'});
+                                                        res.status(20).json({error:'An error occured. Please try again!'});
                                                     } else {
                                                         res.status(200).json({
                                                             error: 0,
@@ -250,7 +251,7 @@ exports.user_login = (req,res,next) => {
                                             }
                                         });
                                     } else { // false
-                                        res.status(401).json({error:'Auth failed'});
+                                        res.status(200).json({error:'You used an invalid email or password!'}); // password
                                     }
                                 }
                             });
@@ -259,12 +260,12 @@ exports.user_login = (req,res,next) => {
                                 from: process.env.mailUser,
                                 to: email,
                                 subject: "E-mail Account Confirmation",
-                                text: `<a href = "${process.env.rootUrl}user/verify/{${email}/${user[0].token}">${process.env.rootUrl}user/verify/{${email}/${user[0].token}</a>`
+                                html: `<a href = "${process.env.clientRootUrl}verify/${email}/${token}">${process.env.clientRootUrl}verify/${email}/${token}</a>`
                             }
 
                             transporter.sendMail(mailOptions, function(err,info){
                                 if(err) {
-                                    res.status(500).json({error:'An error occured. Please try again!'});
+                                    res.status(200).json({error:'An error occured. Please try again!'});
                                 } else {
                                     res.status(200).json({
                                         error:933,

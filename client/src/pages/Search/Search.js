@@ -9,7 +9,7 @@ import axios from 'axios'
 import Category from '../../components/Category/Category'
 import Loader from '../../components/Loader/Loader'
 
-function Search({title,apiRootUrl,clientRootUrl, location}) {
+function Search({title,apiRootUrl,clientRootUrl, location, email, loggedInStatus}) {
 
     const inputRef = useRef(null);
     const linkRef = useRef(null);
@@ -68,7 +68,7 @@ function Search({title,apiRootUrl,clientRootUrl, location}) {
                     <Loader />
                 )
             }
-            <Header title = {title} clientRootUrl = {clientRootUrl} />
+            <Header title = {title} clientRootUrl = {clientRootUrl} loggedInStatus = {loggedInStatus} />
             <br />
             <div className = "container">
                 <div className = "row search">
@@ -84,9 +84,10 @@ function Search({title,apiRootUrl,clientRootUrl, location}) {
                                 value = {searchInput} 
                                 className = "search-input" 
                                 placeholder = "Search for a product or category..." 
-                                onChange = {changeHandler} 
+                                onChange = {changeHandler}
+                                style = {{borderRadius:'15px 0 0 15px'}}
                             />
-                            <Link to = {`/search?q=${searchInput}`} ref = {linkRef} style = {{width:'100px',height:'35px', borderRadius:'0'}} id = "searchButton" className = "btn search-btn">Search</Link> 
+                            <Link to = {`/search?q=${searchInput}`} ref = {linkRef} style = {{width:'100px',height:'35px',borderRadius:'0 15px 15px 0'}} id = "searchButton" className = "btn search-btn">Search</Link> 
                         </form>
                     </div>
                 </div>
@@ -129,9 +130,14 @@ function Search({title,apiRootUrl,clientRootUrl, location}) {
                                 &&
                                 (
                                     <React.Fragment>
-                                        <div className = "col-1">
-                                            <h1>No results available </h1>
+                                        <div className = "container center-div top-space-no" style = {{marginTop:'65px'}}>
+                                            <h2 className = "no-result">No Results Found</h2>
+                                            <h3 className = "no-result-2">No Results Found</h3>
+                                            {/* <h4>Opps! Page not found</h4> */}
+                                            <p>Sorry, but there are no results for your search. Click below to inform us of any product you need.</p>
+                                            <a href = {`mailto:${email}?subject=Feedback`} className = "btn" style = {{marginTop:'15px'}}>Message us</a>
                                         </div>
+                                        <div className = "bottom-space" style = {{height:'250px'}}></div>
                                     </React.Fragment>
                                     
                                 )

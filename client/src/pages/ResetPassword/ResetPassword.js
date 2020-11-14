@@ -2,13 +2,13 @@ import React from 'react'
 import './ResetPassword.css'
 import Header from '../../components/Header/Header'
 
-function ResetPassword({title,apiRootUrl,clientRootUrl, match}) {
+function ResetPassword({title,apiRootUrl,clientRootUrl, match,loggedInStatus}) {
 
     const { email, token } = match.params;
 
     return (
         <React.Fragment>
-            <Header title = {title} clientRootUrl = {clientRootUrl} />
+            <Header title = {title} clientRootUrl = {clientRootUrl} loggedInStatus = {loggedInStatus} />
             <div className = "account-page">
                 <div className = "container">
                     <div className = "row">

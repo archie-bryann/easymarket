@@ -1,18 +1,18 @@
 import React from 'react'
 import Header from '../../components/Header/Header'
 
-function About({title,apiRootUrl,clientRootUrl, match}) {
+function About({title,apiRootUrl,clientRootUrl, match,loggedInStatus}) {
 
     document.title = `About Us - ${title}`;
 
     return (
         <React.Fragment>
-            <Header title = {title} clientRootUrl = {clientRootUrl} match = {match} />
+            <Header loggedInStatus = {loggedInStatus} title = {title} clientRootUrl = {clientRootUrl} match = {match} />
             <div style = {{marginTop:'-30px'}}></div>
             <div className = "small-container single-product">
                 <div className = "row">
                     <div className = "col-2">
-                        <img src = {`${clientRootUrl}images/about.png`} className = "img-style" />
+                        <img src = {`${clientRootUrl}images/about.png`} className = "img-style curve" />
                     </div>
                     <div className = "col-2">
                         <h2>About Us</h2><br />

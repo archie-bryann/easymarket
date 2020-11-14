@@ -5,6 +5,7 @@ import Backdrop from '@material-ui/core/Backdrop';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { makeStyles } from '@material-ui/core/styles';
 import axios from 'axios'
+import { Redirect } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
     backdrop: {
@@ -13,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
     },      
 }));
 
-function Account({title, clientRootUrl, apiRootUrl}) {
+function Account({title, clientRootUrl, apiRootUrl, loggedInStatus}) {
 
     const classes = useStyles();
 
@@ -34,6 +35,8 @@ function Account({title, clientRootUrl, apiRootUrl}) {
     const [isLoading, setIsLoading] = useState(false);
 
     const [color, setColor] = useState('red');
+
+    const [redr, setRedr] = useState(false);
 
     function registerTab() {
         setRegFormTransform('translateX(0px)');
@@ -110,7 +113,6 @@ function Account({title, clientRootUrl, apiRootUrl}) {
                             setPassword('');
                             // color of message
                             setColor('green');
-                            console.log(1)
                             // show success message
                             setSignupErr(res.data.message);
                         } else {
@@ -139,9 +141,34 @@ function Account({title, clientRootUrl, apiRootUrl}) {
                 password
             })
             .then(({data})=>{
+                setIsLoading(false);
+                if(data.error === 0) { 
+                    // no error
+                    // store token
+                    localStorage.setItem('wpt', data.token);
+
+                    // updateLogStatus();
+
+                    // show message
+                    setColor('green');
+                    setLoginErr('Login successful!');
+
+                    // redirect user    
+                    // setRedr(true);
+                    window.location = "/";
+                    
+                } else if(data.error === 933) {
+                    // show message
+                    setColor('green');
+                    setLoginErr(data.message);
+                } else {
+                    // show error
+                    setLoginErr(data.error);
+                }
                 console.log(data);
             })
             .catch(err=>{
+                console.log(err)
                 setIsLoading(false);
                 setLoginErr("An error occurred. Please try again!");
             })
@@ -153,6 +180,16 @@ function Account({title, clientRootUrl, apiRootUrl}) {
 
     return (
         <React.Fragment>
+            {
+                loggedInStatus && (
+                    <Redirect to = "/" />
+                )
+            }
+            {/* {
+                redr && (
+                    <Redirect to = "/" />
+                )
+            } */}
              {
                  isLoading && (
                     <Backdrop className={classes.backdrop} open>
@@ -160,15 +197,16 @@ function Account({title, clientRootUrl, apiRootUrl}) {
                     </Backdrop>
                 )
             }
-            <Header title = {title} clientRootUrl = {clientRootUrl} />
-            <div className = "account-page">
+            <Header title = {title} clientRootUrl = {clientRootUrl} loggedInStatus = {loggedInStatus} />
+            <div className = "account-page" style = {{marginTop:'-30px',marginBottom:'-20px'}}>
                 <div className = "container">
                     <div className = "row">
                         <div className = "col-2">
-                            <img src = "images/image1.png" className = "img-style" />
+                            <img  src = "images/cover.png" className = "img-style" alt = "" />
+                            <img />
                         </div>
 
-                        <div className = "col-2">
+                        <div className = "col-2"  style = {{marginTop:'-120px'}}>
                             <div className = "form-container">
                                 <div className = "form-btn">
                                     <span onClick = {loginTab}>Login</span>

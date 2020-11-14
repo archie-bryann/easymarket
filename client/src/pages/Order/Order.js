@@ -13,7 +13,7 @@ function Order({title, apiRootUrl, clientRootUrl, loggedInStatus}) {
                     <Redirect to = "/account" />
                 )
             }
-            <Header title = {title} clientRootUrl = {clientRootUrl}  />
+            <Header title = {title} clientRootUrl = {clientRootUrl} loggedInStatus = {loggedInStatus} />
             <br />
             <br />
             <div className = "small-container cart-page">

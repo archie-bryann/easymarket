@@ -8,7 +8,7 @@
 
 .title::after {
     content: '';
-    background: #ff523b;
+    background: green;
     width: 80px;
     height: 5px;
     border-radius: 5px;

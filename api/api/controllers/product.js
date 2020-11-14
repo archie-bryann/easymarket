@@ -1,6 +1,9 @@
 const pool = require("../../utils/pool");
 const moment = require('moment');
 const fs = require('fs');
+// const metaphone = require('metaphone');
+// const stemmer = require('stemmer');
+const enhance = require("../../utils/enhance");
 
 exports.products_get_all = (req,res,next) => {
     const tokenEmail = req.userData.email;
@@ -90,6 +93,7 @@ exports.products_add_product = (req,res,next) => {
     const tokenEmail = req.userData.email;
     const { name, description, price, categoryId } = req.body; 
     const image = req.files.productImage[0].filename;
+    let sounds_like = "";
     const timestamp = moment().unix();
 
     if(tokenEmail === process.env.adminEmail) {
@@ -97,7 +101,11 @@ exports.products_add_product = (req,res,next) => {
             if(err) {
                 res.status(500).json({error:'An error occured. Please try again!'});
             } else {
-                conn.query(`insert into productSchema (categoryId, name, description, image, price, timestamp) values (?, ?, ?, ?, ?, ?)`, [categoryId,name,description,image,price,timestamp], function(err,result){
+                /** sounds_like: name, description */
+                sounds_like += `${enhance(name)} `;
+                sounds_like += `${enhance(description)} `;
+
+                conn.query(`insert into productSchema (categoryId, name, description, image, price, sounds_like, timestamp) values (?, ?, ?, ?, ?, ?, ?)`, [categoryId,name,description,image,price,sounds_like,timestamp], function(err,result){
                     conn.release();
                     if(err) {
                         res.status(500).json({error:'An error occured. Please try again!'});
@@ -243,13 +251,33 @@ exports.products_delete_product = (req,res,next) => {
 }
 
 
-exports.products_fix = (req,res,next) => {
-    /** fields: name & price */
-    pool.getConnection(function(err,conn){
-        if(err) {
-            
-        }
-    });
-}
+// exports.products_fix = (req,res,next) => {
+//     /** fields: name & description - (creating & updating) */
+//     pool.getConnection(function(err,conn){
+//         if(err) {
+//             console.log('Err1: '+err);            
+//         } else {
+//             conn.query(`select * from productSchema`, function(err,products){
+//                 if(err) {
+//                     console.log('Err2: '+err);            
+//                 } else {
+//                     console.log(products)
+//                     products.map((product)=>{
+//                         let sounds_like = "";
+//                         sounds_like +=  `${metaphone(stemmer(product.name))} `;
+//                         sounds_like +=  `${metaphone(stemmer(product.description))} `;
+//                         conn.query(`update productSchema set sounds_like = '${sounds_like}' where id = '${product.id}'`, function(err,results){
+//                             if(err) {
+//                                 console.log(err)
+//                             } else {
+//                                 return;
+//                             }
+//                         });
+//                     })
+//                 }
+//             });
+//         }
+//     });
+// }
 
 // can make product invisible

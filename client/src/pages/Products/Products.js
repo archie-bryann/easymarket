@@ -4,13 +4,13 @@ import FeaturedProducts from '../../components/Products/Products'
 import './Products.css'
 // this should the category pages
 
-function Products({title, clientRootUrl}) {
+function Products({title, clientRootUrl,loggedInStatus}) {
 
     document.title = `Products - ${title}`;
 
     return (
         <React.Fragment>
-            <Header title = {title} clientRootUrl = {clientRootUrl} />
+            <Header title = {title} clientRootUrl = {clientRootUrl} loggedInStatus = {loggedInStatus} />
 
                 {/* <FeaturedProducts checker = {true}>
                     <div className = "row row-2">

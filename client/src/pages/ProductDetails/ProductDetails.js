@@ -6,13 +6,12 @@ import axios from 'axios'
 import Products from '../../components/Products/Products'
 import Loader from '../../components/Loader/Loader'
 
-function ProductDetails({title, apiRootUrl, clientRootUrl, match, logggedInStatus}) {
+function ProductDetails({title, apiRootUrl, clientRootUrl, match, loggedInStatus}) {
 
     const { productId, categoryId } = match.params;
 
     // const [image, setImage] = useState('images/gallery-3.jpg');
     const [quantity, setQuantity] = useState(1);
-
 
     const [product, setProduct] = useState({});
 
@@ -22,7 +21,7 @@ function ProductDetails({title, apiRootUrl, clientRootUrl, match, logggedInStatu
 
     const [isLoading, setIsLoading] = useState(true);
 
-    const [redirect, setRedirect] = useState(false);
+    const [redr, setRedr] = useState(false);
 
     document.title = `${product.name} - ${title}`;
 
@@ -59,7 +58,7 @@ function ProductDetails({title, apiRootUrl, clientRootUrl, match, logggedInStatu
     return (
         <React.Fragment>
             {
-                redirect && <Redirect to = "/account" />
+                redr && <Redirect to = "/account" />
             }
             {
                 // check to redirect
@@ -70,11 +69,11 @@ function ProductDetails({title, apiRootUrl, clientRootUrl, match, logggedInStatu
                     <Loader />
                 )
             }
-            <Header title = {title} clientRootUrl = {clientRootUrl} />
+            <Header title = {title} clientRootUrl = {clientRootUrl} loggedInStatus = {loggedInStatus} />
             <div className = "small-container single-product">
                 <div className = "row">
                     <div className = "col-2">
-                        <img src = {`${apiRootUrl}uploads/${product.image}`} className = "img-style" alt = "" />
+                        <img src = {`${apiRootUrl}uploads/${product.image}`} className = "img-style curve" alt = "" />
                             {/* <div className = "small-img-row">
                                 <div className = "small-img-col">
                                     <img src = "images/gallery-1.jpg" className = "img-style small-img" alt = "" onClick = {changeImage} />
@@ -107,11 +106,11 @@ function ProductDetails({title, apiRootUrl, clientRootUrl, match, logggedInStatu
                         <input type = "number" value = {quantity} onChange = {(e)=>setQuantity(e.target.value)} />
 
                         <a onClick = {
-                            (logggedInStatus) 
+                            (loggedInStatus) 
                             ?
                             addToCart
                             :
-                            null//setRedirect(true)
+                            () => setRedr(true)
                         } className = "link btn">Add To Cart</a>
 
                         <h3>Product Details <i className = "fa fa-indent"></i></h3>

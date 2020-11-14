@@ -1,16 +1,18 @@
 const pool = require("../../utils/pool");
+const enhance = require("../../utils/enhance");
 
 exports.get_search_results = (req,res,next) => {
-    // categories
-    // products
+    // categories: name
+    // products: name & description
     var { q } = req.params;
-    const t = '%'+q+'%';
+    q = enhance(q);
+    q = '%'+q+'%';
     let result = {};
     pool.getConnection(function(err,conn){
         if(err) {
             res.status(500).json({error:'An error occured. Please try again!'});
         } else {
-            conn.query(`select * from categorySchema where name LIKE ?`, [t], function(err,categories){
+            conn.query(`select * from categorySchema where sounds_like LIKE ?`, [q], function(err,categories){
                 conn.release();
                 if(err) {
                     res.status(500).json({error:'An error occured. Please try again!'});
@@ -20,7 +22,7 @@ exports.get_search_results = (req,res,next) => {
                         if(err) {
                             res.status(500).json({error:'An error occured. Please try again!'});
                         } else {
-                            conn.query(`select * from productSchema where (name LIKE ? or price LIKE ?) and ( visible = 1 )`, [t,t], function(err,products){
+                            conn.query(`select * from productSchema where sounds_like like ? and ( visible = 1 )`, [q], function(err,products){
                                 conn.release();
                                 if(err) {
                                     res.status(500).json({error:'An error occured. Please try again!'});

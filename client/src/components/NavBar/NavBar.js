@@ -21,18 +21,16 @@ function NavBar({title, clientRootUrl, loggedInStatus, match}) {
                 <Link to = "/">
                 {/* <h1 style = {{fontSize:'30px',color:'white'}}>{title}</h1> */}
                 {/* <h1 style = {{fontSize:'23px'}}>{title}</h1> */}
-                <img src = {`${clientRootUrl}images/foodnet.png`} width="200px" />              
+                <img src = {`${clientRootUrl}images/foodnet.png`} width="157px" />              
                 </Link>
             </div>
-            
 
-        
             <nav>
                 <ul style={{maxHeight}}>
                     <li><Link to="/" className = "link c">Home</Link></li>
 
                     <li><Link to="/categories" className = "link c">Categories</Link></li>
-
+        
                     <li><Link to="/about" className = "link c">About</Link></li>
                     <li><Link to="/contact" className = "link c">Contact</Link></li>
                     {/* <UserContext.Consumer>
@@ -44,6 +42,7 @@ function NavBar({title, clientRootUrl, loggedInStatus, match}) {
                                             <Fragment>
                                                 <li><Link to="/orders" className = "link c">My Orders</Link></li>
                                                 <li><Link to="/orders" className = "link c">My Profile</Link></li>
+                                                <li><Link to="/logout" className = "link c">Logout</Link></li>
                                             </Fragment>
                                         )}
                                         
@@ -53,7 +52,9 @@ function NavBar({title, clientRootUrl, loggedInStatus, match}) {
                         }
                     </UserContext.Consumer>
                      */}
-                    <li><Link to="/account" className = "link c">Account</Link></li>
+                     {(!loggedInStatus) && (
+                        <li><Link to="/account" className = "link c">Account</Link></li>
+                     )}
                 </ul>
             </nav>
             {/* <Link to="/search" className = "link"><img src = {`${clientRootUrl}images/search.png`} width="22px" height="22px" className = "search-icon" alt = "" /></Link> */}

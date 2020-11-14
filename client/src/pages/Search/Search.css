@@ -25,3 +25,25 @@
 .hide {
     display: none;
 }
+
+.no-result-2 {
+    display: none;
+}
+
+@media(max-width: 495px) {
+    .no-result {
+        display: none;
+    }
+    .no-result-2 {
+        display: block;
+        font-size: 50px;
+    }
+
+    .bottom-space {
+        margin-top: 150px;
+    }
+
+    .top-space-no {
+        margin-top: 10px;
+    }
+}

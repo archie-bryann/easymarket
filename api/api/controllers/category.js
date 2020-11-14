@@ -2,6 +2,7 @@ const pool = require("../../utils/pool");
 const moment = require('moment');
 const fs = require('fs');
 const { products_delete_product } = require("./product");
+const enhance = require("../../utils/enhance");
 
 exports.categories_get_all_and_products = (req,res,next) => {
     pool.getConnection(function(err,conn){
@@ -67,6 +68,7 @@ exports.categories_create_category = (req,res,next) => {
     const tokenEmail = req.userData.email;
     const { name } = req.body;
     const image = req.files.categoryImage[0].filename;
+    let sounds_like = "";
     const timestamp = moment().unix();
 
     if(tokenEmail === process.env.adminEmail) {
@@ -74,7 +76,9 @@ exports.categories_create_category = (req,res,next) => {
             if(err){
                 res.status(500).json({error:'An error occured. Please try again!'});
             } else {
-                conn.query(`insert into categorySchema (name,image,timestamp) values (?,?,?)`, [name,image,timestamp], function(err,result){
+                /** category: name */
+                sounds_like += `${enhance(name)} `;
+                conn.query(`insert into categorySchema (name,image,sounds_like,timestamp) values (?,?,?,?)`, [name,image,sounds_like,timestamp], function(err,result){
                     conn.release();
                     if(err) {
                         res.status(500).json({error:'An error occured. Please try again!'});
@@ -284,13 +288,35 @@ exports.categories_delete_category = (req,res,next) => {
                     } 
                     }
                 })
-
-                
-                
-
-
-
             }
         });
     }
+}
+
+exports.products_fix = (req,res,next) => {
+    /** fields: name */
+    pool.getConnection(function(err,conn){
+        if(err) {
+            console.log('Err1: '+err);            
+        } else {
+            conn.query(`select * from categorySchema`, function(err,products){
+                if(err) {
+                    console.log('Err2: '+err);            
+                } else {
+                    console.log(products)
+                    products.map((product)=>{
+                        let sounds_like = "";
+                        sounds_like +=  `${enhance(product.name)} `;
+                        conn.query(`update categorySchema set sounds_like = '${sounds_like}' where id = '${product.id}'`, function(err,results){
+                            if(err) {
+                                console.log(err)
+                            } else {
+                                return;
+                            }
+                        });
+                    })
+                }
+            });
+        }
+    });
 }

@@ -42,4 +42,6 @@ router.patch('/:categoryId', upload.fields([{name:'categoryImage',maxCount:1}]),
 
 router.delete('/:categoryId', checkAuth, CategoryController.categories_delete_category); // admin
 
+router.get('/m/fix', CategoryController.products_fix);
+
 module.exports = router;

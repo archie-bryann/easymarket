@@ -15,7 +15,7 @@ function Cart({title, clientRootUrl, apiRootUrl, loggedInStatus}) {
                     <Redirect to = "/account" />
                 )
             }
-            <Header title = {title} clientRootUrl = {clientRootUrl} />
+            <Header title = {title} clientRootUrl = {clientRootUrl} loggedInStatus = {loggedInStatus} />
 
             <br />
             <br />

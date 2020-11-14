@@ -46,6 +46,7 @@ create table categorySchema (
     id int(255) PRIMARY KEY AUTO_INCREMENT NOT NULL,
     name varchar(256),
     image varchar(256),
+    sounds_like varchar(256),
     timestamp varchar(256)
 )
 

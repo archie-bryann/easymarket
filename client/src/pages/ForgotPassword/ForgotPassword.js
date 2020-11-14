@@ -10,7 +10,7 @@ function ForgotPassword({title,clientRootUrl,apiRootUrl,loggedInStatus}) {
                     <Redirect to = "/" />
                 )
             }
-            <Header title = {title} clientRootUrl = {clientRootUrl} />
+            <Header title = {title} clientRootUrl = {clientRootUrl} loggedInStatus = {loggedInStatus} />
             <div className = "account-page">
                 <div className = "container">
                     <div className = "row">
