@@ -243,5 +243,13 @@ exports.products_delete_product = (req,res,next) => {
 }
 
 
+exports.products_fix = (req,res,next) => {
+    /** fields: name & price */
+    pool.getConnection(function(err,conn){
+        if(err) {
+            
+        }
+    });
+}
 
 // can make product invisible

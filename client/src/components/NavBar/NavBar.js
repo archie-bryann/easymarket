@@ -19,9 +19,9 @@ function NavBar({title, clientRootUrl, loggedInStatus, match}) {
         <div className = "navbar">
             <div className = "logo">
                 <Link to = "/">
-                <h1 style = {{fontSize:'30px',color:'white'}}>{title}</h1>
+                {/* <h1 style = {{fontSize:'30px',color:'white'}}>{title}</h1> */}
                 {/* <h1 style = {{fontSize:'23px'}}>{title}</h1> */}
-                {/* <img src = {`${clientRootUrl}images/logo.png`} width="125px" />                 */}
+                <img src = {`${clientRootUrl}images/foodnet.png`} width="200px" />              
                 </Link>
             </div>
             

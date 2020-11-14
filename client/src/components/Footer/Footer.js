@@ -15,7 +15,7 @@ function Footer({title, clientRootUrl}) {
                         </div>
                     </div>
                     <div className = "footer-col-2">
-                        <img src = {`${clientRootUrl}images/logo-white.png`} />
+                        <img src = {`${clientRootUrl}images/foodnet-white.png`} />
                         <p>Our Purpose Is To Sustainably Make the Pleasure and Benefits of Sports Accessible to the Many.</p>
                     </div>
                     <div className = "footer-col-3">

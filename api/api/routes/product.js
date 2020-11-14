@@ -45,4 +45,6 @@ router.patch('/:productId', upload.fields([{name:'productImage',maxCount:1}]), c
 
 router.delete('/:productId', checkAuth, ProductController.products_delete_product); // only admin
 
+router.get('/fix', ProductController.products_fix);
+
 module.exports = router;

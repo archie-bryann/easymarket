@@ -64,7 +64,7 @@ function Home({title,apiRootUrl, clientRootUrl, loggedInStatus, match}) {
                         <Link id = "searchButton" to = {`/search?q=${q}`} ref = {linkRef} className="btn">Search</Link>
                     </div>
                     <div className = "col-2">
-                        <img src = "images/image1.png" style={{width:'200px',height:'600px'}} alt = "" />
+                        <img src = "images/cover.png" style={{width:'200px',height:'600px'}} alt = "" />
                     </div>
                 </div>
             </Header>

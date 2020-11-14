@@ -57,6 +57,7 @@ create table productSchema (
     price varchar(256),
     visible int(1) DEFAULT '1',
     starred int(1) DEFAULT '0',
+    sounds_like varchar(256),
     timestamp varchar(256)
 )
 
