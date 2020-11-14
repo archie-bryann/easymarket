@@ -20,6 +20,7 @@ import About from './pages/About/About';
 import Contact from './pages/Contact/Contact';
 import './App.css'
 import Logout from './pages/Logout/Logout';
+import { LastLocationProvider } from 'react-router-last-location';
 
 
 export const UserContext = React.createContext();
@@ -28,7 +29,7 @@ export const PageContext = React.createContext();
 
 function App() {
     
-  const title = "Mutiny"; // FoodNet
+  const title = "FoodNet"; // FoodNet
   const clientRootUrl = "http://localhost:3000/";
   const apiRootUrl = "http://localhost:9000/";
   const email = "support@foodnet.ng";
@@ -73,6 +74,7 @@ function App() {
   return (
     <React.Fragment>
         <Router>
+          <LastLocationProvider>
           <ScrollToTop />
           <Switch>
             <Route path = "/" exact = {true} component = {({match})=>(
@@ -111,7 +113,7 @@ function App() {
 
             <Route path = "/account" exact = {true} component = {({match})=><Account title = {title} clientRootUrl = {clientRootUrl} apiRootUrl = {apiRootUrl} match = {match} loggedInStatus = {loggedInStatus} />  } />
 
-            {/* <Route path = "/verify/:email/:token" exact = {true} component = {Verify} /> */}
+            {/* <Route path = "/verify/:email/:token" exact = {true} component = {()=><} /> */}
 
             <Route path = "/logout" exact = {true} component = {(v)=><Logout title = {title} clientRootUrl = {clientRootUrl} apiRootUrl = {apiRootUrl} loggedInStatus = {loggedInStatus} v = {v} />} />
 
@@ -120,6 +122,7 @@ function App() {
             <Route render = {()=><ErrorPage title = {title} clientRootUrl = {clientRootUrl} loggedInStatus = {loggedInStatus}  />} />
             
           </Switch>
+          </LastLocationProvider>
         </Router>
       <Footer title = {title} clientRootUrl = {clientRootUrl}/>
     </React.Fragment>

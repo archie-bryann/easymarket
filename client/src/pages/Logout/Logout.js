@@ -3,26 +3,34 @@ import Header from '../../components/Header/Header';
 import {Link, Redirect} from 'react-router-dom'
 import './Logout.css'
 import axios from 'axios'
+import { useLastLocation } from 'react-router-last-location';
 
 function Logout({title, clientRootUrl, loggedInStatus, v}) {
 
+    const lastLocation = useLastLocation();
+
     document.title = `Logout - ${title}`;
 
-    const [cancelLocation, setCancelLocation] = useState(null); 
     const [cancelRedirect, setCancelRedirect] = useState(false);
 
     function logoutUser() {
+
+        // update user to logged out
+
         // delete token
         localStorage.removeItem('wpt');
         window.location = "/";
     }
 
     function cancel() {
-        
+        setCancelRedirect(true);
     }
 
     return (
         <React.Fragment>
+            {
+                cancelRedirect && <Redirect to = {lastLocation.pathname} />
+            }
             {
                 (!loggedInStatus) && <Redirect to = "/?redirect=homepage&lang=en" />
             }

@@ -12,7 +12,7 @@ function About({title,apiRootUrl,clientRootUrl, match,loggedInStatus}) {
             <div className = "small-container single-product">
                 <div className = "row">
                     <div className = "col-2">
-                        <img src = {`${clientRootUrl}images/about.png`} className = "img-style curve" />
+                        <img src = {`${clientRootUrl}images/about.png`} className = "img-style curve" style={{objectFit:'cover'}} />
                     </div>
                     <div className = "col-2">
                         <h2>About Us</h2><br />
