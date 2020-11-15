@@ -161,7 +161,6 @@ function Account({title, clientRootUrl, apiRootUrl, loggedInStatus}) {
                 console.log(data);
             })
             .catch(err=>{
-                console.log(err)
                 setIsLoading(false);
                 setLoginErr("An error occurred. Please try again!");
             })

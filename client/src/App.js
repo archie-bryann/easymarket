@@ -18,6 +18,7 @@ import Order from './pages/Order/Order'
 import axios from 'axios'
 import About from './pages/About/About';
 import Contact from './pages/Contact/Contact';
+import Verify from './pages/Verify/Verify';
 import './App.css'
 import Logout from './pages/Logout/Logout';
 import { LastLocationProvider } from 'react-router-last-location';
@@ -113,7 +114,7 @@ function App() {
 
             <Route path = "/account" exact = {true} component = {({match})=><Account title = {title} clientRootUrl = {clientRootUrl} apiRootUrl = {apiRootUrl} match = {match} loggedInStatus = {loggedInStatus} />  } />
 
-            {/* <Route path = "/verify/:email/:token" exact = {true} component = {()=><} /> */}
+            <Route path = "/verify/:email/:token" exact = {true} component = {({match})=><Verify title = {title} clientRootUrl = {clientRootUrl} apiRootUrl = {apiRootUrl} match = {match} loggedInStatus = {loggedInStatus} />} />
 
             <Route path = "/logout" exact = {true} component = {(v)=><Logout title = {title} clientRootUrl = {clientRootUrl} apiRootUrl = {apiRootUrl} loggedInStatus = {loggedInStatus} v = {v} />} />
 

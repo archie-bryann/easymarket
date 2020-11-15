@@ -253,7 +253,6 @@ exports.categories_delete_category = (req,res,next) => {
             } else {
 
                 conn.query(`select * from categorySchema where id = ?`, [categoryId], function(err, category){
-                    conn.release();
                     if(err) {
                         res.status(500).json({error:'An error occured. Please try again!'});
                     } else {
@@ -266,10 +265,7 @@ exports.categories_delete_category = (req,res,next) => {
                             if(err) {
                                 res.status(500).json({error:'An error occured. Please try again!'});
                             } else {
-                                pool.getConnection(function(err,result){
-                                    if(err) {
-                                        res.status(500).json({error:'An error occured. Please try again!'});
-                                    } else {
+                                   
                                         conn.query(`delete from categorySchema where id = ?`, [categoryId], function(err,result){
                                             conn.release();
                                             if(err) {
@@ -278,8 +274,6 @@ exports.categories_delete_category = (req,res,next) => {
                                                 res.status(200).json({error:0})
                                             }
                                         });
-                                    }
-                                });
                             }
                         });
 
@@ -307,9 +301,9 @@ exports.products_fix = (req,res,next) => {
                     products.map((product)=>{
                         let sounds_like = "";
                         sounds_like +=  `${enhance(product.name)} `;
-                        conn.query(`update categorySchema set sounds_like = '${sounds_like}' where id = '${product.id}'`, function(err,results){
+                        conn.query(`update categorySchema set sounds_like = '${sounds_like}' where i;d = '${product.id}'`, function(err,results){
                             if(err) {
-                                console.log(err)
+                                console.log(err);
                             } else {
                                 return;
                             }

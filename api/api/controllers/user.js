@@ -287,27 +287,31 @@ exports.user_verification = (req,res,next) => {
 
     pool.getConnection(function(err,conn){
         if(err) {
-            res.status(500).json({error:'An error occured. Please try again!'});
+            res.status(200).json({error:'An error occured. Please try again!'});
         } else {
             conn.query(`select * from userSchema where email = ?`, [email], function(err,user){
                 conn.release();
                 if(err) {
-                    res.status(500).json({error:'An error occured. Please try again!'});
+                    res.status(200).json({error:'An error occured. Please try again!'});
                 } else {
                     if(user.length < 1) {
-                        res.status(400).json({message:'Invalid user'});
+                        res.status(200).json({error:'An error occured. Please try again!'}); // Invalid user
                     } else {
                         if(user[0].token === token) {
                             // update user to verified
                             pool.getConnection(function(err,conn){
                                 if(err) {
-                                    res.status(500).json({error:'An error occured. Please try again!'});
+                                    res.status(200).json({error:'An error occured. Please try again!'});
                                 } else {
-                                    conn.query(`update user set verified = 1 where email = '${email}'`,function(err,user){
+                                    conn.query(`update userSchema set verified = 1 where email = '${email}'`,function(err,u){
                                         conn.release();
                                         if(err) {
-                                            res.status(500).json({error:'An error occured. Please try again!'});
-                                        } else {    
+                                            res.status(200).json({error:'An error occured. Please try again!'});
+                                        } else {   
+                                            
+                                            
+
+                                            console.log(user)
                                             // user has been verified
                                             // login user
                                             const new_token = jwt.sign(
@@ -324,12 +328,15 @@ exports.user_verification = (req,res,next) => {
                                                 error:0,
                                                 token:new_token
                                             })
+
+
+
                                         }
                                     });
                                 }
                             });
                         } else {
-                            res.status(200).json({error:'Invalid verification'})
+                            res.status(200).json({error:'An error occured. Please try again!'})
                         }
                     }
                 }
