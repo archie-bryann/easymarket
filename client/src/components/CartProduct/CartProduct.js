@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Loader from '../Loader/Loader';
 import axios from 'axios'
 import {toast} from 'react-toastify'
@@ -8,12 +8,16 @@ import { Link } from 'react-router-dom';
 
 toast.configure();
 
-function CartProduct({cartId,quantity,id,categoryId,name,description,image,price,apiRootUrl,token,errorMessage,delCartItem}) {
+function CartProduct({cartId,quantity,id,categoryId,name,description,image,price,apiRootUrl,token,errorMessage,delCartItem,addSubTotals,calculateNewSubTotalAndTotal}) {
 
     const [cQuantity, setCQuantity] = useState(quantity);
     const [loading, setLoading] = useState(false);
 
     const [subTotal, setSubTotal] = useState(price*quantity);
+
+    useEffect(() => {
+        addSubTotals(Number(price) * quantity) // add full prices
+    }, [apiRootUrl])
 
     function updateQuantity(e) {
         setLoading(true);
@@ -38,7 +42,15 @@ function CartProduct({cartId,quantity,id,categoryId,name,description,image,price
                 // update subTotal
                 setSubTotal(price*newQuantity)
 
+                // update total subTotal in Cart
+                // here...
+
+                // overall total
+                // here...
+                calculateNewSubTotalAndTotal(newQuantity, cartId);
+
                 
+
             } else {
                 toast.error(errorMessage, {
                     position: toast.POSITION.TOP_RIGHT
@@ -53,6 +65,8 @@ function CartProduct({cartId,quantity,id,categoryId,name,description,image,price
             })
         })
     }
+
+
 
     return (
         <React.Fragment>
@@ -76,7 +90,7 @@ function CartProduct({cartId,quantity,id,categoryId,name,description,image,price
                     </div>
                 </td>
                 <td><input type = "number" value = {cQuantity} onChange = {updateQuantity} style = {{width:'51px'}} /></td>
-                <td>{subTotal}</td>
+                <td>{Number(subTotal).toFixed(2)}</td> {/** to 2 d.p. */}
             </tr>
         </React.Fragment>
     )

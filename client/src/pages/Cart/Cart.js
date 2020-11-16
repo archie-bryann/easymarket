@@ -15,10 +15,18 @@ function Cart({title, clientRootUrl, apiRootUrl, loggedInStatus, token, errorMes
 
     document.title = `Cart - ${title}`;
 
+    /** 
+     * To 2 d.p.
+     * Text: parseFloat("123.456").toFixed(2)
+     * Number: num.toFixed(2);
+     */
+
     const [isLoading, setIsLoading] = useState(true);
     const [cartProducts, setCartProducts] = useState([]);
-    const [subTotal,setSubTotal] = useState(1);
     const [allowed, setAllowed] = useState(false);
+    const [subTotals, setSubTotals] = useState(0);
+    const [delivery, setDelivery] = useState(10); // use request to get details
+    const [total, setTotal] = useState(0);
 
     useEffect(()=>{
         axios.get(`${apiRootUrl}cart/`, {
@@ -72,6 +80,7 @@ function Cart({title, clientRootUrl, apiRootUrl, loggedInStatus, token, errorMes
         })
     },[apiRootUrl])
 
+
     function delCartItem(cartId) {
         // delete from DB
         setIsLoading(true);
@@ -96,6 +105,8 @@ function Cart({title, clientRootUrl, apiRootUrl, loggedInStatus, token, errorMes
                 setAllowed(false);
             } else {
                 // as products are being deleted , RECALCULATE VALUES
+
+                // total prices will change authomatically
             }
         })
         .catch(err=>{
@@ -105,6 +116,53 @@ function Cart({title, clientRootUrl, apiRootUrl, loggedInStatus, token, errorMes
             })
         })
 
+    }
+
+    function addSubTotals(subTotal) {
+        // setSubTotals(prevSubTotals=>prevSubTotals+subTotal);
+    }
+
+    useEffect(() => {
+        axios.post(`${apiRootUrl}fee`, 
+            {
+                subtotal:subTotals
+            },
+            {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
+        .then(({data})=>{
+            console.log(data)
+            setDelivery(data.cost)
+        })
+        .catch(err=>{
+            console.log(err)
+        })
+    }, [])
+
+    useEffect(() => {
+        setTotal(subTotals+delivery);
+
+        
+    }, [subTotals])
+
+    useEffect(() => {
+        let sum = 0;
+        cartProducts.map((p)=>{
+            let subtotal = Number(p.price) * Number(p.quantity);
+            sum+=subtotal;
+        })
+        setSubTotals(sum) // not too accurate
+    }, [cartProducts])
+
+    function calculateNewSubTotalAndTotal(newQuantity, cartId) {
+
+        // update quantity and update of the specific cartId
+        const elementsIndex = cartProducts.findIndex(item=>item.cartId === cartId)
+        let newCartProducts = [...cartProducts];
+        newCartProducts[elementsIndex] = {...newCartProducts[elementsIndex], quantity:newQuantity}
+        setCartProducts(newCartProducts);
     }
 
     return (
@@ -134,12 +192,12 @@ function Cart({title, clientRootUrl, apiRootUrl, loggedInStatus, token, errorMes
                             </tr>
 
                             {
-                                cartProducts.map(({cartId,quantity,id,categoryId,name,description,image,price})=><CartProduct key = {id} cartId = {cartId} quantity = {quantity} id = {id} categoryId = {categoryId} name = {name} description = {description} image = {image} price = {price} apiRootUrl = {apiRootUrl} token = {token} errorMessage = {errorMessage} delCartItem = {delCartItem} />)
+                                cartProducts.map(({cartId,quantity,id,categoryId,name,description,image,price})=><CartProduct key = {id} cartId = {cartId} quantity = {quantity} id = {id} categoryId = {categoryId} name = {name} description = {description} image = {image} price = {price} apiRootUrl = {apiRootUrl} token = {token} errorMessage = {errorMessage} delCartItem = {delCartItem} addSubTotals = {addSubTotals} calculateNewSubTotalAndTotal = {calculateNewSubTotalAndTotal} />)
                             }
                         </table>
                     )
                 }
-
+                {/* {JSON.stringify(cartProducts)} */}
                 {
                     (cartProducts.length < 1) && (
                         <Fragment>
@@ -159,16 +217,16 @@ function Cart({title, clientRootUrl, apiRootUrl, loggedInStatus, token, errorMes
                         <div className = "total-price">
                             <table>
                                 <tr>
-                                    <td>Subtotal</td> 
-                                    <td>$200.00</td> 
+                                    <td><b>Subtotal</b></td> 
+                                    <td>₦{subTotals.toFixed(2)}</td> {/** to 2 d.p. of total */}
                                 </tr>
                                 <tr>
-                                    <td>Delivery</td> 
-                                    <td>$35.00</td> 
+                                    <td><b>Delivery</b></td> 
+                                    <td>₦{delivery.toFixed(2)}</td> 
                                 </tr>
                                 <tr>
-                                    <td>Total</td> 
-                                    <td>$235.00</td> 
+                                    <td><b>Total</b></td> 
+                                    <td>₦{total.toFixed(2)}</td> 
                                 </tr>
                             </table>
                         </div>
