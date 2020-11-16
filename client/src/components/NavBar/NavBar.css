@@ -60,7 +60,7 @@ a {
         left: 0;
         background: #333;
         width: 100%;
-        overflow: hidden;
+        overflow: scroll;
         transition: max-height 0.5;
     }
     

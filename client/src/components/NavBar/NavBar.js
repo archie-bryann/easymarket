@@ -7,6 +7,8 @@ function NavBar({title, clientRootUrl, loggedInStatus, match}) {
 
     const [maxHeight, setMaxHeight] = useState("0px");
 
+    const [cartNum, setCartNum] = useState(null);
+
     function menuToggle() {
         if(maxHeight === "0px") {
             setMaxHeight("200px");
@@ -41,7 +43,7 @@ function NavBar({title, clientRootUrl, loggedInStatus, match}) {
                                         {(loggedInStatus) && (
                                             <Fragment>
                                                 <li><Link to="/orders" className = "link c">My Orders</Link></li>
-                                                <li><Link to="/orders" className = "link c">My Profile</Link></li>
+                                                <li><Link to="/profile" className = "link c">My Profile</Link></li>
                                                 <li><Link to="/logout" className = "link c">Logout</Link></li>
                                             </Fragment>
                                         )}
@@ -58,7 +60,7 @@ function NavBar({title, clientRootUrl, loggedInStatus, match}) {
                 </ul>
             </nav>
             {/* <Link to="/search" className = "link"><img src = {`${clientRootUrl}images/search.png`} width="22px" height="22px" className = "search-icon" alt = "" /></Link> */}
-            <Link to="/search" className = "link c"><i className = "fa fa-search" style = {{fontSize:'21px',marginRight:'18px'}}></i></Link>
+            <Link to="/search" className = "link c"><i className = "fa fa-search" style = {{fontSize:'20px',marginRight:'18px'}}></i></Link>
             {/* <UserContext.Consumer>
                 {
                     loggedIn => {
@@ -66,7 +68,7 @@ function NavBar({title, clientRootUrl, loggedInStatus, match}) {
                             <Fragment> */}
                             {
                                 (loggedInStatus) && (
-                                        <Link to="/cart" className = "link c"><i className = "fa fa-shopping-cart cart-icon" style = {{fontSize:'22px'}}></i></Link>
+                                <Link to="/cart" className = "link c"><i className = "fa fa-shopping-cart cart-icon" style = {{fontSize:'20px'}}></i> {cartNum}</Link>
                                 )
                             }
                                

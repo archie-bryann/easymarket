@@ -98,8 +98,6 @@ function Search({title,apiRootUrl,clientRootUrl, location, email, loggedInStatus
                     ?
                     (
                             <div className = "row">
-
-                            
                             {
                                 (categoryResults.length > 0) && (
                                     <div className = "col-1">

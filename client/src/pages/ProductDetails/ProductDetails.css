@@ -20,6 +20,7 @@
     display: block;
     padding: 10px;
     margin-top: 20px;
+    border: 1px solid #7fad39;
 }
 
 .single-product input {
@@ -28,7 +29,8 @@
     padding-left: 10px;
     font-size: 20px;
     margin-right: 10px;
-    border: 1px solid #ff523b;
+    /* border: 1px solid #ff523b; */
+    border: 1px solid #7fad39;
 }
 
 input:focus {
@@ -36,7 +38,8 @@ input:focus {
 }
 
 .single-product .fa {
-    color: #ff523b;
+    /* color: #ff523b; */
+    color: #7fad39;
     margin-left: 10px;
 }
 

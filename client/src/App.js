@@ -38,6 +38,8 @@ function App() {
   const token = localStorage.getItem('wpt');
   const [loggedInStatus, setLoggedInStatus] = useState(null);
 
+  const errorMessage = "An error occured. Please try again!";
+
   useEffect(() => {
     
     if(token) {
@@ -96,13 +98,13 @@ function App() {
             <Route path = "/category/:categoryId" exact = {true} component = {({match})=>(<CategoryDetails loggedInStatus = {loggedInStatus} title = {title} apiRootUrl = {apiRootUrl} clientRootUrl = {clientRootUrl} match = {match} />)} />
             {/* categories --> all categories(4 per one) -> see all */}
 
-            <Route path = "/product/:productId/:categoryId" exact = {true} component = {({match})=>(<ProductDetails loggedInStatus = {loggedInStatus} title = {title} apiRootUrl = {apiRootUrl} clientRootUrl = {clientRootUrl} match = {match} loggedInStatus = {loggedInStatus} />)}  /> 
+            <Route path = "/product/:productId/:categoryId" exact = {true} component = {({match})=>(<ProductDetails loggedInStatus = {loggedInStatus} title = {title} apiRootUrl = {apiRootUrl} clientRootUrl = {clientRootUrl} match = {match} loggedInStatus = {loggedInStatus} token = {token} errorMessage = {errorMessage} />)}  /> 
 
             <Route path = "/forgot_password" exact = {true} component = {({match})=><ForgotPassword title = {title} apiRootUrl = {apiRootUrl} clientRootUrl = {clientRootUrl} loggedInStatus = {loggedInStatus} match = {match} />} />
 
             <Route path = "/reset_password/:email/:token" exact = {true} component = {({match})=><ResetPassword loggedInStatus = {loggedInStatus} title = {title} apiRootUrl = {apiRootUrl} clientRootUrl = {clientRootUrl} match = {match} />} />
 
-            <Route path = "/cart" exact = {true} component = {({match})=><Cart loggedInStatus = {loggedInStatus} title = {title} apiRootUrl = {apiRootUrl} clientRootUrl = {clientRootUrl} loggedInStatus = {loggedInStatus} match = {match} />} />
+            <Route path = "/cart" exact = {true} component = {({match})=><Cart loggedInStatus = {loggedInStatus} title = {title} apiRootUrl = {apiRootUrl} clientRootUrl = {clientRootUrl} loggedInStatus = {loggedInStatus} match = {match} token = {token} errorMessage = {errorMessage} />} />
 
             <Route path = "/orders" exact = {true} component = {({match})=><Orders loggedInStatus = {loggedInStatus} title = {title} apiRootUrl = {apiRootUrl} clientRootUrl = {clientRootUrl} loggedInStatus = {loggedInStatus} match = {match} />} />
 

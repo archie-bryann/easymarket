@@ -16,7 +16,8 @@ th {
     text-align: left;
     padding: 5px;
     color: #fff;
-    background: #ff523b;
+    /* background: #ff523b; */
+    background: #7fad39;
 }
 
 td {
@@ -46,7 +47,8 @@ td img {
 }
 
 .total-price table {
-    border-top: 3px solid #ff523b;
+    /* border-top: 3px solid #ff523b; */
+    border-top: 3px solid #7fad39;
     width: 100%;
     max-width: 350px;
 }

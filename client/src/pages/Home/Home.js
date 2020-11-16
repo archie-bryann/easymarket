@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useRef} from 'react'
-import { Link} from 'react-router-dom'
+import { Link, Redirect} from 'react-router-dom'
 import './Home.css'
 import FeaturedCategories from '../../components/FeaturedCategories/FeaturedCategories'
 import Products from '../../components/Products/Products'
@@ -22,6 +22,8 @@ function Home({title,apiRootUrl, clientRootUrl, loggedInStatus, match}) {
 
     const [isLoading, setIsLoading] = useState(true);
 
+    const [redr, setRedr] = useState(false);
+
     useEffect(() => {
         axios.get(`${apiRootUrl}product/starred/8`)
         .then(res=>{
@@ -37,6 +39,9 @@ function Home({title,apiRootUrl, clientRootUrl, loggedInStatus, match}) {
 
     return (
         <React.Fragment>
+            {
+                redr && <Redirect to = "/search" />
+            }
             {
                  isLoading && (
                     <Loader />
@@ -58,6 +63,7 @@ function Home({title,apiRootUrl, clientRootUrl, loggedInStatus, match}) {
                             placeholder = "Search for a product or category..." 
                             value = {q} 
                             onChange = {changeHandler}
+                            onClick = {()=>setRedr(true)}
                         />
                         </form>
                         <div style = {{marginTop:'-30px'}}></div>

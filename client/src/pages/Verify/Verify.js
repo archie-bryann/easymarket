@@ -50,7 +50,7 @@ function Verify({title,clientRootUrl,apiRootUrl,match,loggedInStatus}) {
         return () => {
             
         }   
-    }, [apiRootUrl,email,token]);
+    }, [apiRootUrl]);
 
     return (
        <React.Fragment>

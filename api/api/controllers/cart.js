@@ -1,16 +1,15 @@
 const pool = require('../../utils/pool');
 
 exports.cart_get_all_for_user = (req,res,next) => {
-    const { userId } = req.params;
     const tokenUserId = req.userData.userId;
-    const tokenEmail = req.userData.email;
+    // const tokenEmail = req.userData.email;
 
-    if(userId == tokenUserId || tokenEmail === process.env.adminEmail) {
+    // if(userId == tokenUserId || tokenEmail === process.env.adminEmail) {
         pool.getConnection(function(err,conn){
             if(err) {
                 res.status(500).json({error:'An error occured. Please try again!'});
             } else {
-                conn.query(`select * from cartSchema where userId = ?`, [userId], function(err,result){
+                conn.query(`select * from cartSchema where userId = ?`, [tokenUserId], function(err,result){
                     conn.release();
                     if(err) {
                         res.status(500).json({error:'An error occured. Please try again!'});
@@ -20,22 +19,20 @@ exports.cart_get_all_for_user = (req,res,next) => {
                 });
             }
         });
-    } else {
-        res.status(401).json({error:'No authorization!'});
-    }
+    // } else {
+    //     res.status(401).json({error:'No authorization!'});
+    // }
 }
 
 
 exports.add_to_cart = (req,res,next) => {
     const { productId, quantity } = req.body;
-    // if product already exists in cart, give error message
     const { userId } = req.userData;
 
     pool.getConnection(function(err,conn){
         if(err) {
             res.status(500).json({error:'An error occured. Please try again!'});
         } else {
-            
             pool.getConnection(function(err,conn){
                 if(err) {
                     res.status(500).json({error:'An error occured. Please try again!'});
@@ -52,12 +49,11 @@ exports.add_to_cart = (req,res,next) => {
                                     if(err) {
                                         res.status(500).json({error:'An error occured. Please try again!'});
                                     } else {
-                                        res.status(200).json({error:'Product already exists in cart'});
+                                        res.status(200).json({error:455,message:'Product already exists in cart but the quantity has been updated'});
                                     } 
                                 });
 
                             } else {
-                                // so i don't have to put pool all the time, i just have to release connection
                                 conn.query(`insert into cartSchema (userId, productId, quantity) values (?,?,?)`, [userId,productId, quantity], function(err,result){
                                     conn.release();
                                     if(err) {
@@ -65,6 +61,7 @@ exports.add_to_cart = (req,res,next) => {
                                     } else {
                                         res.status(200).json({
                                             error: 0,
+                                            message: 'Product has been added to cart',
                                             id: result.insertId,
                                             userId,
                                             productId,
@@ -82,22 +79,73 @@ exports.add_to_cart = (req,res,next) => {
 }
 
 // update quantity
+exports.update_cart_product_details = (req,res,next) => {
+    const {cartId} = req.params;
+    const {quantity} = req.body;
+    const {userId} = req.userData;
+
+    /** 
+     * check if cartItem exists <i>
+     * check if the user is authorized to change <i>
+     * update cartItem
+     * give success message
+     */
+    pool.getConnection((err, conn) => {
+            if (err) {
+                res.status(500).json({ error: 'An error occured. Please try again!' });
+            } else {
+                conn.query(`select * from cartSchema where id = ? and userId = ?`, [cartId,userId], (err,cartItem) => {
+                    if(err) {
+                        res.status(500).json({ error: 'An error occured. Please try again!' });
+                    } else {
+                        console.log(cartItem)
+                        if(cartItem.length < 1) {
+                            res.status(500).json({ error: 'An error occured. Please try again!' }); // The CartItem you're trying to update does not exist
+                        } else {
+                            conn.query(`update cartSchema set quantity = ? where ( id = ? and userId = ? )`, [quantity,cartId,userId], (err,result)=>{
+                                conn.release();
+                                if(err) {
+                                    res.status(500).json({ error: 'An error occured. Please try again!' });
+                                } else {
+                                    res.status(200).json({error:0,message:"Quantity updated successfully"});
+                                }
+                            })
+                        }
+                    }
+                });
+            }
+        })
+}
 
 exports.remove_from_cart = (req,res,next) => {
     const { cartId } = req.params;
+    const {userId} = req.userData;
 
     pool.getConnection(function(err,conn){
         if(err) {
             res.status(500).json({error:'An error occured. Please try again!'});
         } else {
-            conn.query(`delete from cartSchema where id = ?`, [cartId], function(err,result){
-                conn.release();
+
+            conn.query(`select * from cartSchema where id = ? and userId = ?`, [cartId,userId], (err,cartItem)=>{
                 if(err) {
-                    res.status(500).json({error:'An error occured. Please try again!'});
+                    res.status(500).json({ error: 'An error occured. Please try again!' });
                 } else {
-                    res.status(200).json({error:0});
+                    if(cartItem.length < 1) {
+                        res.status(500).json({ error: 'An error occured. Please try again!' }); // The CartItem you're trying to update does not exist
+                    } else {
+                        conn.query(`delete from cartSchema where id = ?`, [cartId], function(err,result){   
+                            conn.release();
+                            if(err) {
+                                res.status(500).json({error:'An error occured. Please try again!'});
+                            } else {
+                                res.status(200).json({error:0,message:'Product successfully removed from cart'});
+                            }
+                        });
+                    }
                 }
-            });
+            })
+
+            
         }
     });
 }

@@ -5,8 +5,13 @@ import { Link, Redirect } from 'react-router-dom'
 import axios from 'axios'
 import Products from '../../components/Products/Products'
 import Loader from '../../components/Loader/Loader'
+import {toast} from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
-function ProductDetails({title, apiRootUrl, clientRootUrl, match, loggedInStatus}) {
+
+toast.configure();
+
+function ProductDetails({title, apiRootUrl, clientRootUrl, match, loggedInStatus, token, errorMessage}) {
 
     const { productId, categoryId } = match.params;
 
@@ -48,7 +53,41 @@ function ProductDetails({title, apiRootUrl, clientRootUrl, match, loggedInStatus
     }, [productId,categoryId]);
 
     function addToCart() {
-        console.log('Added to Cart');
+        setIsLoading(true);
+        axios.post(`${apiRootUrl}cart`, 
+            {
+                productId: product.id,
+                quantity: quantity
+            },
+            {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
+        .then(({data})=>{
+            setIsLoading(false);
+            if(data.error === 0) {
+                toast.success(data.message, {
+                    position: toast.POSITION.TOP_RIGHT
+                })
+            } else if(data.error === 455) {
+                toast.success(data.message, {
+                    position: toast.POSITION.TOP_RIGHT
+                })
+            } else {
+                console.log(data)
+                toast.error(errorMessage, {
+                    position: toast.POSITION.TOP_RIGHT
+                })
+            }
+        })
+        .catch(err=>{
+            console.log(err)
+            setIsLoading(true);
+            toast.error(errorMessage, {
+                position: toast.POSITION.TOP_RIGHT
+            })
+        })
     }
 
     // function changeImage(e) {
