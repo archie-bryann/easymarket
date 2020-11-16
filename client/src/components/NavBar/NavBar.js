@@ -44,7 +44,7 @@ function NavBar({title, clientRootUrl, loggedInStatus, match}) {
                                             <Fragment>
                                                 <li><Link to="/orders" className = "link c">My Orders</Link></li>
                                                 <li><Link to="/profile" className = "link c">My Profile</Link></li>
-                                                <li><Link to="/logout" className = "link c">Logout</Link></li>
+                                                {/* <li><Link to="/logout" className = "link c">Logout</Link></li> */}
                                             </Fragment>
                                         )}
                                         
@@ -60,7 +60,7 @@ function NavBar({title, clientRootUrl, loggedInStatus, match}) {
                 </ul>
             </nav>
             {/* <Link to="/search" className = "link"><img src = {`${clientRootUrl}images/search.png`} width="22px" height="22px" className = "search-icon" alt = "" /></Link> */}
-            <Link to="/search" className = "link c"><i className = "fa fa-search" style = {{fontSize:'20px',marginRight:'18px'}}></i></Link>
+            <Link to="/search" className = "link c"><i className = "fa fa-search" style = {{fontSize:'20px',marginRight:'15px'}}></i></Link>
             {/* <UserContext.Consumer>
                 {
                     loggedIn => {
@@ -71,8 +71,16 @@ function NavBar({title, clientRootUrl, loggedInStatus, match}) {
                                 <Link to="/cart" className = "link c"><i className = "fa fa-shopping-cart cart-icon" style = {{fontSize:'20px'}}></i> {cartNum}</Link>
                                 )
                             }
+
+                            {
+                                (loggedInStatus) && (
+                                <Link to="/logout" className = "link c"><i className = "fa fa-sign-out-alt" style = {{fontSize:'22px', marginLeft:'15px'}}></i> {cartNum}</Link>
+                                )
+                            }
                                
+
                             {/* </Fragment>
+                            
                         )
                     }
                 }
@@ -81,7 +89,7 @@ function NavBar({title, clientRootUrl, loggedInStatus, match}) {
            
            
             {/* <img src = {`${clientRootUrl}images/menu.png`} width="30px" height="30px" className = "menu-icon c" onClick = {menuToggle} alt = "" /> // remove height & width for this when found */}
-            <i className = "fa fa-bars menu-icon c" style = {{fontSize:'23px'}} onClick = {menuToggle} ></i>
+            <i className = "fa fa-bars menu-icon c" style = {{fontSize:'23px',marginLeft:'15px'}} onClick = {menuToggle} ></i>
         </div>
     )
 }

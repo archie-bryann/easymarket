@@ -25,8 +25,38 @@ function Cart({title, clientRootUrl, apiRootUrl, loggedInStatus, token, errorMes
     const [cartProducts, setCartProducts] = useState([]);
     const [allowed, setAllowed] = useState(false);
     const [subTotals, setSubTotals] = useState(0);
-    const [delivery, setDelivery] = useState(10); // use request to get details
+    const [delivery, setDelivery] = useState(0); // use request to get details
     const [total, setTotal] = useState(0);
+    const [all,setAll] = useState(false);
+
+    useEffect(() => {
+        // setIsLoading(true);
+        axios.post(`${apiRootUrl}fee`, 
+        {
+            subtotal: subTotals
+        },
+        {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+        })
+        .then(({data})=>{
+            // setIsLoading(false);
+            setDelivery(data.cost);
+        })
+        .catch(err=>{
+            // setIsLoading(false);
+            // console.log(err)
+            toast.error(errorMessage, {
+                position: toast.POSITION.TOP_RIGHT
+            })
+        })
+
+    }, [total])
+
+    useEffect(() => {
+        setTotal(subTotals + delivery);
+    }, [delivery])
 
     useEffect(()=>{
         axios.get(`${apiRootUrl}cart/`, {
@@ -122,29 +152,13 @@ function Cart({title, clientRootUrl, apiRootUrl, loggedInStatus, token, errorMes
         // setSubTotals(prevSubTotals=>prevSubTotals+subTotal);
     }
 
-    useEffect(() => {
-        axios.post(`${apiRootUrl}fee`, 
-            {
-                subtotal:subTotals
-            },
-            {
-            headers: {
-                Authorization: `Bearer ${token}`
-            }
-        })
-        .then(({data})=>{
-            console.log(data)
-            setDelivery(data.cost)
-        })
-        .catch(err=>{
-            console.log(err)
-        })
-    }, [])
 
     useEffect(() => {
+        /** Get The Delivery Cost of The Products @ The Good Time */
+
         setTotal(subTotals+delivery);
 
-        
+
     }, [subTotals])
 
     useEffect(() => {
@@ -153,13 +167,16 @@ function Cart({title, clientRootUrl, apiRootUrl, loggedInStatus, token, errorMes
             let subtotal = Number(p.price) * Number(p.quantity);
             sum+=subtotal;
         })
-        setSubTotals(sum) // not too accurate
+        setSubTotals(sum);   
+
+        
+
     }, [cartProducts])
 
     function calculateNewSubTotalAndTotal(newQuantity, cartId) {
 
         // update quantity and update of the specific cartId
-        const elementsIndex = cartProducts.findIndex(item=>item.cartId === cartId)
+        const elementsIndex = cartProducts.findIndex(item=>item.cartId === cartId)  
         let newCartProducts = [...cartProducts];
         newCartProducts[elementsIndex] = {...newCartProducts[elementsIndex], quantity:newQuantity}
         setCartProducts(newCartProducts);
