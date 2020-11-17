@@ -24,7 +24,6 @@ exports.cart_get_all_for_user = (req,res,next) => {
     // }
 }
 
-
 exports.add_to_cart = (req,res,next) => {
     const { productId, quantity } = req.body;
     const { userId } = req.userData;

@@ -67,7 +67,7 @@ function ProductDetails({title, apiRootUrl, clientRootUrl, match, loggedInStatus
         .then(({data})=>{
             setIsLoading(false);
             if(data.error === 0) {
-                toast.success(data.message, {
+                toast.success(`${product.name} added to Cart`, {
                     position: toast.POSITION.TOP_RIGHT
                 })
             } else if(data.error === 455) {

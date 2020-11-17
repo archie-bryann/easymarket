@@ -74,7 +74,7 @@ function NavBar({title, clientRootUrl, loggedInStatus, match}) {
 
                             {
                                 (loggedInStatus) && (
-                                <Link to="/logout" className = "link c"><i className = "fa fa-sign-out-alt" style = {{fontSize:'22px', marginLeft:'15px'}}></i> {cartNum}</Link>
+                                <Link to="/logout" className = "link c"><i className = "fa fa-sign-out-alt" style = {{fontSize:'22px', marginLeft:'20px'}}></i> {cartNum}</Link>
                                 )
                             }
                                

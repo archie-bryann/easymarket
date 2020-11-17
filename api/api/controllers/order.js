@@ -46,9 +46,13 @@ exports.orders_create_order = (req,res,next) => {
             data += chunk;
         });
 
+        
         resp.on('end', ()=>{
             // console.log(JSON.parse(data))
             // check documentation // only when transaction is successful do we continue
+
+            /** res.data.status: "success"(data-object), res.data.amount */
+            // the transaction status is in response.data.status // front-end & back-end
 
             // get products & total price from cartSchema & delete all from cartSchema
             let products = [];

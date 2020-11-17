@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { Fragment, useEffect, useState } from 'react'
 import Loader from '../Loader/Loader';
 import axios from 'axios'
 import {toast} from 'react-toastify'
@@ -8,7 +8,7 @@ import { Link } from 'react-router-dom';
 
 toast.configure();
 
-function CartProduct({cartId,quantity,id,categoryId,name,description,image,price,apiRootUrl,token,errorMessage,delCartItem,addSubTotals,calculateNewSubTotalAndTotal}) {
+function CartProduct({cartId,quantity,id,categoryId,name,description,image,price,apiRootUrl,token,errorMessage,delCartItem,addSubTotals,calculateNewSubTotalAndTotal,less}) {
 
     const [cQuantity, setCQuantity] = useState(quantity);
     const [loading, setLoading] = useState(false);
@@ -76,20 +76,39 @@ function CartProduct({cartId,quantity,id,categoryId,name,description,image,price
             <tr>
                 <td>
                     <div className = "cart-info">
-                        <Link to = {`/product/${id}/${categoryId}`}>
-                        <img src = {`${apiRootUrl}uploads/${image}`} style = {{objectFit:'cover',borderRadius:'5px'}} alt = "" />
-                        </Link>
+                        { !less && (
+                            <Link to = {`/product/${id}/${categoryId}`}>
+                            <img src = {`${apiRootUrl}uploads/${image}`} style = {{objectFit:'cover',borderRadius:'5px'}} alt = "" />
+                            </Link>
+                        )}
+                        
                         <div>
+
+                            
                             <Link to = {`/product/${id}/${categoryId}`}>
                             <p className = "product-link-text">{name}</p>
                             </Link>
+                            
+                            
                             <small>Price: ₦{price}</small>
-                            <br />
-                            <a className = "remove" onClick = {delCartItem.bind(this, cartId)}>Remove</a>
+                            {
+                                !less && (
+                                    <Fragment>
+                                        <br />
+                                        <a className = "remove" onClick = {delCartItem.bind(this, cartId)}>Remove</a>
+                                    </Fragment>
+                                )
+                            }
                         </div>
                     </div>
                 </td>
-                <td><input className = "q_d" type = "number" value = {cQuantity} onChange = {updateQuantity} style = {{width:'51px'}} /></td>
+                <td>
+                    {less ? (
+                        cQuantity
+                    ) : (
+                        <input className = "q_d" type = "number" value = {cQuantity} onChange = {updateQuantity} style = {{width:'51px'}} />
+                    ) }
+                </td>
                 <td>{Number(subTotal).toFixed(2)}</td> {/** to 2 d.p. */}
             </tr>
         </React.Fragment>

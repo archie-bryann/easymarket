@@ -14,18 +14,27 @@ exports.delivery_cost = (req,res,next) => {
      * Calculate E.T.A. based on location
      */
     const { subtotal } = req.body;
-    console.log(subtotal)
 
-    const FoodNetFees = 1500; /** must cover nylon & also the value we provide */
-    const logisticFees = 500; /** talk to them, more trips (to anywhere in Ibadan) -> heavily discounted price -> may depend  */
+    /** FoodNet Logic */
+    let FoodNetFees;
+    if(subtotal < 1000) {
+        FoodNetFees = ((5/100)*subtotal) + 100; 
+    } else if(subtotal <= 5000) {
+        FoodNetFees = ((10/100)*subtotal) + 100; 
+    } else if(subtotal > 5000 && subtotal <= 50000){
+        FoodNetFees = ((15/100)*subtotal) + 100;
+    } else { // above 50000
+        FoodNetFees = ((20/100)*subtotal) + 100;
+    }
+    /** ../end */
+
+    const logisticFees = 900; /** talk to them, more trips (to anywhere in Ibadan) -> heavily discounted price -> may depend  */
     
     const paystackPaymentFee = ( subtotal + FoodNetFees + logisticFees ) * (1.5/100);
 
-    const paystackTransferFee = 10;
+    const paystackTransferFee = 10; // off transfer made to them
 
-    const totalCost = subtotal + FoodNetFees + logisticFees + paystackPaymentFee + paystackTransferFee;
-
-    console.log(totalCost)
+    const totalCost = FoodNetFees + logisticFees + paystackPaymentFee + paystackTransferFee; // err to add subtotal
 
     return res.status(200).json({
         cost: totalCost

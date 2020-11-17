@@ -1,26 +1,20 @@
-import React, { Fragment, useEffect, useState } from 'react'
+import React, {useState,useEffect,Fragment} from 'react'
+import './Checkout.css'
+import { usePaystackPayment, PaystackButton, PaystackConsumer } from 'react-paystack';
 import { Redirect } from 'react-router-dom';
 import Header from '../../components/Header/Header'
-import './Cart.css'
 import axios from 'axios'
 import Loader from '../../components/Loader/Loader';
 import {toast} from 'react-toastify'
-import 'react-toastify/dist/ReactToastify.css'
-import CartProduct from '../../components/CartProduct/CartProduct';
-import { Link } from 'react-router-dom';
 import OrderDetails from '../../components/CartPricing/CartPricing';
+import { Link } from 'react-router-dom';
+import CartProduct from '../../components/CartProduct/CartProduct';
 
 toast.configure();
 
-function Cart({title, clientRootUrl, apiRootUrl, loggedInStatus, token, errorMessage}) {
+function Checkout({title, clientRootUrl, apiRootUrl, loggedInStatus, token, errorMessage}) {
 
-    document.title = `Cart - ${title}`;
-
-    /** 
-     * To 2 d.p.
-     * Text: parseFloat("123.456").toFixed(2)
-     * Number: num.toFixed(2);
-     */
+    document.title = `Checkout - ${title}`;
 
     const [isLoading, setIsLoading] = useState(true);
     const [cartProducts, setCartProducts] = useState([]);
@@ -30,14 +24,37 @@ function Cart({title, clientRootUrl, apiRootUrl, loggedInStatus, token, errorMes
     const [total, setTotal] = useState(0);
     const [all,setAll] = useState(false);
 
-    
-    /** Pass the ffg data to App.js
-     * cart
-     * subtotal
-     * delivery
-     * total
-     */
 
+       /** PAYSTACK FUNCTIONALITIES */
+    const config = {
+    reference:''+Math.floor((Math.random() * 1000000000) + 1),
+    email: "user@example.com",
+    amount: 20000,
+    publicKey: 'pk_test_71fcbd166959c23469deda0eed300f1282274ab8',
+    };
+
+    const PaystackHookExample = () => {
+        const initializePayment = usePaystackPayment(config);
+        return (
+            <OrderDetails subTotals = {subTotals} delivery = {delivery} total = {total} >
+                <button onClick={() => {
+                    initializePayment()
+                }} className = "btn">Place Order</button>
+            </OrderDetails>
+        );
+    };
+
+    const componentProps = {
+        ...config,
+        text: 'Paystack Button Implementation',
+        onSuccess: () => null,
+        onClose: () => null
+    };
+
+    /** ./ END OF PAYSTACK FUNCTIONALITIES */
+
+
+    
     useEffect(() => {
         // setIsLoading(true);
         axios.post(`${apiRootUrl}fee`, 
@@ -190,99 +207,89 @@ function Cart({title, clientRootUrl, apiRootUrl, loggedInStatus, token, errorMes
         newCartProducts[elementsIndex] = {...newCartProducts[elementsIndex], quantity:newQuantity}
         setCartProducts(newCartProducts);
     }
-
-    // function payWithPaystack(e) {
-    //     e.preventDefault();
-    //     let handler = PaystackPop.setup({
-    //       key: 'sk_test_f12711e9277e1a27aba8e58f3394b9717098efaf', // Replace with your public key
-    //       email: "ekomboy012@gmail.com",
-    //       amount: 1200 * 100,
-    //       ref: ''+Math.floor((Math.random() * 1000000000) + 1), // generates a pseudo-unique reference. Please replace with a reference you generated. Or remove the line entirely so our API will generate one for you
-    //       // label: "Optional string that replaces customer email"
-    //       onClose: function(){
-    //         alert('Window closed.');
-    //       },
-    //       callback: function(response){
-    //         let message = 'Payment complete! Reference: ' + response.reference;
-    //         alert(message);
-    //       }
-    //     });
-    //     handler.openIframe();
-    //   }
-
+    
     function placeOrder() {
 
     }
 
+
+
     return (
         <React.Fragment>
+        {
+            isLoading && <Loader />
+        }
+        {
+            (!loggedInStatus) && (
+                <Redirect to = "/account" />
+            )
+        }
+        <Header title = {title} clientRootUrl = {clientRootUrl} loggedInStatus = {loggedInStatus} />
+
+        <br />
+        <br />
+        <div className = "small-container cart-page">
+            
+            <div className = "total-price">
             {
-                isLoading && <Loader />
-            }
-            {
-                (!loggedInStatus) && (
-                    <Redirect to = "/account" />
+                (cartProducts.length > 0) && (
+                    <table>
+                        <tr>
+                            <th>Product</th>
+                            <th>Quantity</th>
+                            <th>Subtotal</th>
+                        </tr>
+
+                        {
+                            cartProducts.map(({cartId,quantity,id,categoryId,name,description,image,price})=><CartProduct key = {id} cartId = {cartId} quantity = {quantity} id = {id} categoryId = {categoryId} name = {name} description = {description} image = {image} price = {price} apiRootUrl = {apiRootUrl} token = {token} errorMessage = {errorMessage} delCartItem = {delCartItem} addSubTotals = {addSubTotals} calculateNewSubTotalAndTotal = {calculateNewSubTotalAndTotal} less = {true} />)
+                        }
+                    </table>
                 )
             }
-            <Header title = {title} clientRootUrl = {clientRootUrl} loggedInStatus = {loggedInStatus} />
-
-            <br />
-            <br />
-            
-            <div className = "small-container cart-page">
-
-                {
-                    (cartProducts.length > 0) && (
-                        <table>
-                            <tr>
-                                <th>Product</th>
-                                <th>Quantity</th>
-                                <th>Subtotal</th>
-                            </tr>
-
-                            {
-                                cartProducts.map(({cartId,quantity,id,categoryId,name,description,image,price})=><CartProduct key = {id} cartId = {cartId} quantity = {quantity} id = {id} categoryId = {categoryId} name = {name} description = {description} image = {image} price = {price} apiRootUrl = {apiRootUrl} token = {token} errorMessage = {errorMessage} delCartItem = {delCartItem} addSubTotals = {addSubTotals} calculateNewSubTotalAndTotal = {calculateNewSubTotalAndTotal} />)
-                            }
-                        </table>
-                    )
-                }
-
-
-                {
-                    (cartProducts.length < 1) && (
-                        <Fragment>
-                            <div className = "container center-div">
-                                <img src  = {`${clientRootUrl}images/8-2-fearful-emoji-png.png`} width = "180px" alt = "" />
-                                <h4>Ahh! Your cart seems empty.</h4>
-                                <p>Click below to start shopping now.</p>
-                                <Link to = "/categories" className = "btn">Start shopping</Link>
-                            </div>
-                            <div style = {{height:'180px'}}></div>
-                        </Fragment>
-                    )
-                }
-                
-
-
-                { (allowed) && (
-                    <OrderDetails subTotals = {subTotals} delivery = {delivery} total = {total} >
-                        <Link to = {`/checkout`} className = "btn">Proceed to Checkout</Link>
-                    </OrderDetails>
-                )}
-                
-                <br />
-                <br />
-
-               
-
-
-
-                <br />
             </div>
+
+
+            {
+                (cartProducts.length < 1) && (
+                    <Fragment>
+                        <div className = "container center-div">
+                            <img src  = {`${clientRootUrl}images/8-2-fearful-emoji-png.png`} width = "180px" alt = "" />
+                            <h4>Ahh! Your cart seems empty.</h4>
+                            <p>Click below to start shopping now.</p>
+                            <Link to = "/categories" className = "btn">Start shopping</Link>
+                        </div>
+                        <div style = {{height:'180px'}}></div>
+                    </Fragment>
+                )
+            }
+
+
+            { (allowed) && (
+                // <OrderDetails subTotals = {subTotals} delivery = {delivery} total = {total} >
+                //     <button  className = "btn">Place Order</button>
+                // </OrderDetails>
+                <PaystackHookExample />
+            )}
             
-        </React.Fragment>
+            <br />
+            <br />
+
+           
+
+
+
+            <br />
+        </div>
         
+    </React.Fragment>
     )
 }
 
-export default Cart
+export default Checkout
+
+
+ {/* <PaystackHookExample />
+            <PaystackButton {...componentProps} />
+            <PaystackConsumer {...componentProps}>
+                {({initializePayment}) => <button onClick={() => initializePayment()}>Paystack Consumer Implementation</button>}
+            </PaystackConsumer> */}

@@ -484,9 +484,9 @@ exports.users_update_user = (req,res,next) => {
         FRONT-END
         empty input_box for address
         input box: Games Village {Default} {disabled}
-        state_region {Default} {disabled}
-        city {Default} {disabled}
-        country {Default} {disabled}
+        state_region {Default} {disabled}  -- ABUJA_KAURA_DISTRICT
+        city {Default} {disabled} -- FEDERAL CAPITAL TERRITORY
+        country {Default} {disabled} -- Nigeria
     */
     
     if(userId == tokenUserId || tokenEmail === process.env.adminEmail) { // valid user

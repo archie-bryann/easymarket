@@ -85,7 +85,8 @@ th:last-child {
     justify-content: flex-end;
 }
 
-.order-div button {
+.order-div .btn {
     width: 350px;
     border:none;
+    text-align: center;
 }

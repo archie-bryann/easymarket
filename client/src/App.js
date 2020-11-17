@@ -22,6 +22,7 @@ import Verify from './pages/Verify/Verify';
 import './App.css'
 import Logout from './pages/Logout/Logout';
 import { LastLocationProvider } from 'react-router-last-location';
+import Checkout from './pages/Checkout/Checkout';
 
 
 export const UserContext = React.createContext();
@@ -74,6 +75,8 @@ function App() {
     console.log(status)
   }
 
+  /**  */
+  
   return (
     <React.Fragment>
         <Router>
@@ -105,6 +108,8 @@ function App() {
             <Route path = "/reset_password/:email/:token" exact = {true} component = {({match})=><ResetPassword loggedInStatus = {loggedInStatus} title = {title} apiRootUrl = {apiRootUrl} clientRootUrl = {clientRootUrl} match = {match} />} />
 
             <Route path = "/cart" exact = {true} component = {({match})=><Cart loggedInStatus = {loggedInStatus} title = {title} apiRootUrl = {apiRootUrl} clientRootUrl = {clientRootUrl} loggedInStatus = {loggedInStatus} match = {match} token = {token} errorMessage = {errorMessage} />} />
+
+            <Route path = "/checkout" exact = {true} component = {({match})=><Checkout loggedInStatus = {loggedInStatus} title = {title} apiRootUrl = {apiRootUrl} clientRootUrl = {clientRootUrl} loggedInStatus = {loggedInStatus} match = {match} token = {token} errorMessage = {errorMessage} />} />
 
             <Route path = "/orders" exact = {true} component = {({match})=><Orders loggedInStatus = {loggedInStatus} title = {title} apiRootUrl = {apiRootUrl} clientRootUrl = {clientRootUrl} loggedInStatus = {loggedInStatus} match = {match} />} />
 
