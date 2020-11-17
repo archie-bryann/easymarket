@@ -86,7 +86,9 @@ function CartProduct({cartId,quantity,id,categoryId,name,description,image,price
 
                             
                             <Link to = {`/product/${id}/${categoryId}`}>
-                            <p className = "product-link-text">{name}</p>
+                            <p className = {less ? 'f' : (
+                                'product-link-text'
+                            )}>{name}</p>
                             </Link>
                             
                             

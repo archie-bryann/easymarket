@@ -25,8 +25,8 @@ create table userSchema (
     street varchar(256),
     zone varchar(256),
 
-    state_region varchar(256) DEFAULT 'ABUJA_KAURA_DISTRICT', -- state/region : Abuja_Kaura_District
-    city varchar(256) DEFAULT 'FEDERAL CAPITAL TERRITORY', -- Federal Capital Territory
+    state_region varchar(256), -- state/region : Abuja_Kaura_District
+    city varchar(256), -- Federal Capital Territory
     country varchar(256) DEFAULT 'Nigeria', -- Nigeria
     joined_timestamp varchar(256)
 )

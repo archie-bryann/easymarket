@@ -228,24 +228,212 @@ function Checkout({title, clientRootUrl, apiRootUrl, loggedInStatus, token, erro
 
         <br />
         <br />
-        <div className = "small-container cart-page">
-            
-            <div className = "total-price">
-            {
-                (cartProducts.length > 0) && (
-                    <table>
-                        <tr>
-                            <th>Product</th>
-                            <th>Quantity</th>
-                            <th>Subtotal</th>
-                        </tr>
+        <div className = "container cart-page">
 
-                        {
-                            cartProducts.map(({cartId,quantity,id,categoryId,name,description,image,price})=><CartProduct key = {id} cartId = {cartId} quantity = {quantity} id = {id} categoryId = {categoryId} name = {name} description = {description} image = {image} price = {price} apiRootUrl = {apiRootUrl} token = {token} errorMessage = {errorMessage} delCartItem = {delCartItem} addSubTotals = {addSubTotals} calculateNewSubTotalAndTotal = {calculateNewSubTotalAndTotal} less = {true} />)
-                        }
-                    </table>
-                )
-            }
+            {/* PUT IN A CONTAINER LEFT */}
+            <div className = "row-2">
+                <div className = "col-50">
+                    {/* <div className = "container"> */}
+                        <h3>Billing Details</h3>
+
+                        <form>
+                            <br />
+                            <span className = "label">First Name*</span>
+                            <input type = "text" placeholder = "Firstname"/>
+                            <div style = {{height:'10px'}}></div>
+                            <span className = "label">Last Name*</span>
+                            <input type = "text" placeholder = "Lastname" />
+                            <br />
+                            <div style = {{height:'10px'}}></div>
+                            <span className = "label">Mobile Phone Number*</span>
+                            <input type = "text" placeholder = "Mobile phone number" />
+                            <br />
+                            <div style = {{height:'10px'}}></div>
+                            <span className = "label">Additional Phone Number*</span>
+                            <input type = "text" placeholder = "Additional phone number" />
+                            <br />
+                            <div style = {{height:'10px'}}></div>
+
+                            
+                            <span className = "label">Address*</span>
+                            <textarea placeholder = "Street Name / Building / Apartment No. / Floor"></textarea>
+
+                            <span className = "label">Additional Info</span>
+                            <textarea placeholder = "Landmark / Directions / More Details"></textarea>
+
+
+                            <span className = "label">State/Region*</span>
+                            <input type = "text" placeholder = "Address" value = "Federal Capital Territory" disabled/>
+                            
+                            <br />
+                            <div style = {{height:'10px'}}></div>
+                            <span className = "label">City*</span>
+                            <select name="city">
+                                <option value="">Please select...</option>
+                                <option value="ABAJI">ABAJI</option>
+                                <option value="ABUJA AIRPORT ROAD- ABUJA TECHNOLOGY VILLAGE">ABUJA AIRPORT ROAD- ABUJA TECHNOLOGY VILLAGE</option>
+                                <option value="ABUJA AIRPORT ROAD- CHIKA">ABUJA AIRPORT ROAD- CHIKA</option>
+                                <option value="ABUJA AIRPORT ROAD- GOSA / SABON LUGBE">ABUJA AIRPORT ROAD- GOSA / SABON LUGBE</option>
+                                <option value="ABUJA AIRPORT ROAD- KUCHINGORO">ABUJA AIRPORT ROAD- KUCHINGORO</option>
+                                <option value="ABUJA AIRPORT ROAD- KYAMI / CENTENARY CITY">ABUJA AIRPORT ROAD- KYAMI / CENTENARY CITY</option>
+                                <option value="ABUJA AIRPORT ROAD- NNAMDI AZIKE AIRPORT">ABUJA AIRPORT ROAD- NNAMDI AZIKE AIRPORT</option>
+                                <option value="ABUJA AIRPORT ROAD- PIWOYI">ABUJA AIRPORT ROAD- PIWOYI</option>
+                                <option value="ABUJA AIRPORT ROAD- PYAKASA">ABUJA AIRPORT ROAD- PYAKASA</option>
+                                <option value="ABUJA AIRPORT ROAD- RIVERPARK /TRADEMORE">ABUJA AIRPORT ROAD- RIVERPARK /TRADEMORE</option>
+                                <option value="ABUJA AIRPORT ROAD- SAUKA/IMMIGRATION HQ">ABUJA AIRPORT ROAD- SAUKA/IMMIGRATION HQ</option>
+                                <option value="ABUJA- APO CENTRAL">ABUJA- APO CENTRAL</option>
+                                <option value="ABUJA- APO LEGISLATIVE ZONE A">ABUJA- APO LEGISLATIVE ZONE A</option>
+                                <option value="ABUJA- APO LEGISLATIVE ZONE B">ABUJA- APO LEGISLATIVE ZONE B</option>
+                                <option value="ABUJA- APO LEGISLATIVE ZONE C">ABUJA- APO LEGISLATIVE ZONE C</option>
+                                <option value="ABUJA- APO LEGISLATIVE ZONE D">ABUJA- APO LEGISLATIVE ZONE D</option>
+                                <option value="ABUJA- APO LEGISLATIVE ZONE E">ABUJA- APO LEGISLATIVE ZONE E</option>
+                                <option value="ABUJA- APO MECHANIC VILLAGE">ABUJA- APO MECHANIC VILLAGE</option>
+                                <option value="ABUJA- APO RESETTLEMENT ZONE A">ABUJA- APO RESETTLEMENT ZONE A</option>
+                                <option value="ABUJA- APO RESETTLEMENT ZONE B">ABUJA- APO RESETTLEMENT ZONE B</option>
+                                <option value="ABUJA- APO RESETTLEMENT ZONE C">ABUJA- APO RESETTLEMENT ZONE C</option>
+                                <option value="ABUJA- APO RESETTLEMENT ZONE D">ABUJA- APO RESETTLEMENT ZONE D</option>
+                                <option value="ABUJA- APO RESETTLEMENT ZONE E">ABUJA- APO RESETTLEMENT ZONE E</option>
+                                <option value="ABUJA- DURUMI">ABUJA- DURUMI</option>
+                                <option value="ABUJA- DURUMI PHASE 2">ABUJA- DURUMI PHASE 2</option>
+                                <option value="ABUJA- GARKI AREA 1">ABUJA- GARKI AREA 1</option>
+                                <option value="ABUJA- GARKI AREA 10">ABUJA- GARKI AREA 10</option>
+                                <option value="ABUJA- GARKI AREA 11">ABUJA- GARKI AREA 11</option>
+                                <option value="ABUJA- GARKI AREA 2">ABUJA- GARKI AREA 2</option>
+                                <option value="ABUJA- GARKI AREA 3">ABUJA- GARKI AREA 3</option>
+                                <option value="ABUJA- GARKI AREA 7">ABUJA- GARKI AREA 7</option>
+                                <option value="ABUJA- GARKI AREA 8">ABUJA- GARKI AREA 8</option>
+                                <option value="ABUJA- GWARINPA 1ST AVENUE">ABUJA- GWARINPA 1ST AVENUE</option>
+                                <option value="ABUJA- GWARINPA 2ND AVENUE">ABUJA- GWARINPA 2ND AVENUE</option>
+                                <option value="ABUJA- GWARINPA 3RD AVENUE">ABUJA- GWARINPA 3RD AVENUE</option>
+                                <option value="ABUJA- GWARINPA 4TH AVENUE">ABUJA- GWARINPA 4TH AVENUE</option>
+                                <option value="ABUJA- GWARINPA 5TH AVENUE">ABUJA- GWARINPA 5TH AVENUE</option>
+                                <option value="ABUJA- GWARINPA 6TH AVENUE">ABUJA- GWARINPA 6TH AVENUE</option>
+                                <option value="ABUJA- GWARINPA 7TH AVENUE">ABUJA- GWARINPA 7TH AVENUE</option>
+                                <option value="ABUJA- GWARINPA EXTENSION">ABUJA- GWARINPA EXTENSION</option>
+                                <option value="ABUJA- KATAMPE EXTENSION">ABUJA- KATAMPE EXTENSION</option>
+                                <option value="ABUJA- KATAMPE MAIN">ABUJA- KATAMPE MAIN</option>
+                                <option value="ABUJA- KUBWA 2/1 PHASE 1">ABUJA- KUBWA 2/1 PHASE 1</option>
+                                <option value="ABUJA- KUBWA 2/2 PHASE 2">ABUJA- KUBWA 2/2 PHASE 2</option>
+                                <option value="ABUJA- KUBWA ARAB ROAD">ABUJA- KUBWA ARAB ROAD</option>
+                                <option value="ABUJA- KUBWA BYAZHIN">ABUJA- KUBWA BYAZHIN</option>
+                                <option value="ABUJA- KUBWA EXTENSION 3">ABUJA- KUBWA EXTENSION 3</option>
+                                <option value="ABUJA- KUBWA GBAZANGO">ABUJA- KUBWA GBAZANGO</option>
+                                <option value="ABUJA- KUBWA PHASE 3">ABUJA- KUBWA PHASE 3</option>
+                                <option value="ABUJA- KUBWA PW">ABUJA- KUBWA PW</option>
+                                <option value="ABUJA- KUBWA- FCDA/FHA">ABUJA- KUBWA- FCDA/FHA</option>
+                                <option value="ABUJA- LIFE CAMP EXTENSION">ABUJA- LIFE CAMP EXTENSION</option>
+                                <option value="ABUJA- MABUSHI">ABUJA- MABUSHI</option>
+                                <option value="ABUJA- MAITAMA ALEIRO">ABUJA- MAITAMA ALEIRO</option>
+                                <option value="ABUJA- MAITAMA ASO DRIVE">ABUJA- MAITAMA ASO DRIVE</option>
+                                <option value="ABUJA- MAITAMA CENTRAL">ABUJA- MAITAMA CENTRAL</option>
+                                <option value="ABUJA- MAITAMA EXTENSION">ABUJA- MAITAMA EXTENSION</option>
+                                <option value="ABUJA-ASOKORO">ABUJA-ASOKORO</option>
+                                <option value="ABUJA-BWARI">ABUJA-BWARI</option>
+                                <option value="Abuja-Central">Abuja-Central</option>
+                                <option value="Abuja-Dakibiyu">Abuja-Dakibiyu</option>
+                                <option value="ABUJA-DAWAKI">ABUJA-DAWAKI</option>
+                                <option value="ABUJA-DEI-DEI">ABUJA-DEI-DEI</option>
+                                <option value="ABUJA-DUTSE">ABUJA-DUTSE</option>
+                                <option value="ABUJA-EFAB">ABUJA-EFAB</option>
+                                <option value="ABUJA-GALADIMAWA">ABUJA-GALADIMAWA</option>
+                                <option value="ABUJA-GAMES VILLAGE">ABUJA-GAMES VILLAGE</option>
+                                <option value="ABUJA-GARKI2">ABUJA-GARKI2</option>
+                                <option value="ABUJA-GUDU">ABUJA-GUDU</option>
+                                <option value=">ABUJA-GUZAPE">ABUJA-GUZAPE</option>
+                                <option value="ABUJA-GWAGWALADA">ABUJA-GWAGWALADA</option>
+                                <option value="ABUJA-JABI">ABUJA-JABI</option>
+                                <option value="ABUJA-JAHI">ABUJA-JAHI</option>
+                                <option value="ABUJA-KABUSA">ABUJA-KABUSA</option>
+                                <option value="ABUJA-KADO">ABUJA-KADO</option>
+                                <option value="ABUJA-KARU">ABUJA-KARU</option>
+                                <option value="ABUJA-KAURA DISTRICT">ABUJA-KAURA DISTRICT</option>
+                                <option value="ABUJA-KUJE">ABUJA-KUJE</option>
+                                <option value="ABUJA-LIFE CAMP">ABUJA-LIFE CAMP</option>
+                                <option value="ABUJA-LOKOGOMA">ABUJA-LOKOGOMA</option>
+                                <option value="Abuja-Lugbe Across Zone1-9">Abuja-Lugbe Across Zone1-9</option>
+                                <option value="Abuja-Lugbe Kapwa">Abuja-Lugbe Kapwa</option>
+                                <option value="Abuja-Lugbe MrBiggs">Abuja-Lugbe MrBiggs</option>
+                                <option value="Abuja-Lugbe New Site">Abuja-Lugbe New Site</option>
+                                <option value="Abuja-Lugbe Peace Village">Abuja-Lugbe Peace Village</option>
+                                <option value="Abuja-Lugbe Police Sign Post">Abuja-Lugbe Police Sign Post</option>
+                                <option value="Abuja-Lugbe Premier Academy">Abuja-Lugbe Premier Academy</option>
+                                <option value="Abuja-Lugbe Sector F">Abuja-Lugbe Sector F</option>
+                                <option value="Abuja-Lugbe Skye Bank">Abuja-Lugbe Skye Bank</option>
+                                <option value="Abuja-Lugbe Total">Abuja-Lugbe Total</option>
+                                <option value="Abuja-Lugbe Tudun Wada">Abuja-Lugbe Tudun Wada</option>
+                                <option value="ABUJA-MARARABA">ABUJA-MARARABA</option>
+                                <option value="ABUJA-NYANYA">ABUJA-NYANYA</option>
+                                <option value="Abuja-Prince and Princess">Abuja-Prince and Princess</option>
+                                <option value="ABUJA-SUNCITY">ABUJA-SUNCITY</option>
+                                <option value="ABUJA-SUNNY VALLE">ABUJA-SUNNY VALLE</option>
+                                <option value="ABUJA-UTAKO">ABUJA-UTAKO</option>
+                                <option value="ABUJA-WUSE ZONE 1">ABUJA-WUSE ZONE 1</option>
+                                <option value="ABUJA-WUSE ZONE 2">ABUJA-WUSE ZONE 2</option>
+                                <option value="ABUJA-WUSE ZONE 3">ABUJA-WUSE ZONE 3</option>
+                                <option value="ABUJA-WUSE ZONE 4">ABUJA-WUSE ZONE 4</option>
+                                <option value="ABUJA-WUSE ZONE 5">ABUJA-WUSE ZONE 5</option>
+                                <option value="ABUJA-WUSE ZONE 6">ABUJA-WUSE ZONE 6</option>
+                                <option value="ABUJA-WUSE ZONE 7">ABUJA-WUSE ZONE 7</option>
+                                <option value="ABUJA-WUSE11">ABUJA-WUSE11</option>
+                                <option value="Abuja-Wuye">Abuja-Wuye</option>
+                                <option value="Airport Road Iddo">Airport Road Iddo</option>
+                                <option value="Airport Road Kuchingoro / Chika / Pyakasa">Airport Road Kuchingoro / Chika / Pyakasa</option>
+                                <option value="Airport Road Sauka /Trademore / Airport">Airport Road Sauka /Trademore / Airport</option>
+                                <option value="Dutse">Dutse</option>
+                                <option value="GIDAN MANGORO">GIDAN MANGORO</option>
+                                <option value="GWAGWALADA">GWAGWALADA</option>
+                                <option value="IDU">IDU</option>
+                                <option value="Jikowyi">Jikowyi</option>
+                                <option value="Karimo">Karimo</option>
+                                <option value="KARU">KARU</option>
+                                <option value="Kubwa Central">Kubwa Central</option>
+                                <option value="KWALI">KWALI</option>
+                                <option value="Lugbe">Lugbe</option>
+                                <option value="MINISTERS HILL">MINISTERS HILL</option>
+                                <option value="Mpape">Mpape</option>
+                                <option value="NICON JUNCTION">NICON JUNCTION</option>
+                                <option value="Tungan Maje">Tungan Maje</option>
+                                <option value="Zuba">Zuba</option>
+                            </select>
+                            {/** 
+                             * state/region refers to Abuja
+                             * 
+                             */}
+                        </form>
+                    {/* </div> */}
+                   
+                </div>
+
+
+                
+                {/* PUT IN A CONTAINER RIGHT */}
+                <div className = "col-25">
+                    <div className = "total-price">
+                    {
+                        (cartProducts.length > 0) && (
+                            <table>
+                                <tr>
+                                    <th>Product</th>
+                                    <th>Quantity</th>
+                                    <th>Subtotal</th>
+                                </tr>
+
+                                {
+                                    cartProducts.map(({cartId,quantity,id,categoryId,name,description,image,price})=><CartProduct key = {id} cartId = {cartId} quantity = {quantity} id = {id} categoryId = {categoryId} name = {name} description = {description} image = {image} price = {price} apiRootUrl = {apiRootUrl} token = {token} errorMessage = {errorMessage} delCartItem = {delCartItem} addSubTotals = {addSubTotals} calculateNewSubTotalAndTotal = {calculateNewSubTotalAndTotal} less = {true} />)
+                                }
+                            </table>
+                        )
+                    }
+                    </div>
+                    { (allowed) && (
+                // <OrderDetails subTotals = {subTotals} delivery = {delivery} total = {total} >
+                //     <button  className = "btn">Place Order</button>
+                // </OrderDetails>
+                <PaystackHookExample />
+            )}
+                </div>
+
+
             </div>
 
 
@@ -264,12 +452,7 @@ function Checkout({title, clientRootUrl, apiRootUrl, loggedInStatus, token, erro
             }
 
 
-            { (allowed) && (
-                // <OrderDetails subTotals = {subTotals} delivery = {delivery} total = {total} >
-                //     <button  className = "btn">Place Order</button>
-                // </OrderDetails>
-                <PaystackHookExample />
-            )}
+            
             
             <br />
             <br />

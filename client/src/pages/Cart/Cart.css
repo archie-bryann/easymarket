@@ -63,9 +63,14 @@ th:last-child {
 
 
 @media only screen and (max-width: 600px) {
-    .cart-info p {
+    .product-link-text {
         display: none;
     }
+}
+
+.f {
+    font-size: 16px;
+    color: black;
 }
 /* 
 .block {
