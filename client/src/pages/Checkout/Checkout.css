@@ -33,4 +33,19 @@
         color: #555555;
         font-weight: bold;
   }
-  
+  .city {
+    width: 100%;
+    height: 30px;
+    margin: 10px 0;
+    padding: 0 10px;
+    border: 1px solid #ccc;
+  }
+
+  textarea:focus {
+    outline: none;
+  }
+
+  .place-order-btn {
+    border: 0;
+    box-shadow: none;
+  }

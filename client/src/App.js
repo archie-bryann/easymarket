@@ -23,6 +23,7 @@ import './App.css'
 import Logout from './pages/Logout/Logout';
 import { LastLocationProvider } from 'react-router-last-location';
 import Checkout from './pages/Checkout/Checkout';
+import Test from './pages/Test/Test';
 
 
 export const UserContext = React.createContext();
@@ -35,14 +36,16 @@ function App() {
   const clientRootUrl = "http://localhost:3000/";
   const apiRootUrl = "http://localhost:9000/";
   const email = "support@foodnet.ng";
-
   const token = localStorage.getItem('wpt');
   const [loggedInStatus, setLoggedInStatus] = useState(null);
+  const errorMessage = "An error occured. Please try again!";   
 
-  const errorMessage = "An error occured. Please try again!";
+  /** Paystack keys */
+  const paystackPublicTestKey = "pk_test_71fcbd166959c23469deda0eed300f1282274ab8";
+  const paystackPublicLiveKey = "pk_live_0c00d37b5b15ddfac6da8942824febacee13f712";
 
   useEffect(() => {
-    
+
     if(token) {
       // verify token
       axios(`${apiRootUrl}user/verify`, {
@@ -55,6 +58,8 @@ function App() {
         if(res.data.valid === 1) {
           // user is valid
           setLoggedInStatus(true);
+          // save the email in localStorage
+          localStorage.setItem('email', res.data.email);
         } else {
           setLoggedInStatus(false);
         }
@@ -109,7 +114,7 @@ function App() {
 
             <Route path = "/cart" exact = {true} component = {({match})=><Cart loggedInStatus = {loggedInStatus} title = {title} apiRootUrl = {apiRootUrl} clientRootUrl = {clientRootUrl} loggedInStatus = {loggedInStatus} match = {match} token = {token} errorMessage = {errorMessage} />} />
 
-            <Route path = "/checkout" exact = {true} component = {({match})=><Checkout loggedInStatus = {loggedInStatus} title = {title} apiRootUrl = {apiRootUrl} clientRootUrl = {clientRootUrl} loggedInStatus = {loggedInStatus} match = {match} token = {token} errorMessage = {errorMessage} />} />
+            <Route path = "/checkout" exact = {true} component = {({match})=><Checkout loggedInStatus = {loggedInStatus} title = {title} apiRootUrl = {apiRootUrl} clientRootUrl = {clientRootUrl} loggedInStatus = {loggedInStatus} match = {match} token = {token} errorMessage = {errorMessage} paystackPublicTestKey = {paystackPublicTestKey} paystackPublicLiveKey = {paystackPublicLiveKey} />} />
 
             <Route path = "/orders" exact = {true} component = {({match})=><Orders loggedInStatus = {loggedInStatus} title = {title} apiRootUrl = {apiRootUrl} clientRootUrl = {clientRootUrl} loggedInStatus = {loggedInStatus} match = {match} />} />
 
@@ -124,6 +129,8 @@ function App() {
             <Route path = "/verify/:email/:token" exact = {true} component = {({match})=><Verify title = {title} clientRootUrl = {clientRootUrl} apiRootUrl = {apiRootUrl} match = {match} loggedInStatus = {loggedInStatus} />} />
 
             <Route path = "/logout" exact = {true} component = {(v)=><Logout title = {title} clientRootUrl = {clientRootUrl} apiRootUrl = {apiRootUrl} loggedInStatus = {loggedInStatus} v = {v} />} />
+
+            <Route path = "/test" exact = {true} component = {Test} />
 
             {/* <Route render = {()=><ErrorPage error = {404} />} /> */}
             

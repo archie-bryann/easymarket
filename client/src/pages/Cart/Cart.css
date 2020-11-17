@@ -41,6 +41,10 @@ td img {
     margin-right: 10px;
 }
 
+.top-ledge {
+    border-top: 3px solid #7fad39;
+}
+
 .total-price {
     display: flex;
     justify-content: flex-end;
@@ -90,8 +94,20 @@ th:last-child {
     justify-content: flex-end;
 }
 
+
 .order-div .btn {
     width: 350px;
+    border:none;
+    text-align: center;
+}
+
+.place-order-div {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.place-order-div .btn {
+    width: 100%;
     border:none;
     text-align: center;
 }

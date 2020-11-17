@@ -1,9 +1,9 @@
 import React from 'react'
 
-function CartPricing({subTotals,delivery,total,children}) {
+function CartPricing({subTotals,delivery,total,children,less}) {
     return (
         <React.Fragment>
-            <div className = "total-price">
+            <div className = { less ? 'top-ledge' : 'total-price' }>
                 <table>
                     <tr>
                         <td><b>Subtotal</b></td> 
@@ -19,7 +19,7 @@ function CartPricing({subTotals,delivery,total,children}) {
                     </tr>
                 </table>
             </div>
-            <div className = "order-div">
+            <div className = {less ? 'place-order-div' : 'order-div'}>
                 {children}
             </div>
 

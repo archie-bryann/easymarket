@@ -1,8 +1,0 @@
-AFTER BACKEND:
-- design 404 & redesign no results page
-- preloader for fetching {{ install necessary libraries }}
-- orders component & their status
-- redirect user pages
-*do notifications in front-end where needed(react-toastify)
-- email: support@foodnet.ng
-- 

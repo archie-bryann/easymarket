@@ -20,10 +20,12 @@ create table userSchema (
     */
     address varchar(256), -- for later
 
-    flat varchar(256),
-    block varchar(256),
-    street varchar(256),
-    zone varchar(256),
+    additional_info varchar(256),
+
+    -- flat varchar(256),
+    -- block varchar(256),
+    -- street varchar(256),
+    -- zone varchar(256),
 
     state_region varchar(256), -- state/region : Abuja_Kaura_District
     city varchar(256), -- Federal Capital Territory

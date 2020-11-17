@@ -12,7 +12,7 @@ import CartProduct from '../../components/CartProduct/CartProduct';
 
 toast.configure();
 
-function Checkout({title, clientRootUrl, apiRootUrl, loggedInStatus, token, errorMessage}) {
+function Checkout({title, clientRootUrl, apiRootUrl, loggedInStatus, token, errorMessage, paystackPublicTestKey, paystackPublicLiveKey}) {
 
     document.title = `Checkout - ${title}`;
 
@@ -24,36 +24,38 @@ function Checkout({title, clientRootUrl, apiRootUrl, loggedInStatus, token, erro
     const [total, setTotal] = useState(0);
     const [all,setAll] = useState(false);
 
+    /** FormStates */
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
+    const [mobilePhoneNumber, setMobilePhoneNumber] = useState('');
+    const [additionalPhoneNumber, setAdditionalPhoneNumber] = useState('');
+    const [address, setAddress] = useState('');
+    const [additionalInfo, setAdditionalInfo] = useState('');
+    const [stateRegion, setStateRegion] = useState('Federal Capital Territory');
+    const [city, setCity] = useState(''); 
+    /** ./end of FormStates */
 
-       /** PAYSTACK FUNCTIONALITIES */
+    /** PAYSTACK FUNCTIONALITIES */
     const config = {
     reference:''+Math.floor((Math.random() * 1000000000) + 1),
-    email: "user@example.com",
-    amount: 20000,
-    publicKey: 'pk_test_71fcbd166959c23469deda0eed300f1282274ab8',
-    };
-
-    const PaystackHookExample = () => {
-        const initializePayment = usePaystackPayment(config);
-        return (
-            <OrderDetails subTotals = {subTotals} delivery = {delivery} total = {total} >
-                <button onClick={() => {
-                    initializePayment()
-                }} className = "btn">Place Order</button>
-            </OrderDetails>
-        );
+    email: localStorage.getItem('email'),
+    amount: Math.round(total) * 100, /** amount * 100 */
+    publicKey: paystackPublicTestKey,
     };
 
     const componentProps = {
         ...config,
-        text: 'Paystack Button Implementation',
-        onSuccess: () => null,
-        onClose: () => null
+        text: 'Place Order',
+        onSuccess: () => {
+            /** create order and it's items */
+
+        },
+        onClose: () => {
+            /**  */
+        }
     };
 
     /** ./ END OF PAYSTACK FUNCTIONALITIES */
-
-
     
     useEffect(() => {
         // setIsLoading(true);
@@ -208,11 +210,35 @@ function Checkout({title, clientRootUrl, apiRootUrl, loggedInStatus, token, erro
         setCartProducts(newCartProducts);
     }
     
-    function placeOrder() {
-
+    /** FUNCTIONS FOR FORMS */
+    function changeFirstName(e) {
+        setFirstName(e.target.value);
     }
 
+    function changeLastName(e) {
+        setLastName(e.target.value);
+    }
 
+    function changeMobilePhoneNumber(e) {
+        setMobilePhoneNumber(e.target.value);
+    }
+
+    function changeAdditionalPhoneNumber(e) {
+        setAdditionalPhoneNumber(e.target.value);
+    }
+
+    function changeAddress(e) {
+        setAddress(e.target.value);
+    }
+
+    function changeAdditionalInfo(e) {
+        setAdditionalInfo(e.target.value);
+    }
+
+    function changeCity(e) {
+        setCity(e.target.value);
+    }
+    /** ../end of FUNCTIONS FOR FORMS */
 
     return (
         <React.Fragment>
@@ -239,94 +265,93 @@ function Checkout({title, clientRootUrl, apiRootUrl, loggedInStatus, token, erro
                         <form>
                             <br />
                             <span className = "label">First Name*</span>
-                            <input type = "text" placeholder = "Firstname"/>
+                            <input type = "text" placeholder = "First Name" value = {firstName} onChange = {changeFirstName} />
                             <div style = {{height:'10px'}}></div>
                             <span className = "label">Last Name*</span>
-                            <input type = "text" placeholder = "Lastname" />
+                            <input type = "text" placeholder = "Last Name" value = {lastName} onChange = {changeLastName} />
                             <br />
                             <div style = {{height:'10px'}}></div>
                             <span className = "label">Mobile Phone Number*</span>
-                            <input type = "text" placeholder = "Mobile phone number" />
+                            <input type = "text" placeholder = "Mobile phone number" value = {mobilePhoneNumber} onChange = {changeMobilePhoneNumber} />
                             <br />
                             <div style = {{height:'10px'}}></div>
                             <span className = "label">Additional Phone Number*</span>
-                            <input type = "text" placeholder = "Additional phone number" />
+                            <input type = "text" placeholder = "Additional phone number" value = {additionalPhoneNumber} onChange = {changeAdditionalPhoneNumber} />
                             <br />
                             <div style = {{height:'10px'}}></div>
 
-                            
                             <span className = "label">Address*</span>
-                            <textarea placeholder = "Street Name / Building / Apartment No. / Floor"></textarea>
+                            <textarea placeholder = "Street Name / Building / Apartment No. / Floor" value = {address} onChange = {changeAddress}></textarea>
 
                             <span className = "label">Additional Info</span>
-                            <textarea placeholder = "Landmark / Directions / More Details"></textarea>
+                            <textarea name = "addition" placeholder = "Landmark / Directions / More Details" value = {additionalInfo} onChange = {changeAdditionalInfo}></textarea>
 
 
                             <span className = "label">State/Region*</span>
-                            <input type = "text" placeholder = "Address" value = "Federal Capital Territory" disabled/>
+                            <input type = "text" placeholder = "Address" value = {stateRegion} disabled/>
                             
                             <br />
                             <div style = {{height:'10px'}}></div>
                             <span className = "label">City*</span>
-                            <select name="city">
+                            <select name="city" className = "city" style = {{border:'1px solid #ccc'}} value = {city} onChange = {changeCity}>
                                 <option value="">Please select...</option>
                                 <option value="ABAJI">ABAJI</option>
-                                <option value="ABUJA AIRPORT ROAD- ABUJA TECHNOLOGY VILLAGE">ABUJA AIRPORT ROAD- ABUJA TECHNOLOGY VILLAGE</option>
-                                <option value="ABUJA AIRPORT ROAD- CHIKA">ABUJA AIRPORT ROAD- CHIKA</option>
-                                <option value="ABUJA AIRPORT ROAD- GOSA / SABON LUGBE">ABUJA AIRPORT ROAD- GOSA / SABON LUGBE</option>
-                                <option value="ABUJA AIRPORT ROAD- KUCHINGORO">ABUJA AIRPORT ROAD- KUCHINGORO</option>
-                                <option value="ABUJA AIRPORT ROAD- KYAMI / CENTENARY CITY">ABUJA AIRPORT ROAD- KYAMI / CENTENARY CITY</option>
-                                <option value="ABUJA AIRPORT ROAD- NNAMDI AZIKE AIRPORT">ABUJA AIRPORT ROAD- NNAMDI AZIKE AIRPORT</option>
-                                <option value="ABUJA AIRPORT ROAD- PIWOYI">ABUJA AIRPORT ROAD- PIWOYI</option>
-                                <option value="ABUJA AIRPORT ROAD- PYAKASA">ABUJA AIRPORT ROAD- PYAKASA</option>
-                                <option value="ABUJA AIRPORT ROAD- RIVERPARK /TRADEMORE">ABUJA AIRPORT ROAD- RIVERPARK /TRADEMORE</option>
-                                <option value="ABUJA AIRPORT ROAD- SAUKA/IMMIGRATION HQ">ABUJA AIRPORT ROAD- SAUKA/IMMIGRATION HQ</option>
-                                <option value="ABUJA- APO CENTRAL">ABUJA- APO CENTRAL</option>
-                                <option value="ABUJA- APO LEGISLATIVE ZONE A">ABUJA- APO LEGISLATIVE ZONE A</option>
-                                <option value="ABUJA- APO LEGISLATIVE ZONE B">ABUJA- APO LEGISLATIVE ZONE B</option>
-                                <option value="ABUJA- APO LEGISLATIVE ZONE C">ABUJA- APO LEGISLATIVE ZONE C</option>
-                                <option value="ABUJA- APO LEGISLATIVE ZONE D">ABUJA- APO LEGISLATIVE ZONE D</option>
-                                <option value="ABUJA- APO LEGISLATIVE ZONE E">ABUJA- APO LEGISLATIVE ZONE E</option>
-                                <option value="ABUJA- APO MECHANIC VILLAGE">ABUJA- APO MECHANIC VILLAGE</option>
-                                <option value="ABUJA- APO RESETTLEMENT ZONE A">ABUJA- APO RESETTLEMENT ZONE A</option>
-                                <option value="ABUJA- APO RESETTLEMENT ZONE B">ABUJA- APO RESETTLEMENT ZONE B</option>
-                                <option value="ABUJA- APO RESETTLEMENT ZONE C">ABUJA- APO RESETTLEMENT ZONE C</option>
-                                <option value="ABUJA- APO RESETTLEMENT ZONE D">ABUJA- APO RESETTLEMENT ZONE D</option>
-                                <option value="ABUJA- APO RESETTLEMENT ZONE E">ABUJA- APO RESETTLEMENT ZONE E</option>
-                                <option value="ABUJA- DURUMI">ABUJA- DURUMI</option>
-                                <option value="ABUJA- DURUMI PHASE 2">ABUJA- DURUMI PHASE 2</option>
-                                <option value="ABUJA- GARKI AREA 1">ABUJA- GARKI AREA 1</option>
-                                <option value="ABUJA- GARKI AREA 10">ABUJA- GARKI AREA 10</option>
-                                <option value="ABUJA- GARKI AREA 11">ABUJA- GARKI AREA 11</option>
-                                <option value="ABUJA- GARKI AREA 2">ABUJA- GARKI AREA 2</option>
-                                <option value="ABUJA- GARKI AREA 3">ABUJA- GARKI AREA 3</option>
-                                <option value="ABUJA- GARKI AREA 7">ABUJA- GARKI AREA 7</option>
-                                <option value="ABUJA- GARKI AREA 8">ABUJA- GARKI AREA 8</option>
-                                <option value="ABUJA- GWARINPA 1ST AVENUE">ABUJA- GWARINPA 1ST AVENUE</option>
-                                <option value="ABUJA- GWARINPA 2ND AVENUE">ABUJA- GWARINPA 2ND AVENUE</option>
-                                <option value="ABUJA- GWARINPA 3RD AVENUE">ABUJA- GWARINPA 3RD AVENUE</option>
-                                <option value="ABUJA- GWARINPA 4TH AVENUE">ABUJA- GWARINPA 4TH AVENUE</option>
-                                <option value="ABUJA- GWARINPA 5TH AVENUE">ABUJA- GWARINPA 5TH AVENUE</option>
-                                <option value="ABUJA- GWARINPA 6TH AVENUE">ABUJA- GWARINPA 6TH AVENUE</option>
-                                <option value="ABUJA- GWARINPA 7TH AVENUE">ABUJA- GWARINPA 7TH AVENUE</option>
-                                <option value="ABUJA- GWARINPA EXTENSION">ABUJA- GWARINPA EXTENSION</option>
-                                <option value="ABUJA- KATAMPE EXTENSION">ABUJA- KATAMPE EXTENSION</option>
-                                <option value="ABUJA- KATAMPE MAIN">ABUJA- KATAMPE MAIN</option>
-                                <option value="ABUJA- KUBWA 2/1 PHASE 1">ABUJA- KUBWA 2/1 PHASE 1</option>
-                                <option value="ABUJA- KUBWA 2/2 PHASE 2">ABUJA- KUBWA 2/2 PHASE 2</option>
-                                <option value="ABUJA- KUBWA ARAB ROAD">ABUJA- KUBWA ARAB ROAD</option>
-                                <option value="ABUJA- KUBWA BYAZHIN">ABUJA- KUBWA BYAZHIN</option>
-                                <option value="ABUJA- KUBWA EXTENSION 3">ABUJA- KUBWA EXTENSION 3</option>
-                                <option value="ABUJA- KUBWA GBAZANGO">ABUJA- KUBWA GBAZANGO</option>
-                                <option value="ABUJA- KUBWA PHASE 3">ABUJA- KUBWA PHASE 3</option>
-                                <option value="ABUJA- KUBWA PW">ABUJA- KUBWA PW</option>
-                                <option value="ABUJA- KUBWA- FCDA/FHA">ABUJA- KUBWA- FCDA/FHA</option>
-                                <option value="ABUJA- LIFE CAMP EXTENSION">ABUJA- LIFE CAMP EXTENSION</option>
-                                <option value="ABUJA- MABUSHI">ABUJA- MABUSHI</option>
-                                <option value="ABUJA- MAITAMA ALEIRO">ABUJA- MAITAMA ALEIRO</option>
-                                <option value="ABUJA- MAITAMA ASO DRIVE">ABUJA- MAITAMA ASO DRIVE</option>
-                                <option value="ABUJA- MAITAMA CENTRAL">ABUJA- MAITAMA CENTRAL</option>
-                                <option value="ABUJA- MAITAMA EXTENSION">ABUJA- MAITAMA EXTENSION</option>
+                                <option value="ABUJA AIRPORT ROAD-ABUJA TECHNOLOGY VILLAGE">ABUJA AIRPORT ROAD-ABUJA TECHNOLOGY VILLAGE</option>
+                                <option value="ABUJA AIRPORT ROAD-CHIKA">ABUJA AIRPORT ROAD-CHIKA</option>
+                                <option value="ABUJA AIRPORT ROAD-GOSA / SABON LUGBE">ABUJA AIRPORT ROAD-GOSA / SABON LUGBE</option>
+                                <option value="ABUJA AIRPORT ROAD-KUCHINGORO">ABUJA AIRPORT ROAD-KUCHINGORO</option>
+                                <option value="ABUJA AIRPORT ROAD-KYAMI / CENTENARY CITY">ABUJA AIRPORT ROAD-KYAMI / CENTENARY CITY</option>
+                                <option value="ABUJA AIRPORT ROAD-NNAMDI AZIKE AIRPORT">ABUJA AIRPORT ROAD-NNAMDI AZIKE AIRPORT</option>
+                                <option value="ABUJA AIRPORT ROAD-PIWOYI">ABUJA AIRPORT ROAD-PIWOYI</option>
+                                <option value="ABUJA AIRPORT ROAD-PYAKASA">ABUJA AIRPORT ROAD-PYAKASA</option>
+                                <option value="ABUJA AIRPORT ROAD-RIVERPARK /TRADEMORE">ABUJA AIRPORT ROAD-RIVERPARK /TRADEMORE</option>
+                                <option value="ABUJA AIRPORT ROAD-SAUKA/IMMIGRATION HQ">ABUJA AIRPORT ROAD-SAUKA/IMMIGRATION HQ</option>
+                                <option value="ABUJA-APO CENTRAL">ABUJA-APO CENTRAL</option>
+                                <option value="ABUJA-APO LEGISLATIVE ZONE A">ABUJA-APO LEGISLATIVE ZONE A</option>
+                                <option value="ABUJA-APO LEGISLATIVE ZONE B">ABUJA-APO LEGISLATIVE ZONE B</option>
+                                <option value="ABUJA-APO LEGISLATIVE ZONE C">ABUJA-APO LEGISLATIVE ZONE C</option>
+                                <option value="ABUJA-APO LEGISLATIVE ZONE D">ABUJA-APO LEGISLATIVE ZONE D</option>
+                                <option value="ABUJA-APO LEGISLATIVE ZONE E">ABUJA-APO LEGISLATIVE ZONE E</option>
+                                <option value="ABUJA-APO MECHANIC VILLAGE">ABUJA-APO MECHANIC VILLAGE</option>
+                                <option value="ABUJA-APO RESETTLEMENT ZONE A">ABUJA-APO RESETTLEMENT ZONE A</option>
+                                <option value="ABUJA-APO RESETTLEMENT ZONE B">ABUJA-APO RESETTLEMENT ZONE B</option>
+                                <option value="ABUJA-APO RESETTLEMENT ZONE C">ABUJA-APO RESETTLEMENT ZONE C</option>
+                                <option value="ABUJA-APO RESETTLEMENT ZONE D">ABUJA-APO RESETTLEMENT ZONE D</option>
+                                <option value="ABUJA-APO RESETTLEMENT ZONE E">ABUJA-APO RESETTLEMENT ZONE E</option>
+                                <option value="ABUJA-DURUMI">ABUJA-DURUMI</option>
+                                <option value="ABUJA-DURUMI PHASE 2">ABUJA-DURUMI PHASE 2</option>
+                                <option value="ABUJA-GARKI AREA 1">ABUJA-GARKI AREA 1</option>
+                                <option value="ABUJA-GARKI AREA 10">ABUJA-GARKI AREA 10</option>
+                                <option value="ABUJA-GARKI AREA 11">ABUJA-GARKI AREA 11</option>
+                                <option value="ABUJA-GARKI AREA 2">ABUJA- GARKI AREA 2</option>
+                                <option value="ABUJA-GARKI AREA 3">ABUJA-GARKI AREA 3</option>
+                                <option value="ABUJA-GARKI AREA 7">ABUJA-GARKI AREA 7</option>
+                                <option value="ABUJA-GARKI AREA 8">ABUJA-GARKI AREA 8</option>
+                                <option value="ABUJA-GWARINPA 1ST AVENUE">ABUJA-GWARINPA 1ST AVENUE</option>
+                                <option value="ABUJA-GWARINPA 2ND AVENUE">ABUJA-GWARINPA 2ND AVENUE</option>
+                                <option value="ABUJA-GWARINPA 3RD AVENUE">ABUJA-GWARINPA 3RD AVENUE</option>
+                                <option value="ABUJA-GWARINPA 4TH AVENUE">ABUJA-GWARINPA 4TH AVENUE</option>
+                                <option value="ABUJA-GWARINPA 5TH AVENUE">ABUJA-GWARINPA 5TH AVENUE</option>
+                                <option value="ABUJA-GWARINPA 6TH AVENUE">ABUJA-GWARINPA 6TH AVENUE</option>
+                                <option value="ABUJA-GWARINPA 7TH AVENUE">ABUJA-GWARINPA 7TH AVENUE</option>
+                                <option value="ABUJA-GWARINPA EXTENSION">ABUJA-GWARINPA EXTENSION</option>
+                                <option value="ABUJA-KATAMPE EXTENSION">ABUJA-KATAMPE EXTENSION</option>
+                                <option value="ABUJA-KATAMPE MAIN">ABUJA-KATAMPE MAIN</option>
+                                <option value="ABUJA-KUBWA 2/1 PHASE 1">ABUJA-KUBWA 2/1 PHASE 1</option>
+                                <option value="ABUJA-KUBWA 2/2 PHASE 2">ABUJA-KUBWA 2/2 PHASE 2</option>
+                                <option value="ABUJA-KUBWA ARAB ROAD">ABUJA-KUBWA ARAB ROAD</option>
+                                <option value="ABUJA-KUBWA BYAZHIN">ABUJA-KUBWA BYAZHIN</option>
+                                <option value="ABUJA-KUBWA EXTENSION 3">ABUJA-KUBWA EXTENSION 3</option>
+                                <option value="ABUJA-KUBWA GBAZANGO">ABUJA-KUBWA GBAZANGO</option>
+                                <option value="ABUJA-KUBWA PHASE 3">ABUJA-KUBWA PHASE 3</option>
+                                <option value="ABUJA-KUBWA PW">ABUJA-KUBWA PW</option>
+                                <option value="ABUJA-KUBWA- FCDA/FHA">ABUJA-KUBWA-FCDA/FHA</option>
+                                <option value="ABUJA-LIFE CAMP EXTENSION">ABUJA-LIFE CAMP EXTENSION</option>
+                                <option value="ABUJA-MABUSHI">ABUJA-MABUSHI</option>
+                                <option value="ABUJA-MAITAMA ALEIRO">ABUJA-MAITAMA ALEIRO</option>
+                                <option value="ABUJA-MAITAMA ASO DRIVE">ABUJA-MAITAMA ASO DRIVE</option>
+                                <option value="ABUJA-MAITAMA CENTRAL">ABUJA-MAITAMA CENTRAL</option>
+                                <option value="ABUJA-MAITAMA EXTENSION">ABUJA-MAITAMA EXTENSION</option>
                                 <option value="ABUJA-ASOKORO">ABUJA-ASOKORO</option>
                                 <option value="ABUJA-BWARI">ABUJA-BWARI</option>
                                 <option value="Abuja-Central">Abuja-Central</option>
@@ -403,12 +428,12 @@ function Checkout({title, clientRootUrl, apiRootUrl, loggedInStatus, token, erro
                     {/* </div> */}
                    
                 </div>
-
-
-                
+  
                 {/* PUT IN A CONTAINER RIGHT */}
                 <div className = "col-25">
-                    <div className = "total-price">
+                        <h3>Your Order ({cartProducts.length} item{(cartProducts.length > 1) ? 's' : ''})</h3>
+                    <div style = {{height:'15px'}}></div>
+                    {/* <div className = "total-price"> */}
                     {
                         (cartProducts.length > 0) && (
                             <table>
@@ -424,12 +449,30 @@ function Checkout({title, clientRootUrl, apiRootUrl, loggedInStatus, token, erro
                             </table>
                         )
                     }
-                    </div>
+                    {/* </div> */}
                     { (allowed) && (
                 // <OrderDetails subTotals = {subTotals} delivery = {delivery} total = {total} >
                 //     <button  className = "btn">Place Order</button>
                 // </OrderDetails>
-                <PaystackHookExample />
+                    <OrderDetails subTotals = {subTotals} delivery = {delivery} total = {total} less = {true} >
+                        <PaystackConsumer {...componentProps}>
+                        {({initializePayment}) => <button className = "btn place-order-btn" onClick={()=>{
+
+                            /** form validation */
+                            if(firstName.trim() === '' || lastName.trim() === '' || mobilePhoneNumber.trim() === '' || additionalPhoneNumber.trim() === '' || address.trim() === '' || city.trim() === '') {
+                                // toast error
+                            } else {
+                                // save the data
+
+                                // initial payment
+                            }
+
+                            initializePayment();
+                            /** ./end of form validation */
+
+                        }}>Place Order</button>}
+                    </PaystackConsumer>
+                </OrderDetails>
             )}
                 </div>
 
@@ -450,19 +493,16 @@ function Checkout({title, clientRootUrl, apiRootUrl, loggedInStatus, token, erro
                     </Fragment>
                 )
             }
-
-
-            
             
             <br />
             <br />
-
-           
-
-
 
             <br />
         </div>
+            {/* <PaystackButton {...componentProps} />
+            <PaystackConsumer {...componentProps}>
+                {({initializePayment}) => <button className = "btn place-order-btn" onClick={() => initializePayment()}>Paystack Consumer Implementation</button>}
+            </PaystackConsumer> */}
         
     </React.Fragment>
     )
@@ -471,8 +511,3 @@ function Checkout({title, clientRootUrl, apiRootUrl, loggedInStatus, token, erro
 export default Checkout
 
 
- {/* <PaystackHookExample />
-            <PaystackButton {...componentProps} />
-            <PaystackConsumer {...componentProps}>
-                {({initializePayment}) => <button onClick={() => initializePayment()}>Paystack Consumer Implementation</button>}
-            </PaystackConsumer> */}

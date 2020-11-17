@@ -158,7 +158,7 @@ function Account({title, clientRootUrl, apiRootUrl, loggedInStatus}) {
                     // show error
                     setLoginErr(data.error);
                 }
-                console.log(data);
+                // console.log(data);
             })
             .catch(err=>{
                 setIsLoading(false);
