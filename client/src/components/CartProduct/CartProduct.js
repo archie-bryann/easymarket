@@ -89,7 +89,7 @@ function CartProduct({cartId,quantity,id,categoryId,name,description,image,price
                         </div>
                     </div>
                 </td>
-                <td><input type = "number" value = {cQuantity} onChange = {updateQuantity} style = {{width:'51px'}} /></td>
+                <td><input className = "q_d" type = "number" value = {cQuantity} onChange = {updateQuantity} style = {{width:'51px'}} /></td>
                 <td>{Number(subTotal).toFixed(2)}</td> {/** to 2 d.p. */}
             </tr>
         </React.Fragment>

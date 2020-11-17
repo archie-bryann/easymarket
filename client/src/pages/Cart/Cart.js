@@ -235,15 +235,15 @@ function Cart({title, clientRootUrl, apiRootUrl, loggedInStatus, token, errorMes
                             <table>
                                 <tr>
                                     <td><b>Subtotal</b></td> 
-                                    <td>₦{subTotals.toFixed(2)}</td> {/** to 2 d.p. of total */}
+                                    <td>₦{subTotals.toLocaleString(undefined, {maximumFractionDigits:2})}</td> {/** to 2 d.p. of total */}
                                 </tr>
                                 <tr>
                                     <td><b>Delivery</b></td> 
-                                    <td>₦{delivery.toFixed(2)}</td> 
+                                    <td>₦{delivery.toLocaleString(undefined, {maximumFractionDigits:2})}</td> 
                                 </tr>
                                 <tr>
                                     <td><b>Total</b></td> 
-                                    <td>₦{total.toFixed(2)}</td> 
+                                    <td>₦{total.toLocaleString(undefined, {maximumFractionDigits:2})}</td> 
                                 </tr>
                             </table>
                         </div>
