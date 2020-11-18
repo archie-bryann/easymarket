@@ -1,8 +1,13 @@
 const pool = require("../../utils/pool");
 const moment = require('moment');
-const https = require('https');
 
 exports.orders_create_order = (req,res,next) => {
+
+    const {userId} = req.userData;
+    const timestamp = moment().unix();
+    const {price} = req.body;
+
+    
 
     // const { products, price } = req.body; // price stands for total price
 
@@ -18,67 +23,40 @@ exports.orders_create_order = (req,res,next) => {
     //       "quantity":20
     //     }
     //   ],
-    //     "price":15000 
+    //     "price":15000
     // }
+
     
-    const {reference} = req.body;
-    const timestamp = moment().unix();
-    const {userId} = req.userData;
+    
+
 
     // MAKE SURE PAYMENTS ARE MADE + MOVE FROM CART TO HERE {{ Place order <HERE> }}
     // - after the person has paid, make a request to node in the callback function, verify the payment and create order
     // use WebTooEasy
 
-    const options = {
-        hostname: 'api.paystack.co',
-        port: 443,
-        path: `/transaction/verify/${reference}`,
-        method: 'GET',
-        headers: {
-            Authorization: 'Bearer SECRET_KEY'
-        }
-    }
 
-    https.request(options, res => {
-        let data = '';
 
-        resp.on('data', (chunk) => {
-            data += chunk;
-        });
-
-        
-        resp.on('end', ()=>{
-            // console.log(JSON.parse(data))
-            // check documentation // only when transaction is successful do we continue
-
-            /** res.data.status: "success"(data-object), res.data.amount */
-            // the transaction status is in response.data.status // front-end & back-end
-
-            // get products & total price from cartSchema & delete all from cartSchema
             let products = [];
-            let price = 0;
             pool.getConnection(function(err,conn){
                 if(err) {
-                    res.status(500).json({error:'An error occured. Please try again!'});
+                    return res.status(500).json({error:'An error occured. Please try again!'});
                 } else {
                     conn.query(`select * from cartSchema where userId = ?`, [userId], function(err,cart_products){
                         if(err) {
-                            res.status(500).json({error:'An error occured. Please try again!'});
+                            return res.status(500).json({error:'An error occured. Please try again!'});
                         } else {
                             cart_products.map((p)=>{
                                 // first get the product price
                                 // delete all from cart
                                 conn.query(`select * from productSchema where id = ?`, [p.productId], function(err,result){
                                     if(err) {
-                                        res.status(500).json({error:'An error occured. Please try again!'});
+                                        return res.status(500).json({error:'An error occured. Please try again!'});
                                     } else {
                                         products.push({
                                             id:p.productId,
                                             price:result[0].price,
                                             quantity: p.quantity
                                         }) 
-                                        // add price
-                                        price += Number(result[0].price);
 
                                     }
                                 });
@@ -87,42 +65,44 @@ exports.orders_create_order = (req,res,next) => {
                             // delete all from cart
                             conn.query(`delete from cartSchema where userId = ?`, [userId], function(err,result){
                                 if(err) {
-                                    res.status(500).json({error:'An error occured. Please try again!'});
+                                    return res.status(500).json({error:'An error occured. Please try again!'});
                                 } else {
                                     pool.getConnection(function(err,conn){
                                         if(err) {
-                                            res.status(500).json({error:'An error occured. Please try again!'});
+                                            return res.status(500).json({error:'An error occured. Please try again!'});
                                         } else {
-                                            conn.query(`insert into orderSchema (userId, price, timestamp) values (?, ?, ?)`, [userId,price,timestamp], function(err,result){
-                                                conn.release();
+                                            conn.query(`insert into orderSchema (userId, price, timestamp) values (?, ?, ?)`, [userId,price,timestamp], function(err,r1){
+                                                // conn.release();
                                                 if(err) {
-                                                    res.status(500).json({error:'An error occured. Please try again!'});
+                                                    return res.status(500).json({error:'An error occured. Please try again!'});
                                                 } else {
+                                                    let checker = true;
+
                                                     // loop through products and store it in the database
-                                                    pool.getConnection(function(err,conn){
                                                         products.map((product)=>{
                                                             if(err) {
-                                                                
-                                                                res.status(500).json({error:'An error occured. Please try again!'});
+                                                                return res.status(500).json({error:'An error occured. Please try again!'});
                                                             } else {
-                                                                conn.query(`insert into orderedProductSchema (productId, price, quantity, orderId) values ('${product.id}', '${product.price}', '${product.quantity}', ${result.insertId})`, function(err,result){
-                                                                    conn.release();
+                                                                conn.query(`insert into orderedProductSchema (productId, price, quantity, orderId) values ('${product.id}', '${product.price}', '${product.quantity}', ${r1.insertId})`, function(err,r2){
+                                                                    // conn.release();
                                                                     if(err) {
-                                                                        res.status(500).json({error:'An error occured. Please try again!'});
+                                                                        checker = false;
+                                                                        return res.status(500).json({error:'An error occured. Please try again!'});
                                                                     } else {
-                                                                        console.log(result)
-                                                                        res.status(200).json({
-                                                                            error:0,
-                                                                            request: {
-                                                                                type:'GET',
-                                                                                url:`${process.env.rootUrl}order/d/${result.insertId}`
-                                                                            }
-                                                                        });
+                                                                        /** ERROR */
                                                                     }
                                                                 });
                                                             }
                                                         }); 
-                                                    });
+                                                        
+                                                    if(checker === true) {
+                                                        return res.status(200).json({
+                                                            error:0,
+                                                            orderId:r1.insertId
+                                                        });
+                                                    } else {
+                                                        return res.status(500).json({error:'An error occured. Please try again!'});
+                                                    }
                                                     
                                                 }   
                                             });
@@ -133,53 +113,7 @@ exports.orders_create_order = (req,res,next) => {
                         }
                     })
                 }
-            })
-
-        });
-    }).on('error', error => {
-        res.status(200).json({error:'Invalid transaction'});
-    })
-
-
-    // pool.getConnection(function(err,conn){
-    //     if(err) {
-    //         res.status(500).json({error:'An error occured. Please try again!'});
-    //     } else {
-    //         conn.query(`insert into orderSchema (userId, price, timestamp) values (?, ?, ?)`, [userId,price,timestamp], function(err,result){
-    //             conn.release();
-    //             if(err) {
-    //                 res.status(500).json({error:'An error occured. Please try again!'});
-    //             } else {
-    //                 // loop through products and store it in the database
-    //                 pool.getConnection(function(err,conn){
-    //                     products.map((product)=>{
-    //                         if(err) {
-                                
-    //                             res.status(500).json({error:'An error occured. Please try again!'});
-    //                         } else {
-    //                             conn.query(`insert into orderedProductSchema (productId, price, quantity, orderId) values ('${product.id}', '${product.price}', '${product.quantity}', ${result.insertId})`, function(err,result){
-    //                                 conn.release();
-    //                                 if(err) {
-    //                                     res.status(500).json({error:'An error occured. Please try again!'});
-    //                                 } else {
-    //                                     console.log(result)
-    //                                     res.status(200).json({
-    //                                         error:0,
-    //                                         request: {
-    //                                             type:'GET',
-    //                                             url:`${process.env.rootUrl}order/d/${result.insertId}`
-    //                                         }
-    //                                     });
-    //                                 }
-    //                             });
-    //                         }
-    //                     }); 
-    //                 });
-                    
-    //             }   
-    //         });
-    //     } 
-    // });    
+            }) 
 }
 
 exports.orders_get_all = (req,res,next) => {

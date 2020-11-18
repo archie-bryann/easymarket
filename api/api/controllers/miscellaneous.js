@@ -7,6 +7,7 @@ const paystack = new PayStack(paystackTestSecretKey, environment);
 const logisticName = "Runsmith Logistics";
 const logisticAccNumber = "0000000000";
 const logisticBankCode = "011";
+const logisticReason = "Logistic Services";
 const logisticFees = 900; /** talk to them, more trips (to anywhere in Ibadan) -> heavily discounted price -> may depend  */
 
 
@@ -76,21 +77,47 @@ exports.verify_transaction = (req,res,next) => {
                     /** Make Transfer with Recipient(3) */
                     // store recipient_code
                     const recipient_code = body.data.recipient_code;
+                    console.log(recipient_code)
+                    
+                    /** JUST FOR DEVELOPMENT MODE ( REMOVE IN PRODUCTION MODE ) */
+                    return res.status(200).json({error:0});
 
+                    /** FOR PRODUCTION MODE BELOW */
                     // initiate transfer
+                    const promise3 = paystack.initiateTransfer({
+                        source:"balance",
+                        reason: logisticReason,
+                        amount: 900 * 100,
+                        recipient: recipient_code,
+                        reference: Math.floor((Math.random() * 1000000000) + 1)
+                    })
+                    promise3.then(function({body}){
+                        if(body.data.status === "success") {
+                            // will only work with real transactions
+                            res.status(200).json({error:0})
+                        } else {
+                            /** Handle Error */
+                            return res.status(500).json({error:'An error occured. Please try again!'})
+                        }
+                    }).catch(function(err){
+                        /** Handle Error */
+                        return res.status(500).json({error:'An error occured. Please try again!'})
+                    });
+                    /** FOR PRODUCTION MODE ABOVE */
 
                 } else {
                     /** Handle Error */
+                    return res.status(500).json({error:'An error occured. Please try again!'})
                 }
-            }).catch(function(err){
-                /** Handle Error */
             })
-
         } else {
             /** Handle Error */
-                
+            // console.log(2)  
+            return res.status(500).json({error:'An error occured. Please try again!'})
         }
     }).catch(function(err){
         /** Handle Error */
+        return res.status(500).json({error:'An error occured. Please try again!'})
     })
+    // put return in all response
 }

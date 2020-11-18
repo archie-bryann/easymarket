@@ -25,6 +25,8 @@ function Checkout({title, clientRootUrl, apiRootUrl, loggedInStatus, token, erro
     const [delivery, setDelivery] = useState(0); // use request to get details
     const [total, setTotal] = useState(0);
     const [all,setAll] = useState(false);
+    const [orderId, setOrderId] = useState(null);
+    const [redr,setRedr] = useState(false);
 
     /** FormStates */
     const [firstName, setFirstName] = useState('');
@@ -85,11 +87,39 @@ function Checkout({title, clientRootUrl, apiRootUrl, loggedInStatus, token, erro
                 }
             })
             .then(({data})=>{
-                console.log(data) /** Verify Transaction (1) */ /** Transfer money to Logistics (2) */
+              /** Verify Transaction (1) */ /** Transfer money to Logistics (2) */
                 if(data.error == 0) {
                     /** finally placeOrder (3) *//** remove loader (4) *//** redirect to the order (5) */
-
+                    axios.post(`${apiRootUrl}order`, {
+                        price:total
+                    },{
+                        headers: {
+                            Authorization: `Bearer ${token}`
+                        }
+                    })
+                    .then(({data})=>{
+                        setIsLoading(false);
+                        if(data.error === 0) {
+                            setOrderId(data.orderId)
+                            setRedr(true);
+                        } else {
+                            console.log(4)
+                            toast.error(errorMessage, {
+                                position: toast.POSITION.BOTTOM_RIGHT,
+                                autoClose:false
+                            })
+                        }
+                    })
+                    .catch(err=>{
+                        console.log(3)
+                        setIsLoading(false);
+                        toast.error(errorMessage, {
+                            position: toast.POSITION.BOTTOM_RIGHT,
+                            autoClose:false
+                        })
+                    })
                 } else {
+                    console.log(2)
                     setIsLoading(false);
                     toast.error(errorMessage, {
                         position: toast.POSITION.BOTTOM_RIGHT,
@@ -300,6 +330,11 @@ function Checkout({title, clientRootUrl, apiRootUrl, loggedInStatus, token, erro
 
     return (
         <React.Fragment>
+        {
+            redr && (
+                <Redirect to = {`/order/${orderId}`} />
+            )
+        }
         {
             isLoading && <Loader />
         }
