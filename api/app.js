@@ -12,7 +12,7 @@ const orderRoutes = require('./api/routes/order');
 const marketRoutes = require('./api/routes/market');
 const searchRoutes = require('./api/routes/search');
 const cartRoutes = require('./api/routes/cart');
-const feeRoutes = require('./api/routes/fee');
+const MiscellaneousRoutes = require('./api/routes/miscellaneous');
 
 app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({extended:false}));
@@ -39,7 +39,8 @@ app.use('/order', orderRoutes);
 app.use('/market', marketRoutes);
 app.use('/search', searchRoutes);
 app.use('/cart', cartRoutes);
-app.use('/fee', feeRoutes);
+app.use('/miscellaneous', MiscellaneousRoutes);
+
 
 // sample code to create static filepath
 // app.use('/uploads', express.static('img'));
@@ -55,7 +56,7 @@ app.use((req,res,next) => {
 
 app.use((error,req,res,next) => {
     res.status(error.status || 500);
-    return res.json({
+    res.json({
         error: {
             message:error.message 
         }

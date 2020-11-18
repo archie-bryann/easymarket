@@ -40,7 +40,7 @@ function Cart({title, clientRootUrl, apiRootUrl, loggedInStatus, token, errorMes
 
     useEffect(() => {
         // setIsLoading(true);
-        axios.post(`${apiRootUrl}fee`, 
+        axios.post(`${apiRootUrl}miscellaneous/fee`, 
         {
             subtotal: subTotals
         },

@@ -472,7 +472,7 @@ exports.users_update_user = (req,res,next) => {
     const tokenUserId = req.userData.userId;
     const tokenEmail = req.userData.email;
 
-    const { firstname, middlename, lastname, mobile_phone_number, additional_mobile_number, address ,flat, block, street, zone} = req.body;
+    const { firstname, lastname, mobile_phone_number, additional_mobile_number, address,additional_info, state_region, city } = req.body;
     
     /*
         // the person can change this in the order - will not be saved { ONLY FOR THE ORDER }
@@ -497,17 +497,15 @@ exports.users_update_user = (req,res,next) => {
             } else {
                 conn.query(`update userSchema set 
                     firstname = ?,
-                    middlename = ?,
                     lastname = ?,
                     mobile_phone_number = ?,
                     additional_mobile_number = ?,
                     address = ?,
-                    flat = ?,
-                    block = ?,
-                    street = ?,
-                    zone = ?
+                    additional_info = ?,
+                    state_region = ?,
+                    city = ?
                     where id = ?
-                    `, [firstname,middlename,lastname,mobile_phone_number,additional_mobile_number,address,flat,block,street,zone,userId], function(err,result){
+                    `, [firstname, lastname, mobile_phone_number, additional_mobile_number, address,additional_info, state_region, city,userId], function(err,result){
                     conn.release();
                     if(err) {
                         res.status(500).json({error:'An error occured. Please try again!'});
@@ -521,7 +519,7 @@ exports.users_update_user = (req,res,next) => {
                                     if(err) {
                                         res.status(500).json({error:'An error occured. Please try again!'});
                                     } else {
-                                        res.status(200).json(user[0]);
+                                        res.status(200).json({error:0});
                                     }
                                 })
                             }

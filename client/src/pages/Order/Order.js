@@ -9,9 +9,9 @@ function Order({title, apiRootUrl, clientRootUrl, loggedInStatus}) {
     return (
         <Fragment>
             {
-                (!loggedInStatus) && (
-                    <Redirect to = "/account" />
-                )
+                // (!loggedInStatus) && (
+                //     <Redirect to = "/account" />
+                // )
             }
             <Header title = {title} clientRootUrl = {clientRootUrl} loggedInStatus = {loggedInStatus} />
             <br />
@@ -41,7 +41,8 @@ function Order({title, apiRootUrl, clientRootUrl, loggedInStatus}) {
                                 </div>
                             </div>
                         </td>
-                        <td><input type = "number" value = "1" /></td>
+                        {/* <td><input type = "number" value = "1" /></td> */}
+                        <td>1</td>
                         <td>$50.00</td>
                     </tr>
                     {/* end of table */}
@@ -63,9 +64,9 @@ function Order({title, apiRootUrl, clientRootUrl, loggedInStatus}) {
                     </table>
                 </div>
                 {/* show only if the order is cancelled */}
-                <div className = "order-div">
+                {/* <div className = "order-div">
                 <button className = "btn">Re-order</button>
-                </div>
+                </div> */}
                 {/* for pending orders only */}
                 {/* <div className = "order-div">
                 <button className = "btn">Cancel</button>

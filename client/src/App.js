@@ -60,6 +60,7 @@ function App() {
           setLoggedInStatus(true);
           // save the email in localStorage
           localStorage.setItem('email', res.data.email);
+          localStorage.setItem('userId', res.data.userId);
         } else {
           setLoggedInStatus(false);
         }

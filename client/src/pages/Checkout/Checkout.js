@@ -16,6 +16,8 @@ function Checkout({title, clientRootUrl, apiRootUrl, loggedInStatus, token, erro
 
     document.title = `Checkout - ${title}`;
 
+    const userId = localStorage.getItem('userId');
+
     const [isLoading, setIsLoading] = useState(true);
     const [cartProducts, setCartProducts] = useState([]);
     const [allowed, setAllowed] = useState(false);
@@ -35,6 +37,32 @@ function Checkout({title, clientRootUrl, apiRootUrl, loggedInStatus, token, erro
     const [city, setCity] = useState(''); 
     /** ./end of FormStates */
 
+
+    /** fetch UserData  */
+    useEffect(()=>{
+        setIsLoading(true);
+        axios.get(`${apiRootUrl}user/v/${userId}`,{
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
+        .then(({data})=>{
+            setIsLoading(false);
+            setFirstName(data.firstname);
+            setLastName(data.lastname);
+            setMobilePhoneNumber(data.mobile_phone_number);
+            setAdditionalPhoneNumber(data.additional_mobile_number);
+            setAddress(data.address);
+            setAdditionalInfo(data.additional_info);
+            setStateRegion(data.state_region);
+            setCity(data.city);
+        })
+        .catch(err=>{
+            setIsLoading(false);
+        })
+    }, [apiRootUrl])
+    /**  */
+
     /** PAYSTACK FUNCTIONALITIES */
     const config = {
     reference:''+Math.floor((Math.random() * 1000000000) + 1),
@@ -46,9 +74,37 @@ function Checkout({title, clientRootUrl, apiRootUrl, loggedInStatus, token, erro
     const componentProps = {
         ...config,
         text: 'Place Order',
-        onSuccess: () => {
+        onSuccess: (res) => {
             /** create order and it's items */
+            // console.log(res) /** status,reference */
+            // verify the transaction in backend
+            setIsLoading(true);
+            axios.get(`${apiRootUrl}miscellaneous/verify/transaction/${res.reference}`,{
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
+            .then(({data})=>{
+                console.log(data) /** Verify Transaction (1) */ /** Transfer money to Logistics (2) */
+                if(data.error == 0) {
+                    /** finally placeOrder (3) *//** remove loader (4) *//** redirect to the order (5) */
 
+                } else {
+                    setIsLoading(false);
+                    toast.error(errorMessage, {
+                        position: toast.POSITION.BOTTOM_RIGHT,
+                        autoClose:false
+                    })
+                }
+            })
+            .catch(err=>{
+                console.log(1)
+                setIsLoading(false);
+                toast.error(errorMessage, {
+                    position: toast.POSITION.BOTTOM_RIGHT,
+                    autoClose:false
+                })
+            })
         },
         onClose: () => {
             /**  */
@@ -58,25 +114,25 @@ function Checkout({title, clientRootUrl, apiRootUrl, loggedInStatus, token, erro
     /** ./ END OF PAYSTACK FUNCTIONALITIES */
     
     useEffect(() => {
-        // setIsLoading(true);
-        axios.post(`${apiRootUrl}fee`, 
+        setIsLoading(true);
+        axios.post(`${apiRootUrl}miscellaneous/fee`, 
         {
             subtotal: subTotals
         },
         {
-        headers: {
-            Authorization: `Bearer ${token}`
-        }
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
         })
         .then(({data})=>{
-            // setIsLoading(false);
+            setIsLoading(false);
             setDelivery(data.cost);
         })
         .catch(err=>{
-            // setIsLoading(false);
+            setIsLoading(false);
             // console.log(err)
             toast.error(errorMessage, {
-                position: toast.POSITION.TOP_RIGHT
+                position: toast.POSITION.BOTTOM_RIGHT
             })
         })
 
@@ -85,6 +141,7 @@ function Checkout({title, clientRootUrl, apiRootUrl, loggedInStatus, token, erro
     useEffect(() => {
         setTotal(subTotals + delivery);
     }, [delivery])
+
 
     useEffect(()=>{
         axios.get(`${apiRootUrl}cart/`, {
@@ -104,6 +161,7 @@ function Checkout({title, clientRootUrl, apiRootUrl, loggedInStatus, token, erro
                     // cart: id, productId // product details
                     axios.get(`${apiRootUrl}product/${productId}`)
                     .then(({data})=>{
+                        
                         setIsLoading(false);
                         setAllowed(true); // show details            
                         let product = data;
@@ -420,6 +478,9 @@ function Checkout({title, clientRootUrl, apiRootUrl, loggedInStatus, token, erro
                                 <option value="Tungan Maje">Tungan Maje</option>
                                 <option value="Zuba">Zuba</option>
                             </select>
+
+                            <br />
+                            <span className="note">*Required</span>
                             {/** 
                              * state/region refers to Abuja
                              * 
@@ -449,7 +510,6 @@ function Checkout({title, clientRootUrl, apiRootUrl, loggedInStatus, token, erro
                             </table>
                         )
                     }
-                    {/* </div> */}
                     { (allowed) && (
                 // <OrderDetails subTotals = {subTotals} delivery = {delivery} total = {total} >
                 //     <button  className = "btn">Place Order</button>
@@ -461,13 +521,49 @@ function Checkout({title, clientRootUrl, apiRootUrl, loggedInStatus, token, erro
                             /** form validation */
                             if(firstName.trim() === '' || lastName.trim() === '' || mobilePhoneNumber.trim() === '' || additionalPhoneNumber.trim() === '' || address.trim() === '' || city.trim() === '') {
                                 // toast error
+                                toast.error('All fields labelled with * are required',{
+                                    position:toast.POSITION.BOTTOM_RIGHT,
+                                    autoClose:false
+                                })
                             } else {
+                                setIsLoading(true);
                                 // save the data
-
-                                // initial payment
+                                axios.patch(`${apiRootUrl}user/v/${userId}`, {
+                                    firstname:firstName,
+                                    lastname:lastName,
+                                    mobile_phone_number:mobilePhoneNumber,
+                                    additional_mobile_number: additionalPhoneNumber,
+                                    address,
+                                    additional_info:additionalInfo,
+                                    state_region:stateRegion,
+                                    city
+                                },
+                                {
+                                    headers: {
+                                        Authorization: `Bearer ${token}`
+                                    }
+                                })
+                                .then(({data})=>{
+                                    setIsLoading(false);
+                                    if(data.error === 0) {
+                                        /** initialize payment */
+                                        initializePayment();
+                                    } else {
+                                        toast.error(errorMessage,{
+                                            position:toast.POSITION.BOTTOM_RIGHT,
+                                            autoClose:false
+                                        })
+                                    }
+                                })
+                                .catch(err=>{
+                                    console.log(err)
+                                    setIsLoading(false);
+                                    toast.error(errorMessage,{
+                                        position:toast.POSITION.BOTTOM_RIGHT,
+                                        autoClose:false
+                                    })
+                                })
                             }
-
-                            initializePayment();
                             /** ./end of form validation */
 
                         }}>Place Order</button>}
