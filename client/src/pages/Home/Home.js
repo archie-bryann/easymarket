@@ -10,7 +10,7 @@ import Testimonials from '../../components/Testimonials/Testimonial'
 import Brands from '../../components/Brands/Brands'
 import Loader from '../../components/Loader/Loader'
 
-function Home({title,apiRootUrl, clientRootUrl, loggedInStatus, match}) {
+function Home({title,apiRootUrl, clientRootUrl, loggedInStatus, match, cartNum,token}) {
 
 
     const linkRef = useRef(null);
@@ -47,7 +47,7 @@ function Home({title,apiRootUrl, clientRootUrl, loggedInStatus, match}) {
                     <Loader />
                 )
             }
-            <Header title={title} clientRootUrl = {clientRootUrl} loggedInStatus = {loggedInStatus} match = {match} >
+            <Header title={title} clientRootUrl = {clientRootUrl} loggedInStatus = {loggedInStatus} match = {match} cartNum = {cartNum} token = {token} >
                 <div className = "row"> 
                     <div className = "col-2">
                         <h1>Give Your Workout <br/>A New Style!</h1>

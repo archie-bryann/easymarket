@@ -12,7 +12,7 @@ import OrderDetails from '../../components/CartPricing/CartPricing';
 
 toast.configure();
 
-function Cart({title, clientRootUrl, apiRootUrl, loggedInStatus, token, errorMessage}) {
+function Cart({title, clientRootUrl, apiRootUrl, loggedInStatus, token, errorMessage, cartNum,decreaseCartNum, requireAuth}) {
 
     document.title = `Cart - ${title}`;
 
@@ -57,7 +57,7 @@ function Cart({title, clientRootUrl, apiRootUrl, loggedInStatus, token, errorMes
             // setIsLoading(false);
             // console.log(err)
             toast.error(errorMessage, {
-                position: toast.POSITION.TOP_RIGHT
+                position: toast.POSITION.BOTTOM_RIGHT
             })
         })
 
@@ -104,7 +104,7 @@ function Cart({title, clientRootUrl, apiRootUrl, loggedInStatus, token, errorMes
                     .catch(err=>{
                         setIsLoading(false);
                         toast.error(errorMessage, {
-                            position: toast.POSITION.TOP_RIGHT
+                            position: toast.POSITION.BOTTOM_RIGHT
                         })
                     })
                 })
@@ -114,13 +114,16 @@ function Cart({title, clientRootUrl, apiRootUrl, loggedInStatus, token, errorMes
         .catch(err=>{
             setIsLoading(false);
             toast.error(errorMessage, {
-                position: toast.POSITION.TOP_RIGHT
+                position: toast.POSITION.BOTTOM_RIGHT
             })      
         })
     },[apiRootUrl])
 
 
     function delCartItem(cartId) {
+        
+
+
         // delete from DB
         setIsLoading(true);
         axios.delete(`${apiRootUrl}cart/${cartId}`,{
@@ -132,12 +135,15 @@ function Cart({title, clientRootUrl, apiRootUrl, loggedInStatus, token, errorMes
             setIsLoading(false);
             if(data.error === 0) {
                 toast.success(data.message, {
-                    position: toast.POSITION.TOP_RIGHT
+                    position: toast.POSITION.BOTTOM_RIGHT
                 })
                 setCartProducts([...cartProducts.filter(cartProduct=>cartProduct.cartId !== cartId)]);
+
+                // reduce cartNum by 1
+                decreaseCartNum();
             } else {
                 toast.error(errorMessage, {
-                    position: toast.POSITION.TOP_RIGHT
+                    position: toast.POSITION.BOTTOM_RIGHT
                 })
             }
             if(cartProducts.length-1 < 1) {
@@ -151,10 +157,11 @@ function Cart({title, clientRootUrl, apiRootUrl, loggedInStatus, token, errorMes
         .catch(err=>{
             setIsLoading(false);
             toast.error(errorMessage, {
-                position: toast.POSITION.TOP_RIGHT
+                position: toast.POSITION.BOTTOM_RIGHT
             })
         })
 
+ 
     }
 
     function addSubTotals(subTotal) {
@@ -210,21 +217,13 @@ function Cart({title, clientRootUrl, apiRootUrl, loggedInStatus, token, errorMes
     //     handler.openIframe();
     //   }
 
-    function placeOrder() {
-
-    }
 
     return (
         <React.Fragment>
-            {
-                isLoading && <Loader />
-            }
-            {
-                (!loggedInStatus) && (
-                    <Redirect to = "/account" />
-                )
-            }
-            <Header title = {title} clientRootUrl = {clientRootUrl} loggedInStatus = {loggedInStatus} />
+             {requireAuth()}
+            {isLoading && <Loader />}
+           
+            <Header title = {title} clientRootUrl = {clientRootUrl} loggedInStatus = {loggedInStatus} cartNum = {cartNum} token = {token} />
 
             <br />
             <br />

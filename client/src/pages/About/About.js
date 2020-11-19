@@ -1,13 +1,13 @@
 import React from 'react'
 import Header from '../../components/Header/Header'
 
-function About({title,apiRootUrl,clientRootUrl, match,loggedInStatus}) {
+function About({title,apiRootUrl,clientRootUrl, match,loggedInStatus, cartNum, token}) {
 
     document.title = `About Us - ${title}`;
 
     return (
         <React.Fragment>
-            <Header loggedInStatus = {loggedInStatus} title = {title} clientRootUrl = {clientRootUrl} match = {match} />
+            <Header loggedInStatus = {loggedInStatus} title = {title} clientRootUrl = {clientRootUrl} match = {match} cartNum = {cartNum} token = {token} />
             <div style = {{marginTop:'-30px'}}></div>
             <div className = "small-container single-product">
                 <div className = "row">

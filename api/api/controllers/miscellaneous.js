@@ -31,13 +31,13 @@ exports.delivery_cost = (req,res,next) => {
     /** FoodNet Logic */
     let FoodNetFees;
     if(subtotal < 1000) {
-        FoodNetFees = ((5/100)*subtotal) + 100; 
+        FoodNetFees = ((2/100)*subtotal) + 100; 
     } else if(subtotal <= 5000) {
-        FoodNetFees = ((10/100)*subtotal) + 100; 
+        FoodNetFees = ((2.5/100)*subtotal) + 100; 
     } else if(subtotal > 5000 && subtotal <= 50000){
-        FoodNetFees = ((15/100)*subtotal) + 100;
+        FoodNetFees = ((3/100)*subtotal) + 100;
     } else { // above 50000
-        FoodNetFees = ((20/100)*subtotal) + 100;
+        FoodNetFees = ((3.5/100)*subtotal) + 100;
     }
     /** ../end */
 

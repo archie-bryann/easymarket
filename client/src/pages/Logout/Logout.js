@@ -5,7 +5,7 @@ import './Logout.css'
 import axios from 'axios'
 import { useLastLocation } from 'react-router-last-location';
 
-function Logout({title, clientRootUrl, loggedInStatus, v}) {
+function Logout({title, clientRootUrl, loggedInStatus, v, cartNum, requireAuth, token}) {
 
     const lastLocation = useLastLocation();
 
@@ -28,13 +28,9 @@ function Logout({title, clientRootUrl, loggedInStatus, v}) {
 
     return (
         <React.Fragment>
-            {
-                cancelRedirect && <Redirect to = {lastLocation.pathname} />
-            }
-            {
-                (!loggedInStatus) && <Redirect to = "/?redirect=homepage&lang=en" />
-            }
-            <Header title = {title} clientRootUrl = {clientRootUrl} loggedInStatus = {loggedInStatus} />
+            {requireAuth()}
+            {cancelRedirect && <Redirect to = {lastLocation.pathname} />}
+            <Header title = {title} clientRootUrl = {clientRootUrl} loggedInStatus = {loggedInStatus} cartNum = {cartNum} token = {token} />
             <div style = {{height:'50px'}}></div>
             <div className = "container center-div">
                     {/* <h1>404</h1> */}

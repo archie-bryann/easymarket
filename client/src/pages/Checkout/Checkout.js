@@ -12,7 +12,7 @@ import CartProduct from '../../components/CartProduct/CartProduct';
 
 toast.configure();
 
-function Checkout({title, clientRootUrl, apiRootUrl, loggedInStatus, token, errorMessage, paystackPublicTestKey, paystackPublicLiveKey}) {
+function Checkout({title, clientRootUrl, apiRootUrl, loggedInStatus, token, errorMessage, paystackPublicTestKey, paystackPublicLiveKey, cartNum, requireAuth}) {
 
     document.title = `Checkout - ${title}`;
 
@@ -211,7 +211,7 @@ function Checkout({title, clientRootUrl, apiRootUrl, loggedInStatus, token, erro
                     .catch(err=>{
                         setIsLoading(false);
                         toast.error(errorMessage, {
-                            position: toast.POSITION.TOP_RIGHT
+                            position: toast.POSITION.BOTTOM_RIGHT
                         })
                     })
                 })
@@ -221,7 +221,7 @@ function Checkout({title, clientRootUrl, apiRootUrl, loggedInStatus, token, erro
         .catch(err=>{
             setIsLoading(false);
             toast.error(errorMessage, {
-                position: toast.POSITION.TOP_RIGHT
+                position: toast.POSITION.BOTTOM_RIGHT
             })      
         })
     },[apiRootUrl])
@@ -239,12 +239,12 @@ function Checkout({title, clientRootUrl, apiRootUrl, loggedInStatus, token, erro
             setIsLoading(false);
             if(data.error === 0) {
                 toast.success(data.message, {
-                    position: toast.POSITION.TOP_RIGHT
+                    position: toast.POSITION.BOTTOM_RIGHT
                 })
                 setCartProducts([...cartProducts.filter(cartProduct=>cartProduct.cartId !== cartId)]);
             } else {
                 toast.error(errorMessage, {
-                    position: toast.POSITION.TOP_RIGHT
+                    position: toast.POSITION.BOTTOM_RIGHT
                 })
             }
             if(cartProducts.length-1 < 1) {
@@ -258,7 +258,7 @@ function Checkout({title, clientRootUrl, apiRootUrl, loggedInStatus, token, erro
         .catch(err=>{
             setIsLoading(false);
             toast.error(errorMessage, {
-                position: toast.POSITION.TOP_RIGHT
+                position: toast.POSITION.BOTTOM_RIGHT
             })
         })
 
@@ -330,20 +330,10 @@ function Checkout({title, clientRootUrl, apiRootUrl, loggedInStatus, token, erro
 
     return (
         <React.Fragment>
-        {
-            redr && (
-                <Redirect to = {`/order/${orderId}`} />
-            )
-        }
-        {
-            isLoading && <Loader />
-        }
-        {
-            (!loggedInStatus) && (
-                <Redirect to = "/account" />
-            )
-        }
-        <Header title = {title} clientRootUrl = {clientRootUrl} loggedInStatus = {loggedInStatus} />
+        {requireAuth()}
+        {redr && (<Redirect to = {`/order/${orderId}`} />)}
+        {isLoading && <Loader />}
+        <Header title = {title} clientRootUrl = {clientRootUrl} loggedInStatus = {loggedInStatus} cartNum = {cartNum} token = {token} />
 
         <br />
         <br />

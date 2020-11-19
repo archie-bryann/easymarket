@@ -3,10 +3,10 @@ import { Link } from 'react-router-dom/cjs/react-router-dom.min'
 import Header from '../../components/Header/Header'
 import './Contact.css'
 
-function Contact({title,apiRootUrl,clientRootUrl,email,match,loggedInStatus}) {
+function Contact({title,apiRootUrl,clientRootUrl,email,match,loggedInStatus,cartNum,token}) {
     return (
         <Fragment>
-            <Header title = {title} clientRootUrl = {clientRootUrl} match = {match} loggedInStatus={loggedInStatus} />
+            <Header title = {title} clientRootUrl = {clientRootUrl} match = {match} loggedInStatus={loggedInStatus} cartNum = {cartNum} token = {token} />
             <div className = "top-space" style = {{height:'50px'}}></div>
             <div style = {{height:'40px'}}></div>
             <div className = "container center-div">

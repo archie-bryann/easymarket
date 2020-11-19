@@ -2,15 +2,11 @@ import React from 'react'
 import { Redirect } from 'react-router-dom';
 import Header from '../../components/Header/Header'
 
-function ForgotPassword({title,clientRootUrl,apiRootUrl,loggedInStatus}) {
+function ForgotPassword({title,clientRootUrl,apiRootUrl,loggedInStatus,verifyAuth,token}) {
     return (
         <React.Fragment>
-            {
-                (loggedInStatus) && (
-                    <Redirect to = "/" />
-                )
-            }
-            <Header title = {title} clientRootUrl = {clientRootUrl} loggedInStatus = {loggedInStatus} />
+            {verifyAuth()}
+            <Header title = {title} clientRootUrl = {clientRootUrl} loggedInStatus = {loggedInStatus} token = {token} />
             <div className = "account-page">
                 <div className = "container">
                     <div className = "row">

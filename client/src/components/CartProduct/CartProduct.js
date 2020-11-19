@@ -35,7 +35,7 @@ function CartProduct({cartId,quantity,id,categoryId,name,description,image,price
             setLoading(false);
             if(data.error === 0) {
                 toast.success(data.message, {
-                    position: toast.POSITION.TOP_RIGHT
+                    position: toast.POSITION.BOTTOM_RIGHT
                 })
                 setCQuantity(newQuantity);
                 
@@ -53,7 +53,7 @@ function CartProduct({cartId,quantity,id,categoryId,name,description,image,price
 
             } else {
                 toast.error(errorMessage, {
-                    position: toast.POSITION.TOP_RIGHT
+                    position: toast.POSITION.BOTTOM_RIGHT
                 })
             }
 
@@ -61,7 +61,7 @@ function CartProduct({cartId,quantity,id,categoryId,name,description,image,price
         .catch(err=>{
             setLoading(false);
             toast.error(errorMessage, {
-                position: toast.POSITION.TOP_RIGHT
+                position: toast.POSITION.BOTTOM_RIGHT
             })
         })
     }

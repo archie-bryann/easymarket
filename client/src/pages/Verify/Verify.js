@@ -8,16 +8,16 @@ import 'react-toastify/dist/ReactToastify.css'
 
 toast.configure();
 
-function Verify({title,clientRootUrl,apiRootUrl,match,loggedInStatus}) {
+function Verify({title,clientRootUrl,apiRootUrl,match,loggedInStatus, verifyAuth, token}) {
     
-    const {email,token} = match.params;
+    const {email,v_token} = match.params;
 
     const [invalidParamError, setInvalidParamError] = useState(false);
     const [checking, setChecking] = useState(true);
     const [redr, setRedr] = useState(false);
 
     useEffect(()=>{
-        axios.post(`${apiRootUrl}user/verify/${email}/${token}`)
+        axios.post(`${apiRootUrl}user/verify/${email}/${v_token}`)
         .then(({data})=>{
             console.log(data);
             setChecking(false);
@@ -30,7 +30,7 @@ function Verify({title,clientRootUrl,apiRootUrl,match,loggedInStatus}) {
                 window.location = "/";
             } else {
                     toast.error(data.error, {
-                        position: toast.POSITION.TOP_RIGHT
+                        position: toast.POSITION.BOTTOM_RIGHT
                     })    
             }
             
@@ -54,11 +54,11 @@ function Verify({title,clientRootUrl,apiRootUrl,match,loggedInStatus}) {
 
     return (
        <React.Fragment>
+           {verifyAuth()}
             { redr && <Redirect to = "/" /> }
-            { loggedInStatus && <Redirect to = "/" /> }
             { checking && <Loader /> }
             { invalidParamError && <Redirect to = "/" /> }
-            <Header title = {title} clientRootUrl = {clientRootUrl} loggedInStatus = {loggedInStatus} />
+            <Header title = {title} clientRootUrl = {clientRootUrl} loggedInStatus = {loggedInStatus} token = {token} />
             <div style = {{height:'50px'}}></div>
             <div className = "container center-div">
                     {/* <h1>404</h1> */}

@@ -3,11 +3,11 @@ import { Link } from 'react-router-dom'
 import './NavBar.css'
 import {UserContext,PageContext} from '../../App'
 
-function NavBar({title, clientRootUrl, loggedInStatus, match}) {
+function NavBar({title, clientRootUrl, loggedInStatus, match, cartNum, token}) {
 
     const [maxHeight, setMaxHeight] = useState("0px");
 
-    const [cartNum, setCartNum] = useState(null);
+    // const [cartNum, setCartNum] = useState(null);
 
     function menuToggle() {
         if(maxHeight === "0px") {
@@ -15,7 +15,9 @@ function NavBar({title, clientRootUrl, loggedInStatus, match}) {
         } else {
             setMaxHeight("0px");
         }
-    }    
+    }
+
+    // const token = localStorage.getItem('wpt');
 
     return (
         <div className = "navbar">
@@ -40,10 +42,10 @@ function NavBar({title, clientRootUrl, loggedInStatus, match}) {
                             loggedIn => {
                                 (loggedIn) && (
                                     <Fragment> */}
-                                        {(loggedInStatus) && (
+                                        {(token) && (
                                             <Fragment>
                                                 <li><Link to="/orders" className = "link c">My Orders</Link></li>
-                                                <li><Link to="/profile" className = "link c">My Profile</Link></li>
+                                                {/* <li><Link to="/profile" className = "link c">My Profile</Link></li> */}
                                                 {/* <li><Link to="/logout" className = "link c">Logout</Link></li> */}
                                             </Fragment>
                                         )}
@@ -54,27 +56,34 @@ function NavBar({title, clientRootUrl, loggedInStatus, match}) {
                         }
                     </UserContext.Consumer>
                      */}
-                     {(!loggedInStatus) && (
+                     {(!token) && (
                         <li><Link to="/account" className = "link c">Account</Link></li>
                      )}
                 </ul>
             </nav>
             {/* <Link to="/search" className = "link"><img src = {`${clientRootUrl}images/search.png`} width="22px" height="22px" className = "search-icon" alt = "" /></Link> */}
-            <Link to="/search" className = "link c"><i className = "fa fa-search" style = {{fontSize:'20px',marginRight:'15px'}}></i></Link>
+            <Link to="/search" className = "link c"><i className = "fa fa-search" style = {{fontSize:'21px',marginRight:'15px'}}></i></Link>
             {/* <UserContext.Consumer>
                 {
                     loggedIn => {
                         (loggedIn) && (
                             <Fragment> */}
                             {
-                                (loggedInStatus) && (
-                                <Link to="/cart" className = "link c"><i className = "fa fa-shopping-cart cart-icon" style = {{fontSize:'20px'}}></i> {cartNum}</Link>
+                                (token) && (
+                                    <Link to="/cart" className = "link c">
+                                        <i className = "fa fa-shopping-cart cart-icon" style = {{fontSize:'21px'}}></i> {(cartNum>0)&&
+                                        (
+                                            <span className = "badge badge-warning" id = "lblCartCount">{cartNum}</span>
+                                        )
+                                        }
+                                        
+                                    </Link>
                                 )
                             }
 
                             {
-                                (loggedInStatus) && (
-                                <Link to="/logout" className = "link c"><i className = "fa fa-sign-out-alt" style = {{fontSize:'22px', marginLeft:'21px'}}></i> {cartNum}</Link>
+                                (token) && (
+                                <Link to="/logout" className = "link c"><i className = "fa fa-sign-out-alt" style = {{fontSize:'22px', marginLeft:'21px'}}></i></Link>
                                 )
                             }
                                

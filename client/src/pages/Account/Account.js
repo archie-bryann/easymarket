@@ -7,7 +7,7 @@ import { useLastLocation } from 'react-router-last-location';
 import Loader from '../../components/Loader/Loader';
 
 
-function Account({title, clientRootUrl, apiRootUrl, loggedInStatus}) {
+function Account({title, clientRootUrl, apiRootUrl, loggedInStatus, cartNum,verifyAuth, token}) {
 
     const lastLocation = useLastLocation();
 
@@ -171,22 +171,9 @@ function Account({title, clientRootUrl, apiRootUrl, loggedInStatus}) {
     // signup with { firstname, lastname, email, password }
     return (
         <React.Fragment>
-            {
-                loggedInStatus && (
-                    <Redirect to = "/" />
-                )
-            }
-            {/* {
-                redr && (
-                    <Redirect to = "/" />
-                )
-            } */}
-             {
-                 isLoading && (
-                    <Loader />
-                )
-            }
-            <Header title = {title} clientRootUrl = {clientRootUrl} loggedInStatus = {loggedInStatus} />
+            {verifyAuth()}
+            {isLoading && (<Loader />)}
+            <Header title = {title} clientRootUrl = {clientRootUrl} loggedInStatus = {loggedInStatus} cartNum = {cartNum} token = {token} />
             <div className = "account-page" style = {{marginTop:'-30px',marginBottom:'-20px'}}>
                 <div className = "container">
                     <div className = "row">

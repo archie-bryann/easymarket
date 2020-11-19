@@ -11,7 +11,7 @@ import 'react-toastify/dist/ReactToastify.css'
 
 toast.configure();
 
-function ProductDetails({title, apiRootUrl, clientRootUrl, match, loggedInStatus, token, errorMessage}) {
+function ProductDetails({title, apiRootUrl, clientRootUrl, match, loggedInStatus, token, errorMessage, cartNum,increaseCartNum}) {
 
     const { productId, categoryId } = match.params;
 
@@ -53,6 +53,7 @@ function ProductDetails({title, apiRootUrl, clientRootUrl, match, loggedInStatus
     }, [productId,categoryId]);
 
     function addToCart() {
+
         setIsLoading(true);
         axios.post(`${apiRootUrl}cart`, 
             {
@@ -67,17 +68,20 @@ function ProductDetails({title, apiRootUrl, clientRootUrl, match, loggedInStatus
         .then(({data})=>{
             setIsLoading(false);
             if(data.error === 0) {
+                    // increase cartNum by 1
+                    increaseCartNum();
+
                 toast.success(`${product.name} added to Cart`, {
-                    position: toast.POSITION.TOP_RIGHT
+                    position: toast.POSITION.BOTTOM_RIGHT
                 })
             } else if(data.error === 455) {
                 toast.success(data.message, {
-                    position: toast.POSITION.TOP_RIGHT
+                    position: toast.POSITION.BOTTOM_RIGHT
                 })
             } else {
                 console.log(data)
                 toast.error(errorMessage, {
-                    position: toast.POSITION.TOP_RIGHT
+                    position: toast.POSITION.BOTTOM_RIGHT
                 })
             }
         })
@@ -85,7 +89,7 @@ function ProductDetails({title, apiRootUrl, clientRootUrl, match, loggedInStatus
             console.log(err)
             setIsLoading(true);
             toast.error(errorMessage, {
-                position: toast.POSITION.TOP_RIGHT
+                position: toast.POSITION.BOTTOM_RIGHT
             })
         })
     }
@@ -108,7 +112,7 @@ function ProductDetails({title, apiRootUrl, clientRootUrl, match, loggedInStatus
                     <Loader />
                 )
             }
-            <Header title = {title} clientRootUrl = {clientRootUrl} loggedInStatus = {loggedInStatus} />
+            <Header title = {title} clientRootUrl = {clientRootUrl} loggedInStatus = {loggedInStatus} cartNum = {cartNum} token = {token} />
             <div className = "small-container single-product">
                 <div className = "row">
                     <div className = "col-2">

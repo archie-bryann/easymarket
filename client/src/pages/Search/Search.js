@@ -9,7 +9,7 @@ import axios from 'axios'
 import Category from '../../components/Category/Category'
 import Loader from '../../components/Loader/Loader'
 
-function Search({title,apiRootUrl,clientRootUrl, location, email, loggedInStatus}) {
+function Search({title,apiRootUrl,clientRootUrl, location, email, loggedInStatus,cartNum, token}) {
 
     const inputRef = useRef(null);
     const linkRef = useRef(null);
@@ -68,7 +68,7 @@ function Search({title,apiRootUrl,clientRootUrl, location, email, loggedInStatus
                     <Loader />
                 )
             }
-            <Header title = {title} clientRootUrl = {clientRootUrl} loggedInStatus = {loggedInStatus} />
+            <Header title = {title} clientRootUrl = {clientRootUrl} loggedInStatus = {loggedInStatus} cartNum = {cartNum} token = {token} />
             <br />
             <div className = "container">
                 <div className = "row search">
@@ -132,7 +132,7 @@ function Search({title,apiRootUrl,clientRootUrl, location, email, loggedInStatus
                                             <h2 className = "no-result">No Results Found</h2>
                                             <h3 className = "no-result-2">No Results Found</h3>
                                             {/* <h4>Opps! Page not found</h4> */}
-                                            <p>Sorry, but there are no results for your search. Click below to inform us of any product you need.</p>
+                                            <p>Sorry, but there are no results for your search. Click below to inform us of any product you may need.</p>
                                             <a href = {`mailto:${email}?subject=Feedback`} className = "btn" style = {{marginTop:'15px'}}>Message us</a>
                                         </div>
                                         <div className = "bottom-space" style = {{height:'250px'}}></div>

@@ -6,7 +6,7 @@ import Loader from '../../components/Loader/Loader';
 import Products from '../../components/Products/Products'; 
 import './CategoryDetails.css'
 
-function CategoryDetails({title,apiRootUrl, clientRootUrl ,match, loggedInStatus}) {
+function CategoryDetails({title,apiRootUrl, clientRootUrl ,match, loggedInStatus, cartNum, token}) {
 
     const categoryId = match.params.categoryId; 
 
@@ -44,7 +44,7 @@ function CategoryDetails({title,apiRootUrl, clientRootUrl ,match, loggedInStatus
                     <Loader />
                 )
             }
-            <Header title = {title} clientRootUrl = {clientRootUrl} loggedInStatus = {loggedInStatus} />
+            <Header title = {title} clientRootUrl = {clientRootUrl} loggedInStatus = {loggedInStatus} cartNum = {cartNum} token = {token} />
             <Products products = {products} apiRootUrl = {apiRootUrl}>
                 <br />
                 {/* // correct this // */}

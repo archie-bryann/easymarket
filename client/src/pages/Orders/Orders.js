@@ -3,18 +3,14 @@ import { Redirect } from 'react-router-dom';
 import Header from '../../components/Header/Header'
 import './Orders.css'
 
-function Orders({title, apiRootUrl, clientRootUrl, loggedInStatus}) {
+function Orders({title, apiRootUrl, clientRootUrl, loggedInStatus, cartNum, requireAuth, token}) {
 
     document.title = `My Orders - ${title}`;
 
     return (
         <Fragment>
-             {
-                (!loggedInStatus) && (
-                    <Redirect to = "/account" />
-                )
-            }
-            <Header title = {title} clientRootUrl = {clientRootUrl} loggedInStatus = {loggedInStatus} />
+             {requireAuth()}
+            <Header title = {title} clientRootUrl = {clientRootUrl} loggedInStatus = {loggedInStatus} cartNum = {cartNum} token = {token} />
 
             <br />
             <br />

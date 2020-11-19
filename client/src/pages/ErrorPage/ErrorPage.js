@@ -3,12 +3,12 @@ import Header from '../../components/Header/Header'
 import './ErrorPage.css'
 import {Link} from 'react-router-dom'
 
-function ErrorPage({title,clientRootUrl, loggedInStatus}) {
+function ErrorPage({title,clientRootUrl, loggedInStatus, cartNum, token}) {
     document.title = `Page Not Found - ${title}`;
 
     return (
         <React.Fragment>
-            <Header title = {title} clientRootUrl = {clientRootUrl}  loggedInStatus = {loggedInStatus}  />
+            <Header title = {title} clientRootUrl = {clientRootUrl}  loggedInStatus = {loggedInStatus} cartNum = {cartNum} token = {token}  />
             <div style = {{height:'50px'}}></div>
             <div className = "container center-div">
                     <h1>404</h1>
