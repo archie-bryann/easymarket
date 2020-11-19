@@ -111,7 +111,7 @@ function CartProduct({cartId,quantity,id,categoryId,name,description,image,price
                         <input className = "q_d" type = "number" value = {cQuantity} onChange = {updateQuantity} style = {{width:'51px'}} />
                     ) }
                 </td>
-                <td>{Number(subTotal).toFixed(2)}</td> {/** to 2 d.p. */}
+                <td>{Number(subTotal).toFixed(2).toLocaleString(undefined, {maximumFractionDigits:2})}</td> {/** to 2 d.p. */}
             </tr>
         </React.Fragment>
     )

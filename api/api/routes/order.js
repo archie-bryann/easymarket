@@ -11,7 +11,7 @@ router.get('/status/:status', checkAuth, OrderController.get_status_orders); // 
 
 router.get('/user/:userId', checkAuth, OrderController.get_all_previous_orders_for_user); // open {{ for particular user }}
 
-router.get('/d/:orderId', checkAuth, OrderController.orders_get_order); // open
+router.get('/d/:orderId', checkAuth, OrderController.orders_get_order); // open // make use of timestamp
 
 router.patch('/v/:orderId/:status', checkAuth, OrderController.orders_update_order_status); // open {{ for particular user }}
 

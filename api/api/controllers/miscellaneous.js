@@ -8,7 +8,7 @@ const logisticName = "Runsmith Logistics";
 const logisticAccNumber = "0000000000";
 const logisticBankCode = "011";
 const logisticReason = "Logistic Services";
-const logisticFees = 900; /** talk to them, more trips (to anywhere in Ibadan) -> heavily discounted price -> may depend  */
+const logisticFees = 500; /** talk to them, more trips (to anywhere in Ibadan) -> heavily discounted price -> may depend  */ /** start from 500 per trip */
 
 
 exports.delivery_cost = (req,res,next) => {
@@ -31,13 +31,13 @@ exports.delivery_cost = (req,res,next) => {
     /** FoodNet Logic */
     let FoodNetFees;
     if(subtotal < 1000) {
-        FoodNetFees = ((2/100)*subtotal) + 100; 
+        FoodNetFees = ((2.5/100)*subtotal) + 100;  // 1.5 (down)
     } else if(subtotal <= 5000) {
-        FoodNetFees = ((2.5/100)*subtotal) + 100; 
+        FoodNetFees = ((3/100)*subtotal) + 100; 
     } else if(subtotal > 5000 && subtotal <= 50000){
-        FoodNetFees = ((3/100)*subtotal) + 100;
-    } else { // above 50000
         FoodNetFees = ((3.5/100)*subtotal) + 100;
+    } else { // above 50000
+        FoodNetFees = ((4/100)*subtotal) + 100;
     }
     /** ../end */
 

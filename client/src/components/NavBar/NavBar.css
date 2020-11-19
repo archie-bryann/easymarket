@@ -65,11 +65,11 @@ a {
         z-index: 999999;
         transition: max-height 0.5;
         /* visibility:hidden; */
-        -webkit-transition: all 0.4s ease-in-out 0.20s;
-        -moz-transition: all 0.4s ease-in-out 0.20s;
-        -o-transition: all 0.4s ease-in-out 0.20s;
-        -ms-transition: all 0.4s ease-in-out 0.20s;
-        transition: all 0.4s ease-in-out 0.20s;
+        -webkit-transition: all 0.4s ease-in-out 0.10s;
+        -moz-transition: all 0.4s ease-in-out 0.10s;
+        -o-transition: all 0.4s ease-in-out 0.10s;
+        -ms-transition: all 0.4s ease-in-out 0.10s;
+        transition: all 0.4s ease-in-out 0.10s;
     }
     
     nav ul li {

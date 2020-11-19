@@ -6,7 +6,7 @@ function Products({checker,children,products,apiRootUrl}) {
     return (
         <div className = "small-container">
             {children}
-            <div className = "row" style = {{marginTop:'-15px'}}>
+            <div className = "row" style = {{marginTop:'5px'}}>
                 {
                     products.map((product)=><Product key = {product.id} product = {product} apiRootUrl = {apiRootUrl} />)
                 }

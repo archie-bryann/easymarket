@@ -12,7 +12,7 @@ import CartProduct from '../../components/CartProduct/CartProduct';
 
 toast.configure();
 
-function Checkout({title, clientRootUrl, apiRootUrl, loggedInStatus, token, errorMessage, paystackPublicTestKey, paystackPublicLiveKey, cartNum, requireAuth}) {
+function Checkout({title, clientRootUrl, apiRootUrl, loggedInStatus, token, errorMessage, paystackPublicTestKey, paystackPublicLiveKey, cartNum, setCartNumToZero, requireAuth}) {
 
     document.title = `Checkout - ${title}`;
 
@@ -88,10 +88,12 @@ function Checkout({title, clientRootUrl, apiRootUrl, loggedInStatus, token, erro
             })
             .then(({data})=>{
               /** Verify Transaction (1) */ /** Transfer money to Logistics (2) */
-                if(data.error == 0) {
+                if(data.error === 0) {
                     /** finally placeOrder (3) *//** remove loader (4) *//** redirect to the order (5) */
                     axios.post(`${apiRootUrl}order`, {
-                        price:total
+                        subtotal:subTotals,
+                        delivery,
+                        total
                     },{
                         headers: {
                             Authorization: `Bearer ${token}`
@@ -100,10 +102,11 @@ function Checkout({title, clientRootUrl, apiRootUrl, loggedInStatus, token, erro
                     .then(({data})=>{
                         setIsLoading(false);
                         if(data.error === 0) {
-                            setOrderId(data.orderId)
-                            setRedr(true);
+                            // setCartNumToZero();
+                            // setOrderId(data.orderId)
+                            // setRedr(true);
+                            window.location=`/order/${data.orderId}`
                         } else {
-                            console.log(4)
                             toast.error(errorMessage, {
                                 position: toast.POSITION.BOTTOM_RIGHT,
                                 autoClose:false
@@ -111,7 +114,6 @@ function Checkout({title, clientRootUrl, apiRootUrl, loggedInStatus, token, erro
                         }
                     })
                     .catch(err=>{
-                        console.log(3)
                         setIsLoading(false);
                         toast.error(errorMessage, {
                             position: toast.POSITION.BOTTOM_RIGHT,
@@ -119,7 +121,6 @@ function Checkout({title, clientRootUrl, apiRootUrl, loggedInStatus, token, erro
                         })
                     })
                 } else {
-                    console.log(2)
                     setIsLoading(false);
                     toast.error(errorMessage, {
                         position: toast.POSITION.BOTTOM_RIGHT,
@@ -128,7 +129,6 @@ function Checkout({title, clientRootUrl, apiRootUrl, loggedInStatus, token, erro
                 }
             })
             .catch(err=>{
-                console.log(1)
                 setIsLoading(false);
                 toast.error(errorMessage, {
                     position: toast.POSITION.BOTTOM_RIGHT,
@@ -602,18 +602,10 @@ function Checkout({title, clientRootUrl, apiRootUrl, loggedInStatus, token, erro
 
 
             {
-                (cartProducts.length < 1) && (
-                    <Fragment>
-                        <div className = "container center-div">
-                            <img src  = {`${clientRootUrl}images/8-2-fearful-emoji-png.png`} width = "180px" alt = "" />
-                            <h4>Ahh! Your cart seems empty.</h4>
-                            <p>Click below to start shopping now.</p>
-                            <Link to = "/categories" className = "btn">Start shopping</Link>
-                        </div>
-                        <div style = {{height:'180px'}}></div>
-                    </Fragment>
-                )
-            }
+                // (cartProducts.length < 1) && (
+                //     // <Redirect to = "/cart" />
+                // )
+            }   
             
             <br />
             <br />

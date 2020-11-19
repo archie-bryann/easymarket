@@ -96,7 +96,40 @@ function ProductDetails({title, apiRootUrl, clientRootUrl, match, loggedInStatus
 
     // function changeImage(e) {
     //     setImage(e.target.src);
+
+
+    
     // }
+
+
+    function requireAuthForAction() {
+        if(!localStorage.getItem('wpt')) {
+            setRedr(true);
+        } else {
+             // verify token
+            axios(`${apiRootUrl}user/verify`, {
+                headers: {
+                'Authorization':`Basic ${token}`
+                }
+            })
+            .then(res=>{
+                // console.log(res.data)
+                if(res.data.valid === 1) {
+                /** valid user -> save data */
+                addToCart();
+                } else {
+                /** invalid user */
+                setRedr(true);            
+                }
+            })
+            .catch(err=>{
+                /** invalid user */
+                setRedr(true);
+            })
+            }
+        }
+      
+    
 
     return (
         <React.Fragment>
@@ -147,14 +180,15 @@ function ProductDetails({title, apiRootUrl, clientRootUrl, match, loggedInStatus
                         </select>
                         <div style = {{marginTop:'-20px'}}></div>
                         <input type = "number" value = {quantity} onChange = {(e)=>setQuantity(e.target.value)} />
-
-                        <a onClick = {
-                            (loggedInStatus) 
-                            ?
-                            addToCart
-                            :
-                            () => setRedr(true)
-                        } className = "link btn">Add To Cart</a>
+                        
+                        {(product.out_of_stock === 1) ? 
+                        (
+                            <a onClick = {requireAuthForAction} className = "link btn">Add To Cart</a>                        
+                        ) 
+                        : (
+                            <a className = "link btn" style = {{background:'#999'}}>Out of Stock</a>                        
+                        
+                        ) }
 
                         <h3>Product Details <i className = "fa fa-indent"></i></h3>
                         <p>{product.description}</p>
@@ -168,6 +202,7 @@ function ProductDetails({title, apiRootUrl, clientRootUrl, match, loggedInStatus
                     <Link to = "" className = "link">View All</Link> // to the category
                 </div>
             </FeaturedProducts> */}
+            
             {
                 (relatedProducts.length > 0) 
                 &&

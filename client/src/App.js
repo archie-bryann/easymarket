@@ -14,7 +14,7 @@ import ScrollToTop from './components/ScrollToTop/ScrollToTop';
 import ErrorPage from './pages/ErrorPage/ErrorPage'
 import ResetPassword from './pages/ResetPassword/ResetPassword';
 import Orders from './pages/Orders/Orders'
-import Order from './pages/Order/Order'
+import Order from './pages/OrderDetails/OrderDetails'
 import axios from 'axios'
 import About from './pages/About/About';
 import Contact from './pages/Contact/Contact';
@@ -26,6 +26,7 @@ import Checkout from './pages/Checkout/Checkout';
 import Test from './pages/Test/Test';
 import {toast} from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+import { indigo } from '@material-ui/core/colors';
 
 // export const UserContext = React.createContext();
 // export const PageContext = React.createContext();
@@ -107,6 +108,11 @@ function App() {
     setCartNum(cartNum-1);
   }
 
+  function setCartNumToZero() {
+    setCartNum(0);
+  }
+
+
   function requireAuth() {
 
     const account = <Redirect to = "/account" />
@@ -124,7 +130,7 @@ function App() {
         }
       })
       .then(res=>{
-        console.log(res.data)
+        // console.log(res.data)
         if(res.data.valid === 1) {
           /** valid user -> save data */
           localStorage.setItem('email', res.data.email);
@@ -162,7 +168,6 @@ function App() {
     }
   }
 
-  console.log(loggedInStatus)
 
   return (
     <React.Fragment>
@@ -195,11 +200,11 @@ function App() {
 
             <Route path = "/cart" exact = {true} component = {({match})=><Cart loggedInStatus = {loggedInStatus} title = {title} apiRootUrl = {apiRootUrl} clientRootUrl = {clientRootUrl} loggedInStatus = {loggedInStatus} match = {match} token = {token} errorMessage = {errorMessage} cartNum = {cartNum} decreaseCartNum = {decreaseCartNum} requireAuth = {requireAuth}  />} />
 
-            <Route path = "/checkout" exact = {true} component = {({match})=><Checkout loggedInStatus = {loggedInStatus} title = {title} apiRootUrl = {apiRootUrl} clientRootUrl = {clientRootUrl} loggedInStatus = {loggedInStatus} match = {match} token = {token} errorMessage = {errorMessage} paystackPublicTestKey = {paystackPublicTestKey} paystackPublicLiveKey = {paystackPublicLiveKey} cartNum = {cartNum} requireAuth = {requireAuth}  />} />
+            <Route path = "/checkout" exact = {true} component = {({match})=><Checkout loggedInStatus = {loggedInStatus} title = {title} apiRootUrl = {apiRootUrl} clientRootUrl = {clientRootUrl} loggedInStatus = {loggedInStatus} match = {match} token = {token} errorMessage = {errorMessage} paystackPublicTestKey = {paystackPublicTestKey} paystackPublicLiveKey = {paystackPublicLiveKey} cartNum = {cartNum} setCartNumToZero = {setCartNumToZero} requireAuth = {requireAuth}  />} />
 
-            <Route path = "/orders" exact = {true} component = {({match})=><Orders loggedInStatus = {loggedInStatus} title = {title} apiRootUrl = {apiRootUrl} clientRootUrl = {clientRootUrl} loggedInStatus = {loggedInStatus} match = {match} cartNum = {cartNum} requireAuth = {requireAuth} token = {token} />} />
+            <Route path = "/orders" exact = {true} component = {({match})=><Orders loggedInStatus = {loggedInStatus} title = {title} apiRootUrl = {apiRootUrl} clientRootUrl = {clientRootUrl} loggedInStatus = {loggedInStatus} match = {match} cartNum = {cartNum} requireAuth = {requireAuth} token = {token} errorMessage = {errorMessage} />} />
 
-            <Route path = "/order/:orderId" exact = {true} component = {({match})=><Order loggedInStatus = {loggedInStatus} title = {title} apiRootUrl = {apiRootUrl} clientRootUrl = {clientRootUrl} loggedInStatus = {loggedInStatus} match = {match} cartNum = {cartNum}  requireAuth = {requireAuth} token = {token} />}  />
+            <Route path = "/order/:orderId" exact = {true} component = {({match})=><Order loggedInStatus = {loggedInStatus} title = {title} apiRootUrl = {apiRootUrl} clientRootUrl = {clientRootUrl} loggedInStatus = {loggedInStatus} match = {match} cartNum = {cartNum}  requireAuth = {requireAuth} token = {token} errorMessage = {errorMessage} />}  />
 
             {/* <Route path = "/products" exact = {true} component = {({match})=><Products loggedInStatus = {loggedInStatus} title = {title} clientRootUrl = {clientRootUrl} match = {match} cartNum = {cartNum} />} /> */}
 

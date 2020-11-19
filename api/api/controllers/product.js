@@ -130,7 +130,7 @@ exports.products_update_product = (req,res,next) => {
     
     const {productId} = req.params;
     const tokenEmail = req.userData.email;
-    const {name,price,categoryId,visible,starred} = req.body;
+    const {name,price,categoryId,visible,starred,out_of_stock} = req.body;
     const image = req.files.productImage[0].filename;
 
     if(tokenEmail === process.env.adminEmail) {
@@ -158,9 +158,10 @@ exports.products_update_product = (req,res,next) => {
                                                 image = ?,
                                                 price = ?,
                                                 visible = ?,
-                                                starred = ?
+                                                starred = ?,
+                                                out_of_stock = ?
                                                 where id = ?
-                                            `, [categoryId,name,image,price,visible,starred,productId], function(err,result){
+                                            `, [categoryId,name,image,price,visible,starred,out_of_stock,productId], function(err,result){
                                                 conn.release();
                                                 if(err) {
                                                     res.status(500).json({error:'An error occured. Please try again!'});

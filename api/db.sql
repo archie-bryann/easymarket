@@ -60,6 +60,7 @@ create table productSchema (
     price varchar(256),
     visible int(1) DEFAULT '1',
     starred int(1) DEFAULT '0',
+    out_of_stock int(1) DEFAULT '0',
     sounds_like varchar(256),
     timestamp varchar(256)
 )
@@ -68,8 +69,10 @@ create table productSchema (
 create table orderSchema (
     id int(255) PRIMARY KEY AUTO_INCREMENT NOT NULL,
     userId int(255),
-    status varchar(256) DEFAULT 'unfulfilled', -- fulfilled cancelled 
-    price varchar(256), -- total price
+    status varchar(256) DEFAULT 'pending', -- fulfilled cancelled
+    subtotal varchar(256),
+    delivery varchar(256), 
+    total varchar(256), -- total price
     timestamp varchar(256)
 )
 

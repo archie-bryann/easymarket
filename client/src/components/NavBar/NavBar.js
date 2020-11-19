@@ -80,10 +80,9 @@ function NavBar({title, clientRootUrl, loggedInStatus, match, cartNum, token}) {
                                     </Link>
                                 )
                             }
-
                             {
                                 (token) && (
-                                <Link to="/logout" className = "link c"><i className = "fa fa-sign-out-alt" style = {{fontSize:'22px', marginLeft:'21px'}}></i></Link>
+                                <Link to="/logout" className = "link c"><i className = "fa fa-sign-out-alt" style = {{fontSize:'23px', marginLeft:'15px'}}></i></Link>
                                 )
                             }
                                

@@ -5,9 +5,7 @@ exports.orders_create_order = (req,res,next) => {
 
     const {userId} = req.userData;
     const timestamp = moment().unix();
-    const {price} = req.body;
-
-    
+    const {subtotal,delivery,total} = req.body;
 
     // const { products, price } = req.body; // price stands for total price
 
@@ -20,21 +18,15 @@ exports.orders_create_order = (req,res,next) => {
     //     {
     //       "id":2,
     //       "price":7500,
-    //       "quantity":20
+    //       "quantity":20  
     //     }
     //   ],
     //     "price":15000
     // }
 
-    
-    
-
-
     // MAKE SURE PAYMENTS ARE MADE + MOVE FROM CART TO HERE {{ Place order <HERE> }}
     // - after the person has paid, make a request to node in the callback function, verify the payment and create order
     // use WebTooEasy
-
-
 
             let products = [];
             pool.getConnection(function(err,conn){
@@ -71,7 +63,7 @@ exports.orders_create_order = (req,res,next) => {
                                         if(err) {
                                             return res.status(500).json({error:'An error occured. Please try again!'});
                                         } else {
-                                            conn.query(`insert into orderSchema (userId, price, timestamp) values (?, ?, ?)`, [userId,price,timestamp], function(err,r1){
+                                            conn.query(`insert into orderSchema (userId, subtotal, delivery, total, timestamp) values (?, ?, ?, ?, ?)`, [userId, subtotal, delivery, total, timestamp], function(err,r1){
                                                 // conn.release();
                                                 if(err) {
                                                     return res.status(500).json({error:'An error occured. Please try again!'});
@@ -186,7 +178,7 @@ exports.get_all_previous_orders_for_user = (req,res,next) => {
             if(err) {
                 res.status(500).json({error:'An error occured. Please try again!'});
             } else {
-                conn.query(`select * from orderSchema where userId = ?`, [userId], function(err,orders){
+                conn.query(`select * from orderSchema where userId = ? order by id DESC`, [userId], function(err,orders){
                     conn.release();
                     if(err) {
                         res.status(500).json({error:'An error occured. Please try again!'});
@@ -196,7 +188,7 @@ exports.get_all_previous_orders_for_user = (req,res,next) => {
                                 id: o.id,
                                 userId:o.userId,
                                 status:o.status,
-                                price:o.price,
+                                total:o.total,
                                 timestamp:o.timestamp,
                                 request: {
                                     type:'GET',
@@ -245,7 +237,9 @@ exports.orders_get_order = (req,res,next) => {
                                                     id:o.id,
                                                     userId:o.userId,
                                                     status:o.status,
-                                                    price:o.price,
+                                                    subtotal:o.subtotal,
+                                                    delivery:o.delivery,
+                                                    total:o.total,
                                                     timestamp:o.timestamp,
                                                     orderedProducts
                                                 })
@@ -270,7 +264,7 @@ exports.orders_get_order = (req,res,next) => {
 
 
 exports.orders_update_order_status = (req,res,next) => {
-    // {{ from unfulfilled }}
+    // {{ from pending }}
     // update to fulfilled
     // update to cancelled
 
