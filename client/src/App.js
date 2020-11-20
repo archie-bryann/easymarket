@@ -210,7 +210,7 @@ function App() {
 
             {/* <Route path = "/product-details" exact = {true} component = {({match})=><ProductDetails loggedInStatus = {loggedInStatus} title = {title} clientRootUrl = {clientRootUrl} match = {match} cartNum = {cartNum} />} /> */}
 
-            <Route path = "/account" exact = {true} component = {({match})=><Account title = {title} clientRootUrl = {clientRootUrl} apiRootUrl = {apiRootUrl} match = {match} loggedInStatus = {loggedInStatus} cartNum = {cartNum} verifyAuth = {verifyAuth} token = {token} />  } />
+            <Route path = "/account" exact = {true} component = {({match})=><Account title = {title} clientRootUrl = {clientRootUrl} apiRootUrl = {apiRootUrl} match = {match} loggedInStatus = {loggedInStatus} cartNum = {cartNum} verifyAuth = {verifyAuth} token = {token} errorMessage = {errorMessage} />  } />
 
             <Route path = "/verify/:email/:v_token" exact = {true} component = {({match})=><Verify title = {title} clientRootUrl = {clientRootUrl} apiRootUrl = {apiRootUrl} match = {match} loggedInStatus = {loggedInStatus} verifyAuth = {verifyAuth} token = {token} />} />
 

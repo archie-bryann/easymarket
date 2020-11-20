@@ -181,7 +181,7 @@ function ProductDetails({title, apiRootUrl, clientRootUrl, match, loggedInStatus
                         <div style = {{marginTop:'-20px'}}></div>
                         <input type = "number" value = {quantity} onChange = {(e)=>setQuantity(e.target.value)} />
                         
-                        {(product.out_of_stock === 1) ? 
+                        {(product.out_of_stock === 0) ? 
                         (
                             <a onClick = {requireAuthForAction} className = "link btn">Add To Cart</a>                        
                         ) 

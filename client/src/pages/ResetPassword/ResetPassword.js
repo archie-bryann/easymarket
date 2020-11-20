@@ -1,11 +1,15 @@
-import React from 'react'
+import React, { useState } from 'react'
 import './ResetPassword.css'
 import Header from '../../components/Header/Header'
 
 function ResetPassword({title,apiRootUrl,clientRootUrl, match,loggedInStatus,cartNum,token}) {
 
-    const { email, v_token } = match.params;
+    document.title = `Reset Password - ${title}`;
 
+    const { email, v_token } = match.params;
+    const [pwd1, setPwd1] = useState('');
+    const [pwd2, setPwd2] = useState('');
+    
     return (
         <React.Fragment>
             <Header title = {title} clientRootUrl = {clientRootUrl} loggedInStatus = {loggedInStatus} cartNum = {cartNum} />
@@ -13,7 +17,7 @@ function ResetPassword({title,apiRootUrl,clientRootUrl, match,loggedInStatus,car
                 <div className = "container">
                     <div className = "row">
                         <div className = "col-2">
-                            <img src = {`${clientRootUrl}images/image1.png`} className = "img-style" />
+                            <img src = {`${clientRootUrl}images/cover.png`} className = "img-style" alt = "" />
                         </div>
 
                         <div className = "col-2">

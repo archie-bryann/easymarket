@@ -429,7 +429,7 @@ exports.user_reset_password = (req,res,next) => {
                             });
                           
                         } else {
-                            res.status(200).json({error:'Invalid token!'});
+                            res.status(200).json({error:'Invalid action!'}); 
                         }
                     }
                 }

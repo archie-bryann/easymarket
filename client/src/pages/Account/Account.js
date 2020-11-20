@@ -9,6 +9,8 @@ import Loader from '../../components/Loader/Loader';
 
 function Account({title, clientRootUrl, apiRootUrl, loggedInStatus, cartNum,verifyAuth, token}) {
 
+    document.title = `Account - ${title}`;
+
     const lastLocation = useLastLocation();
 
     const [loginFormTransform, setLoginFormTransform] = useState('translateX(-300px)');
@@ -114,6 +116,7 @@ function Account({title, clientRootUrl, apiRootUrl, loggedInStatus, cartNum,veri
                     })
                     .catch(err=>{
                         setIsLoading(false);
+                        setColor('red');
                         setSignupErr("An error occurred. Please try again!");
                     })
                 }
@@ -178,7 +181,7 @@ function Account({title, clientRootUrl, apiRootUrl, loggedInStatus, cartNum,veri
                 <div className = "container">
                     <div className = "row">
                         <div className = "col-2">
-                            <img  src = "images/cover.png" className = "img-style" alt = "" />
+                            <img  src = {`${clientRootUrl}images/cover.png`} className = "img-style" alt = "" />
                             <img />
                         </div>
 
