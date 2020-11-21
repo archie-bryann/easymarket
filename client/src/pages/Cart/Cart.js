@@ -77,7 +77,7 @@ function Cart({title, clientRootUrl, apiRootUrl, loggedInStatus, token, errorMes
         .then(({data})=>{
             let cartItems = data;
             // setCartProducts(data);
-            console.log(cartItems)
+            // console.log(cartItems)
 
             if(cartItems.length < 1) {
                 setIsLoading(false);
@@ -161,8 +161,6 @@ function Cart({title, clientRootUrl, apiRootUrl, loggedInStatus, token, errorMes
                 position: toast.POSITION.BOTTOM_RIGHT
             })
         })
-
- 
     }
 
     function addSubTotals(subTotal) {
@@ -241,12 +239,11 @@ function Cart({title, clientRootUrl, apiRootUrl, loggedInStatus, token, errorMes
                             </tr>
 
                             {
-                                cartProducts.map(({cartId,quantity,id,categoryId,name,description,image,price})=><CartProduct key = {id} cartId = {cartId} quantity = {quantity} id = {id} categoryId = {categoryId} name = {name} description = {description} image = {image} price = {price} apiRootUrl = {apiRootUrl} token = {token} errorMessage = {errorMessage} delCartItem = {delCartItem} addSubTotals = {addSubTotals} calculateNewSubTotalAndTotal = {calculateNewSubTotalAndTotal} />)
+                                cartProducts.map(({cartId,quantity,id,categoryId,name,description,image,price,out_of_stock})=><CartProduct key = {id} cartId = {cartId} quantity = {quantity} id = {id} categoryId = {categoryId} name = {name} description = {description} image = {image} price = {price} out_of_stock = {out_of_stock} apiRootUrl = {apiRootUrl} token = {token} errorMessage = {errorMessage} delCartItem = {delCartItem} addSubTotals = {addSubTotals} calculateNewSubTotalAndTotal = {calculateNewSubTotalAndTotal} />)
                             }
                         </table>
                     )
                 }
-
 
                 {
                     (cartProducts.length < 1) && (
@@ -255,9 +252,7 @@ function Cart({title, clientRootUrl, apiRootUrl, loggedInStatus, token, errorMes
                         </Fragment>
                     )
                 }
-                
-
-
+        
                 { (allowed) && (
                     <OrderDetails subTotals = {subTotals} delivery = {delivery} total = {total} >
                         <Link to = {`/checkout`} className = "btn">Proceed to Checkout</Link>
@@ -268,9 +263,7 @@ function Cart({title, clientRootUrl, apiRootUrl, loggedInStatus, token, errorMes
                 <br />
                 <br />
             </div>
-            
         </React.Fragment>
-        
     )
 }
 

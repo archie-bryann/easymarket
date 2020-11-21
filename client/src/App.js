@@ -135,6 +135,7 @@ function App() {
           /** valid user -> save data */
           localStorage.setItem('email', res.data.email);
           localStorage.setItem('userId', res.data.userId);
+          localStorage.setItem('v_token', res.data.v_token);
 
           /** setUsertoLoggedIn */
           setLoggedInStatus(true);
@@ -144,6 +145,7 @@ function App() {
           localStorage.removeItem('wpt');
           localStorage.removeItem('email');
           localStorage.removeItem('userId');
+          localStorage.removeItem('v_token')
 
           /** setUsertoLoggedOut */
           setLoggedInStatus(false);
@@ -196,7 +198,7 @@ function App() {
 
             <Route path = "/forgot_password" exact = {true} component = {({match})=><ForgotPassword title = {title} apiRootUrl = {apiRootUrl} clientRootUrl = {clientRootUrl} loggedInStatus = {loggedInStatus} match = {match} verifyAuth = {verifyAuth} token = {token} />} />
 
-            <Route path = "/reset_password/:email/:v_token" exact = {true} component = {({match})=><ResetPassword loggedInStatus = {loggedInStatus} title = {title} apiRootUrl = {apiRootUrl} clientRootUrl = {clientRootUrl} match = {match} cartNum = {cartNum} token = {token} />} />
+            <Route path = "/reset_password/:email/:v_token" exact = {true} component = {({match})=><ResetPassword loggedInStatus = {loggedInStatus} title = {title} apiRootUrl = {apiRootUrl} clientRootUrl = {clientRootUrl} match = {match} cartNum = {cartNum} token = {token} errorMessage = {errorMessage} />} />
 
             <Route path = "/cart" exact = {true} component = {({match})=><Cart loggedInStatus = {loggedInStatus} title = {title} apiRootUrl = {apiRootUrl} clientRootUrl = {clientRootUrl} loggedInStatus = {loggedInStatus} match = {match} token = {token} errorMessage = {errorMessage} cartNum = {cartNum} decreaseCartNum = {decreaseCartNum} requireAuth = {requireAuth}  />} />
 

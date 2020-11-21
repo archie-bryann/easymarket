@@ -364,7 +364,7 @@ exports.user_password_recovery = (req,res,next) => {
                             from: process.env.mailUser,
                             to: email,
                             subject: "E-mail Account Confirmation",
-                            text: `<a href = "${process.env.clientRootUrl}/password_reset/{${email}/${user[0].token}">${process.env.clientRootUrl}/password_reset/{${email}/${user[0].token}</a>`
+                            text: `<a href = "${process.env.clientRootUrl}/reset_password/{${email}/${user[0].token}">${process.env.clientRootUrl}/reset_password/{${email}/${user[0].token}</a>`
                         }
 
                         transporter.sendMail(mailOptions, function(err,info){
@@ -398,7 +398,7 @@ exports.user_reset_password = (req,res,next) => {
                     res.status(500).json({error:'An error occured. Please try again!'});
                 } else {
                     if(user.length < 1) {
-                        res.status(404).json({error:'Invalid email!'});
+                        res.status(200).json({error:'Invalid password reset link!'}); /** Invalid email! */
                     } else {
                         if(user[0].token === token) {
                             // hash & update password
@@ -429,7 +429,7 @@ exports.user_reset_password = (req,res,next) => {
                             });
                           
                         } else {
-                            res.status(200).json({error:'Invalid action!'}); 
+                            res.status(200).json({error:'Invalid password reset link!'}); // invalid token
                         }
                     }
                 }

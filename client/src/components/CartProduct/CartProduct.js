@@ -8,7 +8,7 @@ import { Link } from 'react-router-dom';
 
 toast.configure();
 
-function CartProduct({cartId,quantity,id,categoryId,name,description,image,price,apiRootUrl,token,errorMessage,delCartItem,addSubTotals,calculateNewSubTotalAndTotal,less}) {
+function CartProduct({cartId,quantity,id,categoryId,name,description,image,price,out_of_stock,apiRootUrl,token,errorMessage,delCartItem,addSubTotals,calculateNewSubTotalAndTotal,less}) {
 
     const [cQuantity, setCQuantity] = useState(quantity);
     const [loading, setLoading] = useState(false);
@@ -20,7 +20,7 @@ function CartProduct({cartId,quantity,id,categoryId,name,description,image,price
     }, [apiRootUrl])
 
     function updateQuantity(e) {
-        setLoading(true);
+        // setLoading(true);
         const newQuantity = e.target.value;
         
         // send request to server
@@ -32,11 +32,11 @@ function CartProduct({cartId,quantity,id,categoryId,name,description,image,price
             }
         })
         .then(({data})=>{
-            setLoading(false);
+            // setLoading(false);
             if(data.error === 0) {
-                toast.success(data.message, {
-                    position: toast.POSITION.BOTTOM_RIGHT
-                })
+                // toast.success(data.message, {
+                //     position: toast.POSITION.BOTTOM_RIGHT
+                // })
                 setCQuantity(newQuantity);
                 
                 // update subTotal
@@ -59,14 +59,12 @@ function CartProduct({cartId,quantity,id,categoryId,name,description,image,price
 
         })
         .catch(err=>{
-            setLoading(false);
+            // setLoading(false);
             toast.error(errorMessage, {
                 position: toast.POSITION.BOTTOM_RIGHT
             })
         })
     }
-
-
 
     return (
         <React.Fragment>

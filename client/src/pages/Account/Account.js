@@ -142,15 +142,14 @@ function Account({title, clientRootUrl, apiRootUrl, loggedInStatus, cartNum,veri
                     // no error
                     // store token
                     localStorage.setItem('wpt', data.token);
-
                     // updateLogStatus();
 
                     // show message
                     setColor('green');
                     setLoginErr('Login successful!');
 
-                    // redirect user   
-                    window.location = `${lastLocation.pathname}`;
+                    // redirect user
+                    window.location = `/cart`;
                     // console.log(lastLocation.pathname)
                     
                 } else if(data.error === 933) {
@@ -200,7 +199,7 @@ function Account({title, clientRootUrl, apiRootUrl, loggedInStatus, cartNum,veri
                                     <input type = "text" name = "email" placeholder = "Email" onChange = {changeEmail} value = {email} />
                                     <input type = "password" name = "password" placeholder = "Password" onChange = {changePassword} value = {password} />
                                     <button type = "submit" className = "btn" onClick = {login}>Login</button>
-                                    <a href = "/forgot_password">Forgot password</a>
+                                    <a style = {{textDecoration:'underline'}} href = "/forgot_password">Forgot password?</a>
                                 </form>
 
 

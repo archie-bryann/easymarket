@@ -447,7 +447,7 @@ function Checkout({title, clientRootUrl, apiRootUrl, loggedInStatus, token, erro
                                 <option value="ABUJA-GAMES VILLAGE">ABUJA-GAMES VILLAGE</option>
                                 <option value="ABUJA-GARKI2">ABUJA-GARKI2</option>
                                 <option value="ABUJA-GUDU">ABUJA-GUDU</option>
-                                <option value=">ABUJA-GUZAPE">ABUJA-GUZAPE</option>
+                                <option value="ABUJA-GUZAPE">ABUJA-GUZAPE</option>
                                 <option value="ABUJA-GWAGWALADA">ABUJA-GWAGWALADA</option>
                                 <option value="ABUJA-JABI">ABUJA-JABI</option>
                                 <option value="ABUJA-JAHI">ABUJA-JAHI</option>

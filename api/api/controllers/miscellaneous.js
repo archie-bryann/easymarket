@@ -8,7 +8,13 @@ const logisticName = "Runsmith Logistics";
 const logisticAccNumber = "0000000000";
 const logisticBankCode = "011";
 const logisticReason = "Logistic Services";
-const logisticFees = 500; /** talk to them, more trips (to anywhere in Ibadan) -> heavily discounted price -> may depend  */ /** start from 500 per trip */
+const logisticFees = 1000; /** logistic fees varies based on LOCATION */
+/** talk to them, more trips (to anywhere in Ibadan) -> heavily discounted price -> may depend  */ /** start from 500 per trip */
+
+/** WRITE A FUNCTION TO CALCULATE THEIR DELIVERY FEE */
+
+
+/** TRANSFER MONEY TO FOOD AGENT TOO */
 
 
 exports.delivery_cost = (req,res,next) => {

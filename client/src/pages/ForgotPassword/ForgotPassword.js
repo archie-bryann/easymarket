@@ -7,10 +7,10 @@ function ForgotPassword({title,clientRootUrl,apiRootUrl,loggedInStatus,verifyAut
 
     document.title = `Forgot Password - ${title}`;
 
-    const [email, setEmail] = useState('');
-    const [color, setColor] = useState('red');
-    const [forgotErr, setForgotErr] = useState(null);
-    const [loading, setLoading] = useState(false);
+    const [email,setEmail] = useState('');
+    const [color,setColor] = useState('red');
+    const [forgotErr,setForgotErr] = useState(null);
+    const [loading,setLoading] = useState(false);
 
     function IsEmail(email) {
         if(email.includes("@")) {
@@ -31,6 +31,7 @@ function ForgotPassword({title,clientRootUrl,apiRootUrl,loggedInStatus,verifyAut
     }
 
     function forgotPassword(e) {
+        setForgotErr(null);
         e.preventDefault();
         const checker = IsEmail(email);
         if(checker === false) {
@@ -82,7 +83,7 @@ function ForgotPassword({title,clientRootUrl,apiRootUrl,loggedInStatus,verifyAut
                                     <p style = {{color,fontSize:'13.5px',float:'left',marginTop:'-13.5px'}}>{forgotErr}</p>
                                     <input type = "text" placeholder = "Email" value = {email} onChange = {changeEmail} />
                                     <button type = "submit" className = "btn" onClick = {forgotPassword}>Proceed</button>
-                                    <a href = "/account">Login or Signup?</a>
+                                    <a style = {{textDecoration:'underline'}} href = "/account">Login or Signup?</a>
                                 </form>
 
                             </div>

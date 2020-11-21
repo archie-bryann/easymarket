@@ -1,4 +1,4 @@
-import React, { useState, Fragment } from 'react'
+import React, { useState, Fragment, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import './NavBar.css'
 import {UserContext,PageContext} from '../../App'
@@ -45,6 +45,7 @@ function NavBar({title, clientRootUrl, loggedInStatus, match, cartNum, token}) {
                                         {(token) && (
                                             <Fragment>
                                                 <li><Link to="/orders" className = "link c">My Orders</Link></li>
+                                                <li><Link to={`/reset_password/${localStorage.getItem('email')}/${localStorage.getItem('v_token')}`} className = "link c">Reset Password</Link></li>
                                                 {/* <li><Link to="/profile" className = "link c">My Profile</Link></li> */}
                                                 {/* <li><Link to="/logout" className = "link c">Logout</Link></li> */}
                                             </Fragment>
