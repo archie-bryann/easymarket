@@ -7,8 +7,9 @@ import axios from 'axios'
 import Loader from '../../components/Loader/Loader';
 import {toast} from 'react-toastify'
 import OrderDetails from '../../components/CartPricing/CartPricing';
-import { Link } from 'react-router-dom';
 import CartProduct from '../../components/CartProduct/CartProduct';
+import moment from 'moment'
+
 
 toast.configure();
 
@@ -36,9 +37,27 @@ function Checkout({title, clientRootUrl, apiRootUrl, loggedInStatus, token, erro
     const [address, setAddress] = useState('');
     const [additionalInfo, setAdditionalInfo] = useState('');
     const [stateRegion, setStateRegion] = useState('Federal Capital Territory');
-    const [city, setCity] = useState(''); 
+    const [city, setCity] = useState('');
+
+    const [note,setNote] = useState(null);
+
+    /** check timestamp */
+    const today = "Your order will be delivered before 8pm today.";
+    const tomorrow = "Your order will be delivered before 8pm tomorrow.";
     /** ./end of FormStates */
 
+
+    useEffect(()=>{
+        const format = 'hh:mm:ss';
+        const time = moment();
+        const checkerTime = moment('18:00:00',format);
+
+        if(time.isAfter(checkerTime)) {
+            setNote(tomorrow);
+        } else {
+            setNote(today);
+        }
+    }, [])
 
     /** fetch UserData  */
     useEffect(()=>{
@@ -182,7 +201,7 @@ function Checkout({title, clientRootUrl, apiRootUrl, loggedInStatus, token, erro
         .then(({data})=>{
             let cartItems = data;
             // setCartProducts(data);
-            console.log(cartItems)
+            // console.log(cartItems)
 
             if(cartItems.length < 1) {
                 setIsLoading(false);
@@ -506,6 +525,11 @@ function Checkout({title, clientRootUrl, apiRootUrl, loggedInStatus, token, erro
 
                             <br />
                             <span className="note">*Required</span>
+                            <br />
+                            <br />
+                            <span style = {{textDecoration:'underline'}}>Note: {note}</span>
+                            <br />
+                            <br />
                             {/** 
                              * state/region refers to Abuja
                              * 
@@ -581,7 +605,7 @@ function Checkout({title, clientRootUrl, apiRootUrl, loggedInStatus, token, erro
                                     }
                                 })
                                 .catch(err=>{
-                                    console.log(err)
+                                    // console.log(err)
                                     setIsLoading(false);
                                     toast.error(errorMessage,{
                                         position:toast.POSITION.BOTTOM_RIGHT,

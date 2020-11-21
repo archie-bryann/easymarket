@@ -19,6 +19,9 @@ function Logout({title, clientRootUrl, loggedInStatus, v, cartNum, requireAuth, 
 
         // delete token
         localStorage.removeItem('wpt');
+        localStorage.removeItem('email');
+        localStorage.removeItem('userId');
+        localStorage.removeItem('v_token');
         window.location = "/";
     }
 

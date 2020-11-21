@@ -33,6 +33,8 @@ function Account({title, clientRootUrl, apiRootUrl, loggedInStatus, cartNum,veri
 
     const [redr, setRedr] = useState(false);
 
+    const [t,setT] = useState(false);
+
     function registerTab() {
         setRegFormTransform('translateX(0px)');
         setLoginFormTransform('translateX(-300px)');
@@ -55,6 +57,7 @@ function Account({title, clientRootUrl, apiRootUrl, loggedInStatus, cartNum,veri
 
     function changeEmail(e) {
         setEmail(e.target.value);
+        setT(true);
     }
 
     function changePassword(e) {
@@ -142,6 +145,7 @@ function Account({title, clientRootUrl, apiRootUrl, loggedInStatus, cartNum,veri
                     // no error
                     // store token
                     localStorage.setItem('wpt', data.token);
+                    localStorage.setItem('v_token', data.v_token);
                     // updateLogStatus();
 
                     // show message
@@ -208,6 +212,9 @@ function Account({title, clientRootUrl, apiRootUrl, loggedInStatus, cartNum,veri
                                     <input type = "text" name = "firstname" placeholder = "Firstname" onChange = {changeFirstname} value = {firstname} />
                                     <input type = "text" name = "lastname" placeholder = "Lastname" onChange = {changeLastname} value = {lastname} />
                                     <input type = "text" name = "email" placeholder = "Email" onChange = {changeEmail} value = {email} />
+                                    {t&&(
+                                        <small style = {{fontSize:'10px',float:'left'}}>You cannot change your email after signing up</small>
+                                    )}
                                     <input type = "password" name = "password" placeholder = "Password" onChange = {changePassword} value = {password} />
                                     <button type = "submit" className = "btn" onClick = {signup}>Register</button>
                                 </form>

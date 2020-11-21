@@ -12,7 +12,7 @@ import OrderDetails from '../../components/CartPricing/CartPricing';
 import Empty from '../../components/Empty/Empty';
 
 toast.configure();
-
+    
 function Cart({title, clientRootUrl, apiRootUrl, loggedInStatus, token, errorMessage, cartNum,decreaseCartNum, requireAuth}) {
 
     document.title = `Cart - ${title}`;

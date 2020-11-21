@@ -241,7 +241,8 @@ exports.user_login = (req,res,next) => {
                                                         res.status(200).json({
                                                             error: 0,
                                                             message: 'Auth successful', // user will be logged in
-                                                            token
+                                                            token,
+                                                            v_token:user[0].token
                                                         });
                                                     }
                                                 });

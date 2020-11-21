@@ -26,7 +26,6 @@ import Checkout from './pages/Checkout/Checkout';
 import Test from './pages/Test/Test';
 import {toast} from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
-import { indigo } from '@material-ui/core/colors';
 
 // export const UserContext = React.createContext();
 // export const PageContext = React.createContext();
@@ -133,9 +132,9 @@ function App() {
         // console.log(res.data)
         if(res.data.valid === 1) {
           /** valid user -> save data */
-          localStorage.setItem('email', res.data.email);
-          localStorage.setItem('userId', res.data.userId);
-          localStorage.setItem('v_token', res.data.v_token);
+          // localStorage.setItem('email', res.data.email);
+          // localStorage.setItem('userId', res.data.userId);
+          // localStorage.setItem('v_token', res.data.v_token);
 
           /** setUsertoLoggedIn */
           setLoggedInStatus(true);
