@@ -11,20 +11,20 @@ exports.products_get_all = (req,res,next) => {
     if(tokenEmail === process.env.adminEmail) {
         pool.getConnection(function(err,conn){
             if(err) {
-                res.status(500).json({error:'An error occured. Please try again!'});
+                return res.status(500).json({error:'An error occured. Please try again!'});
             } else {
                 conn.query(`select * from productSchema`, function(err,products){
                     conn.release();
                     if(err) {
-                        res.status(500).json({error:'An error occured. Please try again!'});
+                        return res.status(500).json({error:'An error occured. Please try again!'});
                     } else {
-                        res.status(200).json(products);
+                        return res.status(200).json(products);
                     }
                 });
             }
         }); 
     } else {
-        res.status(401).json({error:'Auth failed!'});
+        return res.status(401).json({error:'Auth failed!'});
     }
 }
 
@@ -33,17 +33,17 @@ exports.products_get_product = (req,res,next) => {
 
     pool.getConnection(function(err,conn){
         if(err) {
-            res.status(500).json({error:'An error occured. Please try again!'});
+            return res.status(500).json({error:'An error occured. Please try again!'});
         } else {
             conn.query(`select * from productSchema where ( id = ? ) and ( visible = 1 )`, [productId], function(err,product){
                 conn.release();
                 if(err) {
-                    res.status(500).json({error:'An error occured. Please try again!'});
+                    return res.status(500).json({error:'An error occured. Please try again!'});
                 } else {
                     if(product.length > 0) {
-                        res.status(200).json(product[0]);
+                        return res.status(200).json(product[0]);
                     } else {
-                        res.status(200).json({error:'Product does not exist'});
+                        return res.status(200).json({error:'Product does not exist'});
                     }
                 }
             });
@@ -56,14 +56,14 @@ exports.products_get_random = (req,res,next) => {
 
     pool.getConnection(function(err,conn){
         if(err) {
-            res.status(500).json({error:'An error occured. Please try again!'});
+            return res.status(500).json({error:'An error occured. Please try again!'});
         } else {
             conn.query(`select * from productSchema order by RAND() LIMIT ${limit}`, function(err,products){
                 conn.release();
                 if(err) {
-                    res.status(500).json({error:'An error occured. Please try again!'});
+                    return res.status(500).json({error:'An error occured. Please try again!'});
                 } else {
-                    res.status(200).json(products);
+                    return res.status(200).json(products);
                 }
             }); 
         }
@@ -75,14 +75,14 @@ exports.products_get_starred = (req,res,next) => {
 
     pool.getConnection(function(err,conn){
         if(err) {
-            res.status(500).json({error:'An error occured. Please try again!'});
+            return res.status(500).json({error:'An error occured. Please try again!'});
         } else {
             conn.query(`select * from productSchema where ( starred = 1 ) LIMIT ${limit}`, function(err,products){
                 conn.release();
                 if(err) {
-                    res.status(500).json({error:'An error occured. Please try again!'});    
+                    return res.status(500).json({error:'An error occured. Please try again!'});    
                 } else {
-                    res.status(200).json(products)
+                    return res.status(200).json(products)
                 }
             });
         }
@@ -99,7 +99,7 @@ exports.products_add_product = (req,res,next) => {
     if(tokenEmail === process.env.adminEmail) {
         pool.getConnection(function(err,conn){
             if(err) {
-                res.status(500).json({error:'An error occured. Please try again!'});
+                return res.status(500).json({error:'An error occured. Please try again!'});
             } else {
                 /** sounds_like: name, description */
                 sounds_like += `${enhance(name)} `;
@@ -108,9 +108,9 @@ exports.products_add_product = (req,res,next) => {
                 conn.query(`insert into productSchema (categoryId, name, description, image, price, sounds_like, timestamp) values (?, ?, ?, ?, ?, ?, ?)`, [categoryId,name,description,image,price,sounds_like,timestamp], function(err,result){
                     conn.release();
                     if(err) {
-                        res.status(500).json({error:'An error occured. Please try again!'});
+                        return res.status(500).json({error:'An error occured. Please try again!'});
                     } else {
-                        res.status(200).json({
+                        return res.status(200).json({
                             error:0,
                             request: {
                                 type: 'GET',
@@ -122,7 +122,7 @@ exports.products_add_product = (req,res,next) => {
             }
         });
     } else {
-        res.status(401).json({error:'Auth failed!'});
+        return res.status(401).json({error:'Auth failed!'});
     }
 }
 
@@ -136,21 +136,21 @@ exports.products_update_product = (req,res,next) => {
     if(tokenEmail === process.env.adminEmail) {
         pool.getConnection(function(err,conn){
             if(err) {
-                res.status(500).json({error:'An error occured. Please try again!'});
+                return res.status(500).json({error:'An error occured. Please try again!'});
             } else {
                 conn.query(`select * from productSchema where id = ?`, [productId], function(err,product){
                     conn.release();
                     if(err) {
-                        res.status(500).json({error:'An error occured. Please try again!'});
+                        return res.status(500).json({error:'An error occured. Please try again!'});
                     } else {
                         if(product.length > 0) {
                             fs.unlink(`./uploads/${product[0].image}`, function(err){
                                 if(err) {
-                                    res.status(500).json({error:'An error occured. Please try again!'});
+                                    return res.status(500).json({error:'An error occured. Please try again!'});
                                 } else {
                                     pool.getConnection(function(err,conn){
                                         if(err) {
-                                            res.status(500).json({error:'An error occured. Please try again!'});
+                                            return res.status(500).json({error:'An error occured. Please try again!'});
                                         } else {
                                             conn.query(`update productSchema set
                                                 categoryId = ?,
@@ -164,19 +164,19 @@ exports.products_update_product = (req,res,next) => {
                                             `, [categoryId,name,image,price,visible,starred,out_of_stock,productId], function(err,result){
                                                 conn.release();
                                                 if(err) {
-                                                    res.status(500).json({error:'An error occured. Please try again!'});
+                                                    return res.status(500).json({error:'An error occured. Please try again!'});
                                                 } else {
                                                     // display full products
                                                     pool.getConnection(function(err,conn){
                                                         if(err) {
-                                                            res.status(500).json({error:'An error occured. Please try again!'});
+                                                            return res.status(500).json({error:'An error occured. Please try again!'});
                                                         } else {
                                                             conn.query(`select * from productSchema where id = '${productId}'`, function(err,product){
                                                                 conn.release();
                                                                 if(err) {
-                                                                    res.status(500).json({error:'An error occured. Please try again!'});
+                                                                    return res.status(500).json({error:'An error occured. Please try again!'});
                                                                 } else {
-                                                                    res.status(200).json(product);
+                                                                    return res.status(200).json(product);
                                                                 }
                                                             });
                                                         }
@@ -188,7 +188,7 @@ exports.products_update_product = (req,res,next) => {
                                 }
                             });
                         } else {
-                            res.status(200).json({error:'Product does not exist.'})
+                            return res.status(200).json({error:'Product does not exist.'})
                         }
                     }
                 })
@@ -206,13 +206,13 @@ exports.products_delete_product = (req,res,next) => {
     if(tokenEmail ===  process.env.adminEmail) {
         pool.getConnection(function(err,conn){
             if(err) {
-                res.status(500).json({error:'An error occured. Please try again!'});
+                return res.status(500).json({error:'An error occured. Please try again!'});
             } else {
 
                 conn.query(`select * from productSchema where id = ?`, [productId], function(err, product){
                     conn.release();
                     if(err) {
-                        res.status(500).json({error:'An error occured. Please try again!'});
+                        return res.status(500).json({error:'An error occured. Please try again!'});
                     } else {
 
                         if(product.length > 0) {
@@ -221,18 +221,18 @@ exports.products_delete_product = (req,res,next) => {
                         // delete file
                         fs.unlink(`./uploads/${product[0].image}`, function(err){
                             if(err) {
-                                res.status(500).json({error:'An error occured. Please try again!'});
+                                return res.status(500).json({error:'An error occured. Please try again!'});
                             } else {
                                 pool.getConnection(function(err,result){
                                     if(err) {
-                                        res.status(500).json({error:'An error occured. Please try again!'});
+                                        return res.status(500).json({error:'An error occured. Please try again!'});
                                     } else {
                                         conn.query(`update productSchema set visible = 0 where id = '${productId}'`, function(err,result){
                                             conn.release();
                                             if(err) {
-                                                res.status(500).json({error:'An error occured. Please try again!'});
+                                                return res.status(500).json({error:'An error occured. Please try again!'});
                                             } else {
-                                                res.status(200).json({error:0})
+                                                return res.status(200).json({error:0})
                                             }
                                         });
                                     }
@@ -241,7 +241,7 @@ exports.products_delete_product = (req,res,next) => {
                         });
 
                     } else {
-                        res.status(200).json({error:'Product does not exist.'})
+                        return res.status(200).json({error:'Product does not exist.'})
                     } 
                     }
                 })

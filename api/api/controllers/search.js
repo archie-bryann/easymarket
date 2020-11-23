@@ -10,25 +10,25 @@ exports.get_search_results = (req,res,next) => {
     let result = {};
     pool.getConnection(function(err,conn){
         if(err) {
-            res.status(500).json({error:'An error occured. Please try again!'});
+            return res.status(500).json({error:'An error occured. Please try again!'});
         } else {
             conn.query(`select * from categorySchema where sounds_like LIKE ?`, [q], function(err,categories){
                 conn.release();
                 if(err) {
-                    res.status(500).json({error:'An error occured. Please try again!'});
+                    return res.status(500).json({error:'An error occured. Please try again!'});
                 } else {
                     result.categories = categories;
                     pool.getConnection(function(err,conn){
                         if(err) {
-                            res.status(500).json({error:'An error occured. Please try again!'});
+                            return res.status(500).json({error:'An error occured. Please try again!'});
                         } else {
                             conn.query(`select * from productSchema where sounds_like like ? and ( visible = 1 )`, [q], function(err,products){
                                 conn.release();
                                 if(err) {
-                                    res.status(500).json({error:'An error occured. Please try again!'});
+                                    return res.status(500).json({error:'An error occured. Please try again!'});
                                 } else {
                                     result.products = products;
-                                    res.status(200).json(result);
+                                    return res.status(200).json(result);
                                 }
                             });
                         }

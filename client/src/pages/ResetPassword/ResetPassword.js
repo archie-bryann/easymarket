@@ -64,7 +64,7 @@ function ResetPassword({title,apiRootUrl,clientRootUrl, match,loggedInStatus,car
         <React.Fragment>
             {loading&&<Loader/>}
             {/* {redr&&<Redirect to = "/account" />} */}
-            <Header title = {title} clientRootUrl = {clientRootUrl} loggedInStatus = {loggedInStatus} cartNum = {cartNum} />
+            <Header title = {title} clientRootUrl = {clientRootUrl} loggedInStatus = {loggedInStatus} cartNum = {cartNum} token = {token} />
             <div className = "account-page">
                 <div className = "container">
                     <div className = "row">

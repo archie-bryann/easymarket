@@ -56,13 +56,13 @@ function Cart({title, clientRootUrl, apiRootUrl, loggedInStatus, token, errorMes
         })
         .catch(err=>{
             // setIsLoading(false);
-            // console.log(err)
-            toast.error(errorMessage, {
-                position: toast.POSITION.BOTTOM_RIGHT
-            })
+            console.log(err)
+            // toast.error(errorMessage, {
+            //     position: toast.POSITION.BOTTOM_RIGHT
+            // })
         })
 
-    }, [total])
+    }, [apiRootUrl, total])
 
     useEffect(() => {
         setTotal(subTotals + delivery);
@@ -104,9 +104,10 @@ function Cart({title, clientRootUrl, apiRootUrl, loggedInStatus, token, errorMes
                     })
                     .catch(err=>{
                         setIsLoading(false);
-                        toast.error(errorMessage, {
-                            position: toast.POSITION.BOTTOM_RIGHT
-                        })
+                        console.log(err)
+                        // toast.error(errorMessage, {
+                        //     position: toast.POSITION.BOTTOM_RIGHT
+                        // })
                     })
                 })
             }
@@ -114,9 +115,10 @@ function Cart({title, clientRootUrl, apiRootUrl, loggedInStatus, token, errorMes
 
         .catch(err=>{
             setIsLoading(false);
-            toast.error(errorMessage, {
-                position: toast.POSITION.BOTTOM_RIGHT
-            })      
+            // toast.error(errorMessage, {
+            //     position: toast.POSITION.BOTTOM_RIGHT
+            // })      
+            console.log(err)
         })
     },[apiRootUrl])
 
@@ -157,9 +159,11 @@ function Cart({title, clientRootUrl, apiRootUrl, loggedInStatus, token, errorMes
         })
         .catch(err=>{
             setIsLoading(false);
-            toast.error(errorMessage, {
-                position: toast.POSITION.BOTTOM_RIGHT
-            })
+            // toast.error(errorMessage, {
+            //     position: toast.POSITION.BOTTOM_RIGHT
+            // })
+            console.log(err)
+
         })
     }
 
@@ -174,7 +178,7 @@ function Cart({title, clientRootUrl, apiRootUrl, loggedInStatus, token, errorMes
         setTotal(subTotals+delivery);
 
 
-    }, [subTotals])
+    }, [apiRootUrl,subTotals])
 
     useEffect(() => {
         let sum = 0;
@@ -186,7 +190,7 @@ function Cart({title, clientRootUrl, apiRootUrl, loggedInStatus, token, errorMes
 
         
 
-    }, [cartProducts])
+    }, [apiRootUrl,cartProducts])
 
     function calculateNewSubTotalAndTotal(newQuantity, cartId) {
 

@@ -45,39 +45,7 @@ function App() {
 
   /** Paystack keys */
   const paystackPublicTestKey = "pk_test_71fcbd166959c23469deda0eed300f1282274ab8";
-  const paystackPublicLiveKey = "pk_live_0c00d37b5b15ddfac6da8942824febacee13f712";
-
-  // useEffect(() => {
-
-  //   if(token) {
-  //     // verify token
-  //     axios(`${apiRootUrl}user/verify`, {
-  //       headers: {
-  //         'Authorization':`Basic ${token}`
-  //       }
-  //     })
-  //     .then(res=>{
-  //       console.log(res.data)
-  //       if(res.data.valid === 1) {
-  //         // user is valid
-  //         setLoggedInStatus(true);
-  //         // save the email in localStorage
-  //         localStorage.setItem('email', res.data.email);
-  //         localStorage.setItem('userId', res.data.userId);
-  //       } else {
-  //         setLoggedInStatus(false);
-  //       }
-  //     })
-  //     .catch(err=>{
-  //       // error
-  //       setLoggedInStatus(false);
-  //     })
-  //   } else {
-  //     setLoggedInStatus(false);
-  //   }
-
-  // }, [token])
-
+  const paystackPublicLiveKey = "";
 
   useEffect(()=>{
     /** get cartItems number */
@@ -110,8 +78,6 @@ function App() {
   function setCartNumToZero() {
     setCartNum(0);
   }
-
-
   function requireAuth() {
 
     const account = <Redirect to = "/account" />
@@ -123,7 +89,7 @@ function App() {
       return account;
     } else {
       // verify token
-      axios(`${apiRootUrl}user/verify`, {
+      axios.get(`${apiRootUrl}user/verify`, {
         headers: {
           'Authorization':`Basic ${token}`
         }
@@ -219,8 +185,6 @@ function App() {
 
             <Route path = "/test" exact = {true} component = {Test} />
 
-            {/* <Route render = {()=><ErrorPage error = {404} />} /> */}
-            
             <Route render = {()=><ErrorPage title = {title} clientRootUrl = {clientRootUrl} loggedInStatus = {loggedInStatus}  cartNum = {cartNum} token = {token} />} />
             
           </Switch>

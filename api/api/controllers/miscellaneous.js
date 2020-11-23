@@ -1,3 +1,4 @@
+const pool = require('../../utils/pool');
 const PayStack = require('paystack-node');
 const environment = process.env.NODE_ENV;
 const paystackTestSecretKey = process.env.paystackTestSecretKey;
@@ -8,15 +9,18 @@ const logisticName = "Runsmith Logistics";
 const logisticAccNumber = "0000000000";
 const logisticBankCode = "011";
 const logisticReason = "Logistic Services";
-
+const logisticDefaultFee = 600;
+let logisticFees;
 
 /** talk to them, more trips (to anywhere in Ibadan) -> heavily discounted price -> may depend  */ /** start from 500 per trip */
+
+/** TRANSFER MONEY TO FOOD AGENT TOO */
 
 /** WRITE A FUNCTION TO CALCULATE THEIR DELIVERY FEE */
 function checkLocationFee(location) {
     switch (location) {
         case "ABAJI":
-            return 500;
+            return 3500;
         case "ABUJA AIRPORT ROAD-ABUJA TECHNOLOGY VILLAGE":
             return 800;
         case "ABUJA AIRPORT ROAD-CHIKA":
@@ -132,20 +136,19 @@ function checkLocationFee(location) {
         case "ABUJA-ASOKORO":
             return 800;
         case "ABUJA-BWARI":
-            return 2000; /** EXPENSIVE */
-            /** STOPPED HERE */
+            return 2000;
         case "Abuja-Central":
-            return 500;
+            return 600;
         case "Abuja-Dakibiyu":
-            return 500;
+            return 600;
         case "ABUJA-DAWAKI":
-            return 500;
+            return 700;
         case "ABUJA-DEI-DEI":
-            return 500;
+            return 1200;
         case "ABUJA-DUTSE":
-            return 500;
+            return 800;
         case "ABUJA-EFAB":
-            return 500;
+            return 700;
         case "ABUJA-GALADIMAWA":
             return 500;
         case "ABUJA-GAMES VILLAGE":
@@ -155,151 +158,157 @@ function checkLocationFee(location) {
         case "ABUJA-GUDU":
             return 500;
         case "ABUJA-GUZAPE":
-            return 500;
+            return 800;
         case "ABUJA-GWAGWALADA":
-            return 500;
+            return 2000;
         case "ABUJA-JABI":
-            return 500;
+            return 600;
         case "ABUJA-JAHI":
-            return 500;
+            return 600;
         case "ABUJA-KABUSA":
-            return 500;
+            return 700;
         case "ABUJA-KADO":
-            return 500;
+            return 700;
         case "ABUJA-KARU":
-            return 500;
+            return 1500;
         case "ABUJA-KAURA DISTRICT":
-            return 500;
+            return 400;
         case "ABUJA-KUJE":
-            return 500;
+            return 1500;
         case "ABUJA-LIFE CAMP":
-            return 500;
+            return 600;
         case "ABUJA-LOKOGOMA":
-            return 500;
+            return 700;
         case "Abuja-Lugbe Across Zone1-9":
-            return 500;
+            return 800;
         case "Abuja-Lugbe Kapwa":
-            return 500;
+            return 800;
         case "Abuja-Lugbe MrBiggs":
-            return 500;
+            return 800;
         case "Abuja-Lugbe New Site":
-            return 500;
+            return 800;
         case "Abuja-Lugbe Peace Village":
-            return 500;
+            return 800;
         case "Abuja-Lugbe Police Sign Post":
-            return 500;
+            return 800;
         case "Abuja-Lugbe Premier Academy":
-            return 500;
+            return 800;
         case "Abuja-Lugbe Sector F":
-            return 500;
+            return 800;
         case "Abuja-Lugbe Skye Bank":
-            return 500;
+            return 800;
         case "Abuja-Lugbe Total":
-            return 500;
+            return 800;
         case "Abuja-Lugbe Tudun Wada":
-            return 500;
+            return 800;
         case "ABUJA-MARARABA":
-            return 500;
+            return 2000;
         case "ABUJA-NYANYA":
-            return 500;
+            return 1500;
         case "Abuja-Prince and Princess":
             return 500;
         case "ABUJA-SUNCITY":
             return 500;
         case "ABUJA-SUNNY VALLE":
-            return 500;
+            return 600;
         case "ABUJA-UTAKO":
-            return 500;
+            return 600;
         case "ABUJA-WUSE ZONE 1":
-            return 500;
+            return 600;
         case "ABUJA-WUSE ZONE 2":
-            return 500;
+            return 600;
         case "ABUJA-WUSE ZONE 3":
-            return 500;
+            return 600;
         case "ABUJA-WUSE ZONE 4":
-            return 500;
+            return 600;
         case "ABUJA-WUSE ZONE 5":
-            return 500;
+            return 600;
         case "ABUJA-WUSE ZONE 6":
-            return 500;
+            return 600;
         case "ABUJA-WUSE ZONE 7":
-            return 500;
+            return 600;
         case "ABUJA-WUSE11":
-            return 500;
+            return 600;
         case "Abuja-Wuye":
-            return 500;
-        case "Airport Road Iddo":
-            return 500;
+            return 600;
+        case "Airport Road Iddo": /**  */
+            return 1000;
         case "Airport Road Kuchingoro / Chika / Pyakasa":
-            return 500;
+            return 1000;
         case "Airport Road Sauka /Trademore / Airport":
-            return 500;
+            return 1500;
         case "Dutse":
-            return 500;
+            return 800;
         case "GIDAN MANGORO":
-            return 500;
+            return 2000;
         case "GWAGWALADA":
-            return 500;
+            return 2000;
         case "IDU":
             return 500;
         case "Jikowyi":
-            return 500;
+            return 2000;
         case "Karimo":
-            return 500;
+            return 1200;
         case "KARU":
-            return 500;
+            return 1500;
         case "Kubwa Central":
-            return 500;
+            return 1000;
         case "KWALI":
-            return 500;
+            return 3000;
         case "Lugbe":
-            return 500;
+            return 800;
         case "MINISTERS HILL":
-            return 500;
+            return 700;
         case "Mpape":
-            return 500;
+            return 700;
         case "NICON JUNCTION":
-            return 500;
+            return 600;
         case "Tungan Maje":
-            return 500;
+            return 4000;
         case "Zuba":
-            return 500;
+            return 3000;
         default:
-            return 500;
+            return logisticDefaultFee;
     }
 }
 
-/** TRANSFER MONEY TO FOOD AGENT TOO */
+exports.city_cost = (req,res,next) => {
+    const {city} = req.params;
+    console.log(city)
+    return res.status(200).json({
+        fee:checkLocationFee(city)
+    })    
+}
 
 exports.delivery_cost = (req,res,next) => {
-    // Capital(SO FAR): 1,200 (domain) + 1,600 (h.plan) + 10,000 (fliers) + 10,000 (nylon) = 22,800 naira
-    /** Things To Consider:
-     * <Focus on Above-Average and Rich Family</People> Market>
-     * Market Product: veries
-     * FoodNet Fees: 1500
-     * Logistics: 1000
-     * Nylons
-     * Paystack(1): calculate paystack fees based on TOTAL_COST_OF_PRODUCTS & FEES ABOVE & add it to above (1.5%)
-     * Paystack(2): calculate percentage on money to be transferred: 
-     * (5k & below) - 10 naira
-     */
-    /** 
-     * Calculate E.T.A. based on location
-     */
-
+   
     const {userId} = req.userData;
 
-    
+    /** Get the city of the user */
+    pool.getConnection((err,conn)=>{
+        if(err) {
+            logisticFees = logisticDefaultFee;
+        } else {
+            conn.query(`select * from userSchema where id = ?`, [userId], (err,user)=>{
+                if(err) {
+                    logisticFees = logisticDefaultFee;
+                } else {
+                    logisticFees = checkLocationFee(user[0].city); 
+                }
+            });
+        }
+    });
 
+    console.log(logisticFees)
 
-    const logisticFees = 1000; /** logistic fees varies based on LOCATION */
-
+    // const logisticFees = 1000; /** logistic fees varies based on LOCATION */
 
     const { subtotal } = req.body;
 
     /** FoodNet Logic */
     let FoodNetFees;
-    if(subtotal < 1000) {
+
+    if(subtotal < 1000) {   
         FoodNetFees = ((2.5/100)*subtotal) + 100;  // 1.5 (down)
     } else if(subtotal <= 5000) {
         FoodNetFees = ((3/100)*subtotal) + 100; 
@@ -310,7 +319,6 @@ exports.delivery_cost = (req,res,next) => {
     }
     /** ../end */
 
-    
     const paystackPaymentFee = ( subtotal + FoodNetFees + logisticFees ) * (1.5/100);
 
     const paystackTransferFee = 10; // off transfer made to them
@@ -324,7 +332,21 @@ exports.delivery_cost = (req,res,next) => {
 
 exports.verify_transaction = (req,res,next) => {
 
-    const logisticFees = 1000; /** logistic fees varies based on LOCATION */
+    const {userId} = req.userData;
+
+    pool.getConnection((err,conn)=>{
+        if(err) {
+            logisticFees = logisticDefaultFee;
+        } else {
+            conn.query(`select * from userSchema where id = ?`, [userId], (err,user)=>{
+                if(err) {
+                    logisticFees = logisticDefaultFee;
+                } else {
+                    logisticFees = checkLocationFee(user[0].city); 
+                }
+            });
+        }
+    });
 
     const { reference } = req.params;
 

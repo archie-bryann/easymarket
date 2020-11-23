@@ -146,7 +146,8 @@ function Account({title, clientRootUrl, apiRootUrl, loggedInStatus, cartNum,veri
                     // store token
                     localStorage.setItem('wpt', data.token);
                     localStorage.setItem('v_token', data.v_token);
-                    // updateLogStatus();
+                    localStorage.setItem('userId',data.userId);
+                    localStorage.setItem('email', data.email);
 
                     // show message
                     setColor('green');

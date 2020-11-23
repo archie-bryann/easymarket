@@ -5,14 +5,14 @@ const pool = require("../../utils/pool")
 exports.get_market_status = (req,res,next) => {
     pool.getConnection(function(err,conn){
         if(err) {
-            res.status(500).json({error:'An error occured. Please try again!'});
+            return res.status(500).json({error:'An error occured. Please try again!'});
         } else {
             conn.query(`select * from marketSchema where id = 1`, function(err,market){
                 conn.release();
                 if(err) {
-                    res.status(500).json({error:'An error occured. Please try again!'});
+                    return res.status(500).json({error:'An error occured. Please try again!'});
                 } else {
-                    res.status(200).json(market[0]);
+                    return res.status(200).json(market[0]);
                 }
             });
         }
@@ -26,23 +26,23 @@ exports.update_market_status = (req,res,next) => {
     if(tokenEmail === process.env.adminEmail) {
         pool.getConnection(function(err,conn){
             if(err) {
-                res.status(500).json({error:'An error occured. Please try again!'});
+                return res.status(500).json({error:'An error occured. Please try again!'});
             } else {
                 conn.query(`update marketSchema set status = ? where id = 1`, [status], function(err,result){
                     conn.release();
                     if(err) {
-                        res.status(500).json({error:'An error occured. Please try again!'});
+                        return res.status(500).json({error:'An error occured. Please try again!'});
                     } else {
                         pool.getConnection(function(err,conn){
                             if(err) {
-                                res.status(500).json({error:'An error occured. Please try again!'});
+                                return res.status(500).json({error:'An error occured. Please try again!'});
                             } else {
                                 conn.query(`select * from marketSchema where id = 1`, function(err,market){
                                     conn.release();
                                     if(err) {
-                                        res.status(500).json({error:'An error occured. Please try again!'});
+                                        return res.status(500).json({error:'An error occured. Please try again!'});
                                     } else {
-                                        res.status(200).json(market[0]);
+                                        return res.status(200).json(market[0]);
                                     }
                                 });
                             }

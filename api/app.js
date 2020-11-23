@@ -3,6 +3,7 @@ const app = express();
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const path = require('path');
+const cors = require('cors');
 
 const userRoutes = require('./api/routes/user');
 const adminRoutes = require('./api/routes/admin');
@@ -12,23 +13,51 @@ const orderRoutes = require('./api/routes/order');
 const marketRoutes = require('./api/routes/market');
 const searchRoutes = require('./api/routes/search');
 const cartRoutes = require('./api/routes/cart');
-const MiscellaneousRoutes = require('./api/routes/miscellaneous');
+const miscellaneousRoutes = require('./api/routes/miscellaneous');
+
 
 app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({extended:false}));
 app.use(bodyParser.json());
 
+const corsOptions = {
+    origin:true,
+    credentials:true
+}
+
+app.options('*', cors(corsOptions));
+app.listen(80, function(){
+    console.log('CORS-enabled web server listening on port 80')
+});
+
 app.use((req,res,next) => {
     res.header("Access-Control-Allow-Origin","*"); // change later
+    res.header("Access-Control-Allow-Credentials", "true"); 
+    res.header('Access-Control-Allow-Methods', 'PUT, POST, PATCH, DELETE, GET, OPTIONS');
     res.header(
         "Access-Control-Allow-Headers",
         "Origin, X-Requested-With, Content-Type, Accept, Authorization"
     );
-    if(req.method === 'OPTIONS') {
-        res.header('Access-Control-Allow-Methods', 'PUT, POST, PATCH, DELETE, GET');
-        res.status(200).json({});
-    }
-    next();
+    // Disable caching for content files
+    
+    // res.header("Cache-Control", "no-cache, no-store, must-revalidate");
+    // res.header("Pragma", "no-cache");
+    // res.header("Expires", 0);
+
+    // if(req.method === 'OPTIONS') {
+    //     res.status(200).json({});
+    // }
+    // next();
+
+     //intercepts OPTIONS method
+     if ('OPTIONS' === req.method) {
+        //respond with 200
+        return res.status(200).json({});
+      }
+      else {
+      //move on
+        next();
+      }
 });
 
 app.use('/user', userRoutes);
@@ -39,7 +68,7 @@ app.use('/order', orderRoutes);
 app.use('/market', marketRoutes);
 app.use('/search', searchRoutes);
 app.use('/cart', cartRoutes);
-app.use('/miscellaneous', MiscellaneousRoutes);
+app.use('/miscellaneous', miscellaneousRoutes);
 
 
 // sample code to create static filepath
@@ -47,6 +76,9 @@ app.use('/miscellaneous', MiscellaneousRoutes);
 
 app.use('/uploads', express.static('uploads'));
 // app.use(express.static(path.join(__dirname,'public')));
+
+// const originalExit = process.exit;
+// process.exit = code => { console.log(new Error().stack); process.exit(code);  }
 
 app.use((req,res,next) => {
     const error = new Error('Not found');
@@ -56,7 +88,7 @@ app.use((req,res,next) => {
 
 app.use((error,req,res,next) => {
     res.status(error.status || 500);
-    res.json({
+    return res.json({
         error: {
             message:error.message 
         }

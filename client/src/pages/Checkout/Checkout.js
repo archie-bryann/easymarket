@@ -10,7 +10,6 @@ import OrderDetails from '../../components/CartPricing/CartPricing';
 import CartProduct from '../../components/CartProduct/CartProduct';
 import moment from 'moment'
 
-
 toast.configure();
 
 function Checkout({title, clientRootUrl, apiRootUrl, loggedInStatus, token, errorMessage, paystackPublicTestKey, paystackPublicLiveKey, cartNum, setCartNumToZero, requireAuth}) {
@@ -38,7 +37,6 @@ function Checkout({title, clientRootUrl, apiRootUrl, loggedInStatus, token, erro
     const [additionalInfo, setAdditionalInfo] = useState('');
     const [stateRegion, setStateRegion] = useState('Federal Capital Territory');
     const [city, setCity] = useState('');
-
     const [note,setNote] = useState(null);
 
     /** check timestamp */
@@ -126,33 +124,37 @@ function Checkout({title, clientRootUrl, apiRootUrl, loggedInStatus, token, erro
                             // setRedr(true);
                             window.location=`/order/${data.orderId}`
                         } else {
-                            toast.error(errorMessage, {
-                                position: toast.POSITION.BOTTOM_RIGHT,
-                                autoClose:false
-                            })
+                            console.log(errorMessage)
+                            // toast.error(errorMessage, {
+                            //     position: toast.POSITION.BOTTOM_RIGHT,
+                            //     autoClose:false
+                            // })
                         }
                     })
                     .catch(err=>{
                         setIsLoading(false);
-                        toast.error(errorMessage, {
-                            position: toast.POSITION.BOTTOM_RIGHT,
-                            autoClose:false
-                        })
+                        console.log(err)
+                        // toast.error(errorMessage, {
+                        //     position: toast.POSITION.BOTTOM_RIGHT,
+                        //     autoClose:false
+                        // })
                     })
                 } else {
                     setIsLoading(false);
-                    toast.error(errorMessage, {
-                        position: toast.POSITION.BOTTOM_RIGHT,
-                        autoClose:false
-                    })
+                    // toast.error(errorMessage, {
+                    //     position: toast.POSITION.BOTTOM_RIGHT,
+                    //     autoClose:false
+                    // })
+                    console.log(errorMessage)
                 }
             })
             .catch(err=>{
                 setIsLoading(false);
-                toast.error(errorMessage, {
-                    position: toast.POSITION.BOTTOM_RIGHT,
-                    autoClose:false
-                })
+                console.log(err)
+                // toast.error(errorMessage, {
+                //     position: toast.POSITION.BOTTOM_RIGHT,
+                //     autoClose:false
+                // })
             })
         },
         onClose: () => {
@@ -175,20 +177,22 @@ function Checkout({title, clientRootUrl, apiRootUrl, loggedInStatus, token, erro
         })
         .then(({data})=>{
             setIsLoading(false);
+            console.log(data)
             setDelivery(data.cost);
         })
         .catch(err=>{
             setIsLoading(false);
-            // console.log(err)
-            toast.error(errorMessage, {
-                position: toast.POSITION.BOTTOM_RIGHT
-            })
+            console.log(err)
+            // toast.error(errorMessage, {
+            //     position: toast.POSITION.BOTTOM_RIGHT
+            // })
         })
 
     }, [total])
 
     useEffect(() => {
         setTotal(subTotals + delivery);
+        console.log(4)
     }, [delivery])
 
 
@@ -292,7 +296,7 @@ function Checkout({title, clientRootUrl, apiRootUrl, loggedInStatus, token, erro
         /** Get The Delivery Cost of The Products @ The Good Time */
 
         setTotal(subTotals+delivery);
-
+        console.log(3)
 
     }, [subTotals])
 
@@ -305,7 +309,7 @@ function Checkout({title, clientRootUrl, apiRootUrl, loggedInStatus, token, erro
         setSubTotals(sum);   
 
         
-
+        console.log(2)
     }, [cartProducts])
 
     function calculateNewSubTotalAndTotal(newQuantity, cartId) {
@@ -342,8 +346,23 @@ function Checkout({title, clientRootUrl, apiRootUrl, loggedInStatus, token, erro
         setAdditionalInfo(e.target.value);
     }
 
+    
     function changeCity(e) {
         setCity(e.target.value);
+        /** update their city in the database and reload the page */
+        axios.patch(`${apiRootUrl}user/t/${localStorage.getItem('userId')}`, {
+            city:e.target.value
+        }, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        }).then(({data})=>{
+            if(data.error === 0) {
+                window.location = `/checkout`;
+            }
+        }).catch(err=>{
+            console.log(err)
+        })
     }
     /** ../end of FUNCTIONS FOR FORMS */
 

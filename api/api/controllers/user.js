@@ -25,21 +25,21 @@ exports.user_get_all = (req,res,next) => { // put middleware - admin
     if(process.env.adminEmail === req.userData.email) {
         pool.getConnection(function(err,conn){
             if(err) {
-                res.status(500).json({error:'An error occured. Please try again!'});
+                return res.status(500).json({error:'An error occured. Please try again!'});
             } else {
                 conn.query(`select * from userSchema`, function(err,users){
                     conn.release();
                     if(err) {
-                        res.status(500).json({error:'An error occured. Please try again!'});
+                        return res.status(500).json({error:'An error occured. Please try again!'});
                     } else {
-                        res.status(200).json(users);
+                        return res.status(200).json(users);
                     }
                 });
             }
         });
     } else {
         // not an admin
-        res.status(401).json({error:'Auth failed'});
+        return res.status(401).json({error:'Auth failed'});
     }
 
     
@@ -57,19 +57,19 @@ exports.get_users_online = (req,res,next) => { // put middleware - admin
                 conn.query(`select * from onlineUserSchema`, function(err,users){
                     conn.release();
                     if(err) {
-                        res.status(500).json({error:'An error occured. Please try again!'});
+                        return res.status(500).json({error:'An error occured. Please try again!'});
                     } else {
                         // get the actual users online
-                        res.status(200).json(users.map(user=>{
+                        return res.status(200).json(users.map(user=>{
                             // get each user
                             pool.getConnection(function(err,conn){
                                 if(err) {
-                                    res.status(500).json({error:'An error occured. Please try again!'});
+                                    return res.status(500).json({error:'An error occured. Please try again!'});
                                 } else {
                                     conn.query(`select * from userSchema where jsonwebtoken = '${user.jsonwebtoken}'`, function(err,result){
                                         conn.release();
                                         if(err) {
-                                            res.status(500).json({error:'An error occured. Please try again!'});
+                                            return res.status(500).json({error:'An error occured. Please try again!'});
                                         } else {
                                             return result[0];
                                         }
@@ -83,7 +83,7 @@ exports.get_users_online = (req,res,next) => { // put middleware - admin
         });
     } else {
         // not an admin
-        res.status(401).json({error:'Auth failed'});
+        return res.status(401).json({error:'Auth failed'});
     }
     
 }
@@ -94,28 +94,29 @@ exports.get_people_online = (req,res,next) => { // put middleware - admin
     if(process.env.adminEmail === req.userData.email) {
         pool.getConnection(function(err,conn){
             if(err) {
-                res.status(500).json({error:'An error occured. Please try again!'});
+                return res.status(500).json({error:'An error occured. Please try again!'});
             } else {
                 conn.query(`select * from onlineVisitorSchema`, function(err,people){
                     conn.release();
                     if(err) {
-                        res.status(500).json({error:'An error occured. Please try again!'});
+                        return res.status(500).json({error:'An error occured. Please try again!'});
                     } else {
-                        res.status(200).json(people);
+                        return res.status(200).json(people);
                     }
                 });
             }
         });
     } else {
         // not an admin
-        res.status(401).json({error:'Auth failed'});
+        return res.status(401).json({error:'Auth failed'});
     }
 }
 
 
 exports.verify_user = (req,res,next) => {
     const {userId,email} = req.userData;
-    return res.status(200).json({valid:1,userId,email});
+    res.status(200).json({valid:1,userId,email});
+    // res.end();
 }
 
 exports.user_signup = (req,res,next) => {
@@ -126,22 +127,22 @@ exports.user_signup = (req,res,next) => {
     const token = uuid.v4();
 
     if(firstname.length < 1 || lastname.length < 1 || email.length < 1 || password.length < 1) {
-        res.status(200).json({error:'All fields are required!'});
+        return res.status(200).json({error:'All fields are required!'});
     } else {
 
         if(!IsEmail(email)) {
-            res.status(200).json({error:'You entered an invalid email'});
+            return res.status(200).json({error:'You entered an invalid email'});
         } else {
             pool.getConnection(function(err,conn){
                 if(err) {
-                    res.status(500).json({error:'An error occured. Please try again!'});
+                    return res.status(500).json({error:'An error occured. Please try again!'});
                 } else {
                     conn.query(`select * from userSchema where email = ?`, [email], function(err,user) {
                         if(err) {
-                            res.status(500).json({error:'An error occured. Please try again!'});
+                            return res.status(500).json({error:'An error occured. Please try again!'});
                         } else {
                             if(user.length > 0) {
-                                res.status(200).json({error:'The email has already been used'});
+                                return res.status(200).json({error:'The email has already been used'});
                             } else {
                                 bcrypt.hash(password, 10, (err,hash) => {
                                     if(err) {
@@ -166,9 +167,9 @@ exports.user_signup = (req,res,next) => {
                                                 conn.query(`insert into userSchema (firstname, lastname, email, password, token, joined_timestamp) values (?, ?, ?, ?, ?, ?)`, [firstname,lastname,email,hash,token,timestamp], function (err,result){
                                                     conn.release();
                                                     if(err) {
-                                                        res.status(500).json({error:'An error occured. Please try again!'});
+                                                        return res.status(500).json({error:'An error occured. Please try again!'});
                                                     } else {
-                                                        res.status(201).json({
+                                                        return res.status(201).json({
                                                             error: 0,
                                                             message: 'You have successfully signed up. A confirmation link has been sent to your email for verification!',    
                                                             user: {
@@ -199,21 +200,21 @@ exports.user_login = (req,res,next) => {
 
     pool.getConnection(function(err,conn){
         if(err) {
-            res.status(200).json({error:'An error occured. Please try again!'});
+            return res.status(200).json({error:'An error occured. Please try again!1'});
         } else {
             conn.query(`select * from userSchema where email =  ?`, [email], function(err,user){
                 conn.release();
                 if(err) {
-                    res.status(200).json({error:'An error occured. Please try again!'});
+                    return res.status(200).json({error:'An error occured. Please try again!2'});
                 } else {
                     if(user.length < 1) {
-                        res.status(200).json({error:'You used an invalid email or password!'}); // email
+                        return res.status(200).json({error:'You used an invalid email or password!'}); // email
                     } else {
                         // check if user is verified / NOT
                         if(user[0].verified === 1) {
                             bcrypt.compare(password, user[0].password, (err,result)=>{
                                 if(err) {
-                                    res.status(200).json({error:'An error occured. Please try again!'});
+                                    return res.status(200).json({error:'An error occured. Please try again!3'});
                                     // return res.status(200).json({error:'You used an invalid password!'});
                                 } else {
                                     if(result) { // true
@@ -231,25 +232,27 @@ exports.user_login = (req,res,next) => {
                                         // update token to database
                                         pool.getConnection(function(err,conn){
                                             if(err) {
-                                                res.status(200).json({error:'An error occured. Please try again!'});
+                                                return res.status(200).json({error:'An error occured. Please try again!4'});
                                             } else {
                                                 conn.query(`update userSchema set jsonwebtoken = '${token}' where email = '${email}'`, function(err,result){
                                                     conn.release();
                                                     if(err) {
-                                                        res.status(20).json({error:'An error occured. Please try again!'});
+                                                        return res.status(20).json({error:'An error occured. Please try again!5'});
                                                     } else {
-                                                        res.status(200).json({
+                                                        return res.status(200).json({
                                                             error: 0,
                                                             message: 'Auth successful', // user will be logged in
                                                             token,
-                                                            v_token:user[0].token
+                                                            v_token:user[0].token,
+                                                            userId:user[0].id,
+                                                            email:user[0].email
                                                         });
                                                     }
                                                 });
                                             }
                                         });
                                     } else { // false
-                                        res.status(200).json({error:'You used an invalid email or password!'}); // password
+                                        return res.status(200).json({error:'You used an invalid email or password!'}); // password
                                     }
                                 }
                             });
@@ -263,9 +266,9 @@ exports.user_login = (req,res,next) => {
 
                             transporter.sendMail(mailOptions, function(err,info){
                                 if(err) {
-                                    res.status(200).json({error:'An error occured. Please try again!'});
+                                    return res.status(200).json({error:'An error occured. Please try again!6'});
                                 } else {
-                                    res.status(200).json({
+                                    return res.status(200).json({
                                         error:933,
                                         message: 'Your email account has not been verified yet. A confirmation link has been sent to your email for verification!'
                                     });
@@ -285,26 +288,26 @@ exports.user_verification = (req,res,next) => {
 
     pool.getConnection(function(err,conn){
         if(err) {
-            res.status(200).json({error:'An error occured. Please try again!'});
+            return res.status(200).json({error:'An error occured. Please try again!'});
         } else {
             conn.query(`select * from userSchema where email = ?`, [email], function(err,user){
                 conn.release();
                 if(err) {
-                    res.status(200).json({error:'An error occured. Please try again!'});
+                    return res.status(200).json({error:'An error occured. Please try again!'});
                 } else {
                     if(user.length < 1) {
-                        res.status(200).json({error:'An error occured. Please try again!'}); // Invalid user
+                        return res.status(200).json({error:'An error occured. Please try again!'}); // Invalid user
                     } else {
                         if(user[0].token === token) {
                             // update user to verified
                             pool.getConnection(function(err,conn){
                                 if(err) {
-                                    res.status(200).json({error:'An error occured. Please try again!'});
+                                    return res.status(200).json({error:'An error occured. Please try again!'});
                                 } else {
                                     conn.query(`update userSchema set verified = 1 where email = '${email}'`,function(err,u){
                                         conn.release();
                                         if(err) {
-                                            res.status(200).json({error:'An error occured. Please try again!'});
+                                            return res.status(200).json({error:'An error occured. Please try again!'});
                                         } else {   
                                             
                                             
@@ -322,7 +325,7 @@ exports.user_verification = (req,res,next) => {
                                                     expiresIn:"365 days"
                                                 }
                                             );
-                                            res.status(200).json({
+                                            return res.status(200).json({
                                                 error:0,
                                                 token:new_token
                                             })
@@ -334,7 +337,7 @@ exports.user_verification = (req,res,next) => {
                                 }
                             });
                         } else {
-                            res.status(200).json({error:'An error occured. Please try again!'})
+                            return res.status(200).json({error:'An error occured. Please try again!'})
                         }
                     }
                 }
@@ -349,16 +352,16 @@ exports.user_password_recovery = (req,res,next) => {
     // check if email is valid
     pool.getConnection(function(err,conn){
         if(err) {
-            res.status(500).json({error:'An error occured. Please try again!'});
+            return res.status(500).json({error:'An error occured. Please try again!'});
         } else {
             conn.query(`select * from userSchema where email = ?`, [email], function(err,user){
                 conn.release();
                 if(err) {
-                    res.status(500).json({error:'An error occured. Please try again!'});
+                    return res.status(500).json({error:'An error occured. Please try again!'});
                 } else {
                     if(user.length < 1) {
                         // invalid email
-                        res.status(200).json({error:'You entered an invalid email!'});
+                        return res.status(200).json({error:'You entered an invalid email!'});
                     } else {
                         // send mail
                         const mailOptions = {
@@ -372,7 +375,7 @@ exports.user_password_recovery = (req,res,next) => {
                             if(err) {
                                 res.status(500).json({error:'An error occured. Please try again!'});
                             } else {
-                                res.status(200).json({
+                                return res.status(200).json({
                                     error:0,
                                     message: 'A password reset link has been sent to your email!'
                                 });
@@ -391,15 +394,15 @@ exports.user_reset_password = (req,res,next) => {
 
     pool.getConnection(function(err,conn){
         if(err) {
-            res.status(500).json({error:'An error occured. Please try again!'});
+            return res.status(500).json({error:'An error occured. Please try again!'});
         } else {
             conn.query(`select * from userSchema where email = ?`, [email], function(err,user){
                 conn.release();
                 if(err) {
-                    res.status(500).json({error:'An error occured. Please try again!'});
+                    return res.status(500).json({error:'An error occured. Please try again!'});
                 } else {
                     if(user.length < 1) {
-                        res.status(200).json({error:'Invalid password reset link!'}); /** Invalid email! */
+                        return res.status(200).json({error:'Invalid password reset link!'}); /** Invalid email! */
                     } else {
                         if(user[0].token === token) {
                             // hash & update password
@@ -412,14 +415,14 @@ exports.user_reset_password = (req,res,next) => {
                                     // update password
                                     pool.getConnection(function(err,conn){
                                         if(err) {
-                                            res.status(500).json({error:'An error occured. Please try again!'});
+                                            return res.status(500).json({error:'An error occured. Please try again!'});
                                         } else {
                                             conn.query(`update userSchema set password = '${hash}' where email = '${email}'`, function(err,result){
                                                 conn.release();
                                                 if(err) {
-                                                    res.status(500).json({error:'An error occured. Please try again!'});
+                                                    return res.status(500).json({error:'An error occured. Please try again!'});
                                                 } else {
-                                                    res.status(200).json({
+                                                    return res.status(200).json({
                                                         error:0 // success: redirect to login page
                                                     });
                                                 }
@@ -430,7 +433,7 @@ exports.user_reset_password = (req,res,next) => {
                             });
                           
                         } else {
-                            res.status(200).json({error:'Invalid password reset link!'}); // invalid token
+                            return res.status(200).json({error:'Invalid password reset link!'}); // invalid token
                         }
                     }
                 }
@@ -447,22 +450,50 @@ exports.users_get_user = (req,res,next) => {
     if(userId == tokenUserId || tokenEmail === process.env.adminEmail) {
         pool.getConnection(function(err,conn){
             if(err) {
-                res.status(500).json({error:'An error occured. Please try again!'});
+                return res.status(500).json({error:'An error occured. Please try again!'});
             } else {
                 conn.query(`select * from userSchema where id = ?`, [userId], function(err,user){
                     conn.release();
                     if(err) {
-                        res.status(500).json({error:'An error occured. Please try again!'});
+                        return res.status(500).json({error:'An error occured. Please try again!'});
                     } else {
-                        res.status(200).json(user[0]);
+                        return res.status(200).json(user[0]);
                     }
                 })
             }
         });
     } else {
-        res.status(401).json({error:'No authorization!'});
+        return res.status(401).json({error:'No authorization!'});
+    }
+} 
+
+exports.user_update_city = (req,res,next) => {
+    const { userId } = req.params;
+    const {city} = req.params;
+    const tokenUserId = req.userData.userId;
+    const tokenEmail = req.userData.email;
+
+    if(userId == tokenUserId || tokenEmail === process.env.adminEmail) {
+        pool.getConnection(function(err,conn){
+            if(err) {
+                return res.status(500).json({error:'An error occured. Please try again!'});
+            } else {
+                conn.query(`update userSchema set 
+                city = ?
+                where id = ?
+                `, [city,userId], function(err,result){
+                conn.release();
+                if(err) {
+                    return res.status(500).json({error:'An error occured. Please try again!'});
+                } else {
+                    return res.status(200).json({error:0});
+                }
+                })
+            }
+        });
     }
 }
+
 
 exports.users_update_user = (req,res,next) => {
     const { userId } = req.params;
@@ -490,7 +521,7 @@ exports.users_update_user = (req,res,next) => {
     if(userId == tokenUserId || tokenEmail === process.env.adminEmail) { // valid user
         pool.getConnection(function(err,conn){
             if(err) {
-                res.status(500).json({error:'An error occured. Please try again!'});
+                return res.status(500).json({error:'An error occured. Please try again!'});
             } else {
                 conn.query(`update userSchema set 
                     firstname = ?,
@@ -505,18 +536,18 @@ exports.users_update_user = (req,res,next) => {
                     `, [firstname, lastname, mobile_phone_number, additional_mobile_number, address,additional_info, state_region, city,userId], function(err,result){
                     conn.release();
                     if(err) {
-                        res.status(500).json({error:'An error occured. Please try again!'});
+                        return res.status(500).json({error:'An error occured. Please try again!'});
                     } else {
                         pool.getConnection(function(err,conn){
                             if(err) {
-                                res.status(500).json({error:'An error occured. Please try again!'});
+                                return res.status(500).json({error:'An error occured. Please try again!'});
                             } else {
                                 conn.query(`select * from userSchema where id = '${userId}'`, function(err,user){
                                     conn.release();
                                     if(err) {
-                                        res.status(500).json({error:'An error occured. Please try again!'});
+                                        return res.status(500).json({error:'An error occured. Please try again!'});
                                     } else {
-                                        res.status(200).json({error:0});
+                                        return res.status(200).json({error:0});
                                     }
                                 })
                             }
@@ -526,6 +557,6 @@ exports.users_update_user = (req,res,next) => {
             }
         });
     } else {
-        res.status(401).json({error:'No authorization!'});
+        return res.status(401).json({error:'No authorization!'});
     }
 }

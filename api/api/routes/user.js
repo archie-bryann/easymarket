@@ -23,6 +23,7 @@ router.post('/password_reset/:email/:token', UserController.user_reset_password)
 
 router.get('/v/:userId', checkAuth, UserController.users_get_user); // admin & particular user
 
+router.patch('/t/:userId', checkAuth, UserController.user_update_city); // admin & particular user
 router.patch('/v/:userId', checkAuth, UserController.users_update_user); // admin & particular user
 
 
