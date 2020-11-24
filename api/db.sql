@@ -56,6 +56,7 @@ create table productSchema (
     id int(255) PRIMARY KEY AUTO_INCREMENT NOT NULL,
     categoryId int(255),
     name varchar(256),
+    description varchar(256),
     image varchar(256), 
     price varchar(256),
     visible int(1) DEFAULT '1',
