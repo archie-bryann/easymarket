@@ -52,9 +52,8 @@ app.use((req,res,next) => {
      //intercepts OPTIONS method
      if ('OPTIONS' === req.method) {
         //respond with 200
-        return res.status(200).json({});
-        // next();
-
+        // return res.status(200).json({});
+        next();
       }
       else {
       //move on

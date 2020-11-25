@@ -125,7 +125,8 @@ function Checkout({title, clientRootUrl, apiRootUrl, loggedInStatus, token, erro
                             setCartNumToZero();
                             // setOrderId(data.orderId)
                             // setRedr(true);
-                            window.location=`/order/${data.orderId}`
+                            window.location=`/orders`
+                            // window.location=`/order/${data.orderId}`
                         } else {
                             console.log(errorMessage)
                             // toast.error(errorMessage, {

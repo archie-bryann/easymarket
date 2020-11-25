@@ -15,7 +15,7 @@ function Order({id,status,total,timestamp}) {
                     </div>
                 </td>
                 <td><i>{sentenceCase(status)}</i></td>
-                <td>{moment.unix(timestamp).format("MM/DD/YYYY")}</td>
+                <td>{moment.unix(timestamp).format("MM/DD/YYYY [at] h:mm a")}</td>
                 <td>₦{Number(total).toLocaleString(undefined, {maximumFractionDigits:2})}</td>
             </tr>       
         </Fragment>
