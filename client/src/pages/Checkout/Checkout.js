@@ -82,6 +82,8 @@ function Checkout({title, clientRootUrl, apiRootUrl, loggedInStatus, token, erro
     }, [apiRootUrl])
     /**  */
 
+
+
     /** PAYSTACK FUNCTIONALITIES */
     const config = {
     reference:''+Math.floor((Math.random() * 1000000000) + 1),
@@ -119,10 +121,11 @@ function Checkout({title, clientRootUrl, apiRootUrl, loggedInStatus, token, erro
                     .then(({data})=>{
                         setIsLoading(false);
                         if(data.error === 0) {
+                            console.log(data)
                             setCartNumToZero();
-                            setOrderId(data.orderId)
-                            setRedr(true);
-                            // window.location=`/order/${data.orderId}`
+                            // setOrderId(data.orderId)
+                            // setRedr(true);
+                            window.location=`/order/${data.orderId}`
                         } else {
                             console.log(errorMessage)
                             // toast.error(errorMessage, {
@@ -180,9 +183,11 @@ function Checkout({title, clientRootUrl, apiRootUrl, loggedInStatus, token, erro
             }
         })
         .then(({data})=>{
-            let cartItems = data;
+            let cartItems = data.cartItems;
             // setCartProducts(data);
             // console.log(cartItems)
+
+            setDelivery(data.fee)
 
             if(cartItems.length < 1) {
                 setIsLoading(false);
@@ -334,7 +339,8 @@ function Checkout({title, clientRootUrl, apiRootUrl, loggedInStatus, token, erro
             }
         }).then(({data})=>{
             if(data.error === 0) {
-                window.location = `/checkout`;
+                setDelivery(data.fee)
+                // window.location = `/checkout`;
             }
         }).catch(err=>{
             console.log(err)

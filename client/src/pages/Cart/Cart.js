@@ -75,7 +75,8 @@ function Cart({title, clientRootUrl, apiRootUrl, loggedInStatus, token, errorMes
             }
         })
         .then(({data})=>{
-            let cartItems = data;
+
+            let cartItems = data.cartItems;
             // setCartProducts(data);
             // console.log(cartItems)
 
@@ -125,8 +126,6 @@ function Cart({title, clientRootUrl, apiRootUrl, loggedInStatus, token, errorMes
 
     function delCartItem(cartId) {
         
-
-
         // delete from DB
         setIsLoading(true);
         axios.delete(`${apiRootUrl}cart/${cartId}`,{

@@ -1,4 +1,7 @@
+const metaphone = require('metaphone');
 const pool = require('../../utils/pool');
+const locationFee = require('../../utils/locationFee');
+
 
 exports.cart_get_all_for_user = (req,res,next) => {
     const tokenUserId = req.userData.userId;
@@ -10,11 +13,24 @@ exports.cart_get_all_for_user = (req,res,next) => {
                 return res.status(500).json({error:'An error occured. Please try again!'});
             } else {
                 conn.query(`select * from cartSchema where userId = ?`, [tokenUserId], function(err,result){
-                    conn.release();
+                    // conn.release();
                     if(err) {
                         return res.status(500).json({error:'An error occured. Please try again!'});
                     } else {
-                        return res.status(200).json(result);
+
+                        conn.query(`select * from userSchema where id = ?`, [tokenUserId], (err,user)=>{
+                            conn.release();
+                            if(err) {
+                                return res.status(500).json({error:'An error occured. Please try again!'});
+                            } else {
+                                return res.status(200).json({
+                                    cartItems:result,
+                                    fee: locationFee(user[0].city)
+                                });
+                            }
+                        })
+
+                        
                     }
                 });
             }

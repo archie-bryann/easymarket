@@ -4,6 +4,7 @@ const bcrypt = require('bcrypt');
 const transporter = require('../../utils/mail');
 const uuid = require('uuid');
 const jwt = require('jsonwebtoken');
+const locationFee = require('../../utils/locationFee');
 
 IsEmail = (email) => {
     if(email.includes("@")) {
@@ -473,9 +474,6 @@ exports.user_update_city = (req,res,next) => {
     const tokenUserId = req.userData.userId;
     const tokenEmail = req.userData.email;
 
-    console.log(userId)
-    console.log(city)
-
     if(userId == tokenUserId || tokenEmail === process.env.adminEmail) {
         pool.getConnection(function(err,conn){
             if(err) {
@@ -489,7 +487,10 @@ exports.user_update_city = (req,res,next) => {
                 if(err) {
                     return res.status(500).json({error:'An error occured. Please try again!'});
                 } else {
-                    return res.status(200).json({error:0});
+                    return res.status(200).json({
+                        error: 0,
+                        fee: locationFee(city)
+                    });
                 }
                 })
             }

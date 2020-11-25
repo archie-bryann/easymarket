@@ -55,7 +55,7 @@ function App() {
       }
   })
   .then(({data})=>{
-    setCartNum(data.length);
+    setCartNum(data.cartItems.length);
     
   })
   .catch(err=>{

@@ -53,6 +53,8 @@ app.use((req,res,next) => {
      if ('OPTIONS' === req.method) {
         //respond with 200
         return res.status(200).json({});
+        // next();
+
       }
       else {
       //move on
