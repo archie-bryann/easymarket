@@ -16,7 +16,6 @@ function Categories({title, apiRootUrl, clientRootUrl, match, loggedInStatus,car
     //     .catch(err=>console.log(err))
     // }, [apiRootUrl])
 
-
     return (
         <React.Fragment>
             <Header title = {title} clientRootUrl = {clientRootUrl} match = {match} loggedInStatus = {loggedInStatus} cartNum = {cartNum} token = {token} />

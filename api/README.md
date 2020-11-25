@@ -1,7 +1,7 @@
 1. users
 - get all users (GET) - admin
-- get online users - admin
-- get online all - adimn
+- get online users - admin <i>
+- get online all - admin <i>
 - signup (POST)
 - login (POST) - {{ always update user_login_token in database }}
 - verify (POST)

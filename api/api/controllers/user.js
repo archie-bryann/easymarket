@@ -469,9 +469,12 @@ exports.users_get_user = (req,res,next) => {
 
 exports.user_update_city = (req,res,next) => {
     const { userId } = req.params;
-    const {city} = req.params;
+    const {city} = req.body;
     const tokenUserId = req.userData.userId;
     const tokenEmail = req.userData.email;
+
+    console.log(userId)
+    console.log(city)
 
     if(userId == tokenUserId || tokenEmail === process.env.adminEmail) {
         pool.getConnection(function(err,conn){

@@ -119,10 +119,10 @@ function Checkout({title, clientRootUrl, apiRootUrl, loggedInStatus, token, erro
                     .then(({data})=>{
                         setIsLoading(false);
                         if(data.error === 0) {
-                            // setCartNumToZero();
-                            // setOrderId(data.orderId)
-                            // setRedr(true);
-                            window.location=`/order/${data.orderId}`
+                            setCartNumToZero();
+                            setOrderId(data.orderId)
+                            setRedr(true);
+                            // window.location=`/order/${data.orderId}`
                         } else {
                             console.log(errorMessage)
                             // toast.error(errorMessage, {
@@ -163,32 +163,6 @@ function Checkout({title, clientRootUrl, apiRootUrl, loggedInStatus, token, erro
     };
 
     /** ./ END OF PAYSTACK FUNCTIONALITIES */
-    
-    useEffect(() => {
-        setIsLoading(true);
-        axios.post(`${apiRootUrl}miscellaneous/fee`, 
-        {
-            subtotal: subTotals
-        },
-        {
-            headers: {
-                Authorization: `Bearer ${token}`
-            }
-        })
-        .then(({data})=>{
-            setIsLoading(false);
-            console.log(data)
-            setDelivery(data.cost);
-        })
-        .catch(err=>{
-            setIsLoading(false);
-            console.log(err)
-            // toast.error(errorMessage, {
-            //     position: toast.POSITION.BOTTOM_RIGHT
-            // })
-        })
-
-    }, [total])
 
     useEffect(() => {
         setTotal(subTotals + delivery);
@@ -197,6 +171,9 @@ function Checkout({title, clientRootUrl, apiRootUrl, loggedInStatus, token, erro
 
 
     useEffect(()=>{
+
+        /** GET DELIVERY FEE AS PART OF REQUEST */
+
         axios.get(`${apiRootUrl}cart/`, {
             headers: {
                 Authorization: `Bearer ${token}`
@@ -214,6 +191,7 @@ function Checkout({title, clientRootUrl, apiRootUrl, loggedInStatus, token, erro
                     // cart: id, productId // product details
                     axios.get(`${apiRootUrl}product/${productId}`)
                     .then(({data})=>{
+
                         
                         setIsLoading(false);
                         setAllowed(true); // show details            
@@ -229,7 +207,6 @@ function Checkout({title, clientRootUrl, apiRootUrl, loggedInStatus, token, erro
                             image: product.image,
                             price: product.price
                         }]);
-
                     })
                     .catch(err=>{
                         setIsLoading(false);
@@ -345,7 +322,6 @@ function Checkout({title, clientRootUrl, apiRootUrl, loggedInStatus, token, erro
     function changeAdditionalInfo(e) {
         setAdditionalInfo(e.target.value);
     }
-
     
     function changeCity(e) {
         setCity(e.target.value);
@@ -396,7 +372,7 @@ function Checkout({title, clientRootUrl, apiRootUrl, loggedInStatus, token, erro
                             <input type = "text" placeholder = "Mobile phone number" value = {mobilePhoneNumber} onChange = {changeMobilePhoneNumber} />
                             <br />
                             <div style = {{height:'10px'}}></div>
-                            <span className = "label">Additional Phone Number*</span>
+                            <span className = "label">Additional Phone Number</span>
                             <input type = "text" placeholder = "Additional phone number" value = {additionalPhoneNumber} onChange = {changeAdditionalPhoneNumber} />
                             <br />
                             <div style = {{height:'10px'}}></div>
@@ -582,12 +558,12 @@ function Checkout({title, clientRootUrl, apiRootUrl, loggedInStatus, token, erro
                 // <OrderDetails subTotals = {subTotals} delivery = {delivery} total = {total} >
                 //     <button  className = "btn">Place Order</button>
                 // </OrderDetails>
-                    <OrderDetails subTotals = {subTotals} delivery = {delivery} total = {total} less = {true} >
+                    <OrderDetails subTotals = {subTotals} delivery = {delivery} total = {total} less = {true} t = {true} >
                         <PaystackConsumer {...componentProps}>
                         {({initializePayment}) => <button className = "btn place-order-btn" onClick={()=>{
 
                             /** form validation */
-                            if(firstName.trim() === '' || lastName.trim() === '' || mobilePhoneNumber.trim() === '' || additionalPhoneNumber.trim() === '' || address.trim() === '' || city.trim() === '') {
+                            if(firstName.trim() === '' || lastName.trim() === '' || mobilePhoneNumber.trim() === '' || address.trim() === '' || city.trim() === '') {
                                 // toast error
                                 toast.error('All fields labelled with * are required',{
                                     position:toast.POSITION.BOTTOM_RIGHT,

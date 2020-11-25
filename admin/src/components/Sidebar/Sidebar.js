@@ -1,5 +1,6 @@
 import React from 'react'
 import './Sidebar.css'
+import {Link} from 'react-router-dom'
 
 function Sidebar({myClass,closeSidebar}) {
 
@@ -17,61 +18,28 @@ function Sidebar({myClass,closeSidebar}) {
                 <div className = "sidebar__link active_menu_link">
                     <i className = "fa fa-home"></i>
                     <a href = "fas fa-home"></a>
-                    <a href = "#">Dashboard</a>
+                    <Link to = "/">Dashboard</Link>
+                    {/* 
+                        create a category
+                        create a product
+                    */}
                 </div>
                 <h2>MNG</h2>
                 <div className = "sidebar__link">
                     <i className = "fa fa-user-secret"></i>
-                    <a href = "#">Admin Management</a>
+                    <Link to  = "/users">Users</Link>
                 </div>
                 <div className = "sidebar__link">
                     <i className = "fas fa-building"></i>
-                    <a href = "#">Company Management</a>
+                    <Link to  = "/categories">Categories</Link>
                 </div>
                 <div className = "sidebar__link">
                     <i className = "fa fa-archive"></i>
-                    <a href = "#">Employee Management</a>
-                </div>
-                <div className = "sidebar__link">
-                    <i className = "fas fa-handshake"></i>
-                    <a href = "#">Contracts</a>
-                </div>
-                <div className = "sidebar__link">
-                    <i className = "fas fa-archive"></i>
-                    <a href = "#">Requests</a>
-                </div>
-                <div className = "sidebar__link">
-                    <i className = "fas fa-question"></i>
-                    <a href = "#">Requests</a>
-                </div>
-                <div className = "sidebar__link">
-                    <i className = "fas fa-sign-out"></i>
-                    <a href = "#">Leave Policy</a>
-                </div>
-                <div className = "sidebar__link">
-                    <i className = "fas fa-calender-check"></i>
-                    <a href = "#">Special Days</a>
-                </div>
-                <div className = "sidebar__link">
-                    <i className = "fa fa-sign-out"></i>
-                    <a href = "#">Leave Policy</a>
-                </div>
-                <div className = "sidebar__link">
-                    <i className = "fa fa-sign-out"></i>
-                    <a href = "#">Apply for leave</a>
-                </div>
-                <h2>PAYROLL</h2>
-                <div className = "sidebar__link">
-                    <i className = "fa fa-money"></i>
-                    <a href = "#">Payroll</a>
-                </div>
-                <div className = "sidebar__link">
-                    <i className = "fa fa-briefcase"></i>
-                    <a href = "#">Paygrade</a>
+                    <Link to  = "/orders">Orders</Link>
                 </div>
                 <div className = "sidebar__link">
                     <i className = "fa fa-power-off"></i>
-                    <a href = "#">Log out</a>
+                    <Link to = "/logout">Logout</Link>
                 </div>
             </div>
         </div>

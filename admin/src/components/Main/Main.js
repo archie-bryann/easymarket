@@ -8,7 +8,7 @@ function Main() {
           <div className = "main__title">
             <img src = "assets/images/hello.svg" />
             <div className = "main_greeting">
-              <h1>Hello Codersbite</h1>
+              <h1>Hello Precious</h1>
               <p>Welcome to your admin dashboard</p>
             </div>
           </div>
@@ -17,16 +17,18 @@ function Main() {
             <div className = "card">
               <i className = "fas fa-user fa-2x text text-lightblue"></i>
               <div className = "card__inner">
-                <p className = "text-primary">Number of Subscribers</p>
-                <span className = "font-bold text-title">578</span>
+                <p className = "text-primary">Number of Users</p>
+                <big><b>340</b></big>
+                {/* <span className = "font-bold text-title">578</span> */}
               </div>
             </div>
 
             <div className = "card">
               <i className = "fas fa-burn fa-2x text-red"></i>
               <div className = "card__inner">
-                <p className = "text-primary">Time of Watching</p>
-                <span className = "font-bold text-title">2478</span>
+                <p className = "text-primary">Number of Orders</p>
+                <big><b>340</b></big>
+                {/* <span className = "font-bold text-title">2478</span> */}
               </div>
             </div>
 
@@ -34,16 +36,18 @@ function Main() {
             <div className = "card">
               <i className = "fas fa-video fa-2x text-yellow"></i>
               <div className = "card__inner">
-                <p className = "text-primary">Number of Videos</p>
-                <span className = "font-bold text-title">340</span>
+                <p className = "text-primary">Number of Categories</p>
+                <big><b>340</b></big>
+                {/* <span className = "font-bold text-title">340</span> */}
               </div>
             </div>
 
             <div className = "card">
               <i className = "fa fa-thumbs-up fa-2x text-green"></i>
               <div className = "card__inner">
-                <p className = "text-primary">Number of Likes</p>
-                <span className = "font-bold text-title">645</span>
+                <p className = "text-primary">Number of Products</p>
+                <big><b>340</b></big>
+                {/* <span className = "font-bold text-title">645</span> */}
               </div>
             </div>
           </div>
@@ -56,7 +60,6 @@ function Main() {
                   <h1>Daily Reports</h1>
                   <p>Cupertino, California, USA</p>
                 </div>
-                {/* <i className = "fa fa-usd"></i> */}
               </div>
               <div className = "charts__right__cards">
                 <div className = "card1">
@@ -89,7 +92,6 @@ function Main() {
                     <h1>Daily Reports</h1>
                     <p>Cupertino, California, USA</p>
                   </div>
-                  {/* <i className = "fa fa-usd"></i> */}
                 </div>
 
               <div className = "charts__right__cards">
@@ -113,10 +115,12 @@ function Main() {
                   <p>$75,300</p>
                 </div>
               </div>
-
             </div>
 
           </div>
+
+
+
         </div>  
       </main>
     )

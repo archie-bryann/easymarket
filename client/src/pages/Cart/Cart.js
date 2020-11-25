@@ -39,34 +39,34 @@ function Cart({title, clientRootUrl, apiRootUrl, loggedInStatus, token, errorMes
      * total
      */
 
-    useEffect(() => {
-        // setIsLoading(true);
-        axios.post(`${apiRootUrl}miscellaneous/fee`, 
-        {
-            subtotal: subTotals
-        },
-        {
-        headers: {
-            Authorization: `Bearer ${token}`
-        }
-        })
-        .then(({data})=>{
-            // setIsLoading(false);
-            setDelivery(data.cost);
-        })
-        .catch(err=>{
-            // setIsLoading(false);
-            console.log(err)
-            // toast.error(errorMessage, {
-            //     position: toast.POSITION.BOTTOM_RIGHT
-            // })
-        })
+    // useEffect(() => {
+    //     // setIsLoading(true);
+    //     axios.post(`${apiRootUrl}miscellaneous/fee`, 
+    //     {
+    //         subtotal: subTotals
+    //     },
+    //     {
+    //     headers: {
+    //         Authorization: `Bearer ${token}`
+    //     }
+    //     })
+    //     .then(({data})=>{
+    //         // setIsLoading(false);
+    //         setDelivery(data.cost);
+    //     })
+    //     .catch(err=>{
+    //         // setIsLoading(false);
+    //         console.log(err)
+    //         // toast.error(errorMessage, {
+    //         //     position: toast.POSITION.BOTTOM_RIGHT
+    //         // })
+    //     })
 
-    }, [apiRootUrl, total])
+    // }, [apiRootUrl, total])
 
-    useEffect(() => {
-        setTotal(subTotals + delivery);
-    }, [delivery])
+    // useEffect(() => {
+    //     setTotal(subTotals + delivery);
+    // }, [delivery])
 
     useEffect(()=>{
         axios.get(`${apiRootUrl}cart/`, {
@@ -258,7 +258,7 @@ function Cart({title, clientRootUrl, apiRootUrl, loggedInStatus, token, errorMes
                 }
         
                 { (allowed) && (
-                    <OrderDetails subTotals = {subTotals} delivery = {delivery} total = {total} >
+                    <OrderDetails subTotals = {subTotals} delivery = {delivery} total = {total}  >
                         <Link to = {`/checkout`} className = "btn">Proceed to Checkout</Link>
                     </OrderDetails>
                 )}

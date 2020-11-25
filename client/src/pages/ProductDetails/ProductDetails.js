@@ -50,7 +50,7 @@ function ProductDetails({title, apiRootUrl, clientRootUrl, match, loggedInStatus
             setRelatedProducts(res.data)
         })
         .catch(err=>console.log(err))
-    }, [productId,categoryId]);
+    }, [product]);
 
     function addToCart() {
 
