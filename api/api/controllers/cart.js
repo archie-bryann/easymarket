@@ -1,6 +1,7 @@
 const metaphone = require('metaphone');
 const pool = require('../../utils/pool');
-const locationFee = require('../../utils/locationFee');
+// const locationFee = require('../../utils/locationFee');
+const deliveryFee = require('../../utils/deliveryFee');
 
 
 exports.cart_get_all_for_user = (req,res,next) => {
@@ -23,9 +24,10 @@ exports.cart_get_all_for_user = (req,res,next) => {
                             if(err) {
                                 return res.status(500).json({error:'An error occured. Please try again!'});
                             } else {
+                                sum=0;
                                 return res.status(200).json({
                                     cartItems:result,
-                                    fee: locationFee(user[0].city)
+                                    fee: deliveryFee(sum, user[0].city)
                                 });
                             }
                         })

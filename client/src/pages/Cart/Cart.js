@@ -185,6 +185,7 @@ function Cart({title, clientRootUrl, apiRootUrl, loggedInStatus, token, errorMes
             let subtotal = Number(p.price) * Number(p.quantity);
             sum+=subtotal;
         })
+        
         setSubTotals(sum);   
 
         

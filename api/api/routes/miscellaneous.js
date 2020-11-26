@@ -6,7 +6,7 @@ const checkAuth = require('../middleware/check-auth');
 
 router.get('/fee/:city', checkAuth, MiscellaneousController.city_cost);
 
-router.post('/fee', checkAuth, MiscellaneousController.delivery_cost);
+router.get('/fee/:subtotal/:city', checkAuth, MiscellaneousController.delivery_cost);
 
 router.get('/verify/transaction/:reference', checkAuth, MiscellaneousController.verify_transaction);
 

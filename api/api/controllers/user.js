@@ -5,6 +5,7 @@ const transporter = require('../../utils/mail');
 const uuid = require('uuid');
 const jwt = require('jsonwebtoken');
 const locationFee = require('../../utils/locationFee');
+const deliveryFee = require('../../utils/deliveryFee');
 
 IsEmail = (email) => {
     if(email.includes("@")) {
@@ -470,7 +471,7 @@ exports.users_get_user = (req,res,next) => {
 
 exports.user_update_city = (req,res,next) => {
     const { userId } = req.params;
-    const {city} = req.body;
+    const {city,subtotal} = req.body;
     const tokenUserId = req.userData.userId;
     const tokenEmail = req.userData.email;
 
@@ -489,7 +490,7 @@ exports.user_update_city = (req,res,next) => {
                 } else {
                     return res.status(200).json({
                         error: 0,
-                        fee: locationFee(city)
+                        fee: deliveryFee(subtotal,city)
                     });
                 }
                 })

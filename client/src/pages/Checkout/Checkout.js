@@ -291,8 +291,16 @@ function Checkout({title, clientRootUrl, apiRootUrl, loggedInStatus, token, erro
         })
         setSubTotals(sum);   
 
-        
-        console.log(2)
+        // do it heres
+        axios.get(`${apiRootUrl}miscellaneous/fee/${sum}/${encodeURI(city)}`,{
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        }).then(({data})=>{
+            console.log(data)
+            setDelivery(data.fee)
+        })
+
     }, [cartProducts])
 
     function calculateNewSubTotalAndTotal(newQuantity, cartId) {
@@ -333,7 +341,8 @@ function Checkout({title, clientRootUrl, apiRootUrl, loggedInStatus, token, erro
         setCity(e.target.value);
         /** update their city in the database and reload the page */
         axios.patch(`${apiRootUrl}user/t/${localStorage.getItem('userId')}`, {
-            city:e.target.value
+            city:e.target.value,
+            subtotal:subTotals
         }, {
             headers: {
                 Authorization: `Bearer ${token}`
@@ -529,7 +538,12 @@ function Checkout({title, clientRootUrl, apiRootUrl, loggedInStatus, token, erro
                             <span className="note">*Required</span>
                             <br />
                             <br />
-                            <span style = {{textDecoration:'underline'}}>Note: {note}</span>
+                            <ul>
+                                <li style = {{textDecoration:'underline'}}><b>*</b>{note}</li>
+                                <li style = {{textDecoration:'underline'}}><b>*</b>Once your order is placed, it cannot be cancelled.</li>
+                            </ul>
+                            
+                            
                             <br />
                             <br />
                             {/** 
