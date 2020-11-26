@@ -45,6 +45,7 @@ exports.delivery_cost = (req,res,next) => {
 exports.verify_transaction = (req,res,next) => {
 
     const {userId} = req.userData;
+    const { reference,logisticFee,subtotal } = req.params;
 
     pool.getConnection((err,conn)=>{
         if(err) {
@@ -60,7 +61,6 @@ exports.verify_transaction = (req,res,next) => {
         }
     });
 
-    const { reference } = req.params;
 
     /** Verify Transaction (1) */
     const promise = paystack.verifyTransaction({
@@ -92,7 +92,7 @@ exports.verify_transaction = (req,res,next) => {
                     const promise3 = paystack.initiateTransfer({
                         source:"balance",
                         reason: logisticReason,
-                        amount: 900 * 100, /** GET LOGISTIC AMOUN */
+                        amount: logisticFee * 100, /** GET LOGISTIC AMOUNT */
                         recipient: recipient_code,
                         reference: Math.floor((Math.random() * 1000000000) + 1)
                     })
@@ -119,7 +119,7 @@ exports.verify_transaction = (req,res,next) => {
                                     const promise5 = paystack.initiateTransfer({
                                         source:"balance",
                                         reason:wholesalersReason,
-                                        amount: 900 * 100, /** GET WHOLESALERS AMOUNT */
+                                        amount: subtotal * 100, /** GET WHOLESALERS AMOUNT */
                                         recipient: recipient_code_2,
                                         reference: Math.floor((Math.random() * 1000000000) + 1)
                                     })

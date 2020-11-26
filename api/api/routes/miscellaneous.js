@@ -8,7 +8,7 @@ router.get('/fee/:city', checkAuth, MiscellaneousController.city_cost);
 
 router.get('/fee/:subtotal/:city', checkAuth, MiscellaneousController.delivery_cost);
 
-router.get('/verify/transaction/:reference', checkAuth, MiscellaneousController.verify_transaction);
+router.get('/verify/transaction/:reference/:logisticFee/:subtotal', checkAuth, MiscellaneousController.verify_transaction);
 
 
 module.exports = router;

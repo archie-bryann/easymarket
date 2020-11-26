@@ -4,7 +4,6 @@ const bcrypt = require('bcrypt');
 const transporter = require('../../utils/mail');
 const uuid = require('uuid');
 const jwt = require('jsonwebtoken');
-const locationFee = require('../../utils/locationFee');
 const deliveryFee = require('../../utils/deliveryFee');
 
 IsEmail = (email) => {

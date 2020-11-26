@@ -37,14 +37,14 @@ const deliveryFee = (subtotal,city) => {
 
     // console.log('paystackPaymentFee', paystackPaymentFee)
 
-    const paystackTransferFee = 10 + 25; /** 25 for transfer */
+    const paystackTransferFee = 10 + 50; /** 25 for transfer */
     
     
     const totalDeliveryFee = logisticFees + FoodNetFees + paystackPaymentFee + paystackTransferFee;
 
     // console.log('totalDeliveryFee',totalDeliveryFee)
 
-    return totalDeliveryFee;
+    return {logisticFees,totalDeliveryFee};
 }
 
 

@@ -27,6 +27,7 @@ function Checkout({title, clientRootUrl, apiRootUrl, loggedInStatus, token, erro
     const [all,setAll] = useState(false);
     const [orderId, setOrderId] = useState(null);
     const [redr,setRedr] = useState(false);
+    const [logisticFees,setLogisticFees] = useState(0);
 
     /** FormStates */
     const [firstName, setFirstName] = useState('');
@@ -38,6 +39,7 @@ function Checkout({title, clientRootUrl, apiRootUrl, loggedInStatus, token, erro
     const [stateRegion, setStateRegion] = useState('Federal Capital Territory');
     const [city, setCity] = useState('');
     const [note,setNote] = useState(null);
+
 
     /** check timestamp */
     const today = "Your order will be delivered before 8pm today.";
@@ -100,7 +102,7 @@ function Checkout({title, clientRootUrl, apiRootUrl, loggedInStatus, token, erro
             // console.log(res) /** status,reference */
             // verify the transaction in backend
             setIsLoading(true);
-            axios.get(`${apiRootUrl}miscellaneous/verify/transaction/${res.reference}`,{
+            axios.get(`${apiRootUrl}miscellaneous/verify/transaction/${res.reference}/${logisticFees}/${subTotals}`,{
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
@@ -188,7 +190,8 @@ function Checkout({title, clientRootUrl, apiRootUrl, loggedInStatus, token, erro
             // setCartProducts(data);
             // console.log(cartItems)
 
-            setDelivery(data.fee)
+            setDelivery(data.fee.totalDeliveryFee);
+            setLogisticFees(data.fee.logisticFees);
 
             if(cartItems.length < 1) {
                 setIsLoading(false);
@@ -298,7 +301,8 @@ function Checkout({title, clientRootUrl, apiRootUrl, loggedInStatus, token, erro
             }
         }).then(({data})=>{
             console.log(data)
-            setDelivery(data.fee)
+            setDelivery(data.fee.totalDeliveryFee);
+            setLogisticFees(data.fee.logisticFees);
         })
 
     }, [cartProducts])
@@ -349,7 +353,8 @@ function Checkout({title, clientRootUrl, apiRootUrl, loggedInStatus, token, erro
             }
         }).then(({data})=>{
             if(data.error === 0) {
-                setDelivery(data.fee)
+                setDelivery(data.fee.totalDeliveryFee);
+                setLogisticFees(data.fee.logisticFees);
                 // window.location = `/checkout`;
             }
         }).catch(err=>{
