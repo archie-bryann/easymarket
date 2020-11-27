@@ -69,9 +69,9 @@ function App() {
     <div className = "container">
       <Router>
           <NavBar toggleSidebar = {toggleSidebar}  />
-          <Sidebar myClass = {myClass} closeSidebar = {closeSidebar} />
-        <ScrollToTop />
-        <Switch>
+          <Sidebar  myClass = {myClass} closeSidebar = {closeSidebar} clientRootUrl = {clientRootUrl} />
+          <ScrollToTop />
+          <Switch>
           <Route path = "/login" component = { ()=><Login apiRootUrl = {apiRootUrl} clientRootUrl = {clientRootUrl}  token = {token} errorMessage = {errorMessage} verifyAuth = {verifyAuth} />} /> 
           <Route path = "/" exact = {true} component = {()=><Main apiRootUrl = {apiRootUrl}  token = {token} requireAuth = {requireAuth} />}/>
           <Route path = "/users" exact = {true} component = {()=><Users apiRootUrl = {apiRootUrl} token = {token} requireAuth = {requireAuth} />} />

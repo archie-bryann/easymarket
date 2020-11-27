@@ -85,6 +85,7 @@ exports.categories_create_category = (req,res,next) => {
                     } else {
                         return res.status(200).json({
                             error:0,
+                            categoryId: result.insertId,
                             request: {
                                 type: 'GET',
                                 url: `${process.env.rootUrl}category/${result.insertId}`

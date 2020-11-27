@@ -2,14 +2,15 @@ import React from 'react'
 import './Sidebar.css'
 import {Link} from 'react-router-dom'
 
-function Sidebar({myClass,closeSidebar}) {
+function Sidebar({myClass,closeSidebar,clientRootUrl}) {
 
     return (
         <div id = "sidebar" className = {myClass}>
             <div className = "sidebar__title">
                 <div className = "sidebar__img">
-                    <img src = "assets/images/logo.png" alt = "" />
-                    <h1>Codersbite</h1>
+                    <img src = {`${clientRootUrl}assets/images/foodnet-white.png`} style = {{width:'115px'}} alt = "" />
+                    {/* <img src = {`${clientRootUrl}assets/images/logo.png`} alt = "" />
+                    <h1>Codersbite</h1> */}
                 </div>
                 <i className = "fas fa-window-close" id = "sidebarIcon" onClick = {closeSidebar} ></i>
             </div>

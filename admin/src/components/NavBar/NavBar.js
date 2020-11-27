@@ -11,7 +11,7 @@ function NavBar({toggleSidebar}) {
                 </div>
                 <div className = "navbar__left">
                     <Link to = "/create-category">Create Category</Link>
-                    <Link to = "/add-product" className = "active_link" href = "#">Add Product</Link>
+                    <Link to = "/add-product" className = "_active_link" href = "#">Add Product</Link>
                 </div>
                 <div className = "navbar__right">
                     {/* users, product, categories, orders */}
