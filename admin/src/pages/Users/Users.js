@@ -1,10 +1,33 @@
-import React, { Fragment } from 'react'
-import {Link} from 'react-router-dom'
+import React, { Fragment, useState, useEffect } from 'react'
 import './Users.css'
+import Loader from '../../components/Loader/Loader'
+import axios from 'axios';
+import User from '../../components/User/User'
 
-function User() {
+function Users({apiRootUrl,token,requireAuth}) {
+
+    const [loading,setLoading] = useState(false);
+    const [users,setUsers] = useState([]);
+
+    useEffect(() => {
+        setLoading(true);
+        axios.get(`${apiRootUrl}user/`,{
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        }).then(({data})=>{
+            setLoading(false);
+            setUsers(data);
+        }).catch(err=>{ 
+            setLoading(false);
+            console.log(err)
+        })
+    }, [apiRootUrl])
+
     return (
         <Fragment>
+            {requireAuth()}
+            {loading&&<Loader />}
             <main>
                 <div className = "main__container">
                     {/* verified */}
@@ -19,16 +42,9 @@ function User() {
                             <th>Date Joined</th>
                             <th>Action</th>
                         </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>Ekomobong</td>
-                            <td>Archibong</td>
-                            <td>ekomboy012@gmail.com</td>
-                            <td>09015871166</td>
-                            <td>Kaura</td>
-                            <td>11/10/2001</td>
-                            <td> <Link to = {`/user/1`} className = "btn">See more</Link> </td>
-                        </tr>
+                        {
+                            users.map(({id,firstname,lastname,email,mobile_phone_number,city,joined_timestamp})=><User key = {id} id = {id} firstname = {firstname} lastname = {lastname} email = {email} mobile_phone_number = {mobile_phone_number} city = {city} joined_timestamp={joined_timestamp} />)
+                        }
                     </table>
                 </div>
             </main>
@@ -36,4 +52,4 @@ function User() {
     )
 }
 
-export default User;
+export default Users;

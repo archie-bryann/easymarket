@@ -78,12 +78,13 @@ function App() {
   function setCartNumToZero() {
     setCartNum(0);
   }
+
   function requireAuth() {
 
     const account = <Redirect to = "/account" />
 
     /** against visitors */
-    if(!localStorage.getItem('wpt')) {
+    if(!token) {
       /** setUsertoLoggedOut */
       setLoggedInStatus(false);
       return account;
@@ -91,7 +92,7 @@ function App() {
       // verify token
       axios.get(`${apiRootUrl}user/verify`, {
         headers: {
-          'Authorization':`Basic ${token}`
+          Authorization:`Basic ${token}`
         }
       })
       .then(res=>{
@@ -130,7 +131,7 @@ function App() {
 
   function verifyAuth() {
     /** against users */
-    if(localStorage.getItem("wpt")) {
+    if(token) {
       return <Redirect to = "/" /> 
     }
   }

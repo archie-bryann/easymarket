@@ -14,7 +14,8 @@ function NavBar({toggleSidebar}) {
                     <Link to = "/add-product" className = "active_link" href = "#">Add Product</Link>
                 </div>
                 <div className = "navbar__right">
-                    <input className = "search-box" placeholder = "User, Category, product..." />
+                    {/* users, product, categories, orders */}
+                    <input className = "search-box" placeholder = "Search anything..." />
                     <a href = "#">
                         <i className = "fa fa-search"></i>
                     </a>

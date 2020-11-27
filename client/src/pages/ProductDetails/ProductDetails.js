@@ -8,7 +8,6 @@ import Loader from '../../components/Loader/Loader'
 import {toast} from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
-
 toast.configure();
 
 function ProductDetails({title, apiRootUrl, clientRootUrl, match, loggedInStatus, token, errorMessage, cartNum,increaseCartNum}) {
@@ -28,6 +27,8 @@ function ProductDetails({title, apiRootUrl, clientRootUrl, match, loggedInStatus
 
     const [redr, setRedr] = useState(false);
 
+    const [checker, setChecker] = useState(false);
+
     document.title = `${product.name} - ${title}`;
 
     useEffect(() => {
@@ -39,6 +40,11 @@ function ProductDetails({title, apiRootUrl, clientRootUrl, match, loggedInStatus
             } else {
                 setProduct(res.data);
                 setIsLoading(false);
+                if(checker) {
+                    setChecker(false)
+                } else {
+                    setChecker(true);
+                }
             }
         })
         .catch(err=>console.log(err))
@@ -50,7 +56,7 @@ function ProductDetails({title, apiRootUrl, clientRootUrl, match, loggedInStatus
             setRelatedProducts(res.data)
         })
         .catch(err=>console.log(err))
-    }, [product]);
+    }, [checker]);
 
     function addToCart() {
 
@@ -107,7 +113,7 @@ function ProductDetails({title, apiRootUrl, clientRootUrl, match, loggedInStatus
             setRedr(true);
         } else {
              // verify token
-            axios(`${apiRootUrl}user/verify`, {
+            axios.get(`${apiRootUrl}user/verify`, {
                 headers: {
                 'Authorization':`Basic ${token}`
                 }

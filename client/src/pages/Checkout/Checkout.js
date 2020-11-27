@@ -6,6 +6,7 @@ import Header from '../../components/Header/Header'
 import axios from 'axios'
 import Loader from '../../components/Loader/Loader';
 import {toast} from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 import OrderDetails from '../../components/CartPricing/CartPricing';
 import CartProduct from '../../components/CartProduct/CartProduct';
 import moment from 'moment'

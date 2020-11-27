@@ -26,6 +26,7 @@
 - add product (POST) - admin
 - patch product (PATCH) - admin
 - delete product (DELETE) - admin
+-
 
 
 5. orders
