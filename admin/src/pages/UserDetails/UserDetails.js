@@ -3,12 +3,13 @@ import axios from 'axios'
 import Loader from '../../components/Loader/Loader';
 import {toast} from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+import { Redirect } from 'react-router-dom';
 
 toast.configure();
 
 function UserDetails({apiRootUrl,token,requireAuth,match,errorMessage}) {
 
-    const userId = match.params.userId;
+    const { userId } = match.params;
     const [loading,setLoading] = useState(false);
     const [id, setId] = useState(null);
     const [firstname, setFirstname] = useState('');
@@ -21,7 +22,7 @@ function UserDetails({apiRootUrl,token,requireAuth,match,errorMessage}) {
     const [city, setCity] = useState('');
     const [stateRegion, setStateRegion] = useState('');
     const [country, setCountry] = useState('');
-
+    const [redr,setRedr] = useState(false);
 
     useEffect(()=>{
         setLoading(true);
@@ -31,20 +32,27 @@ function UserDetails({apiRootUrl,token,requireAuth,match,errorMessage}) {
             }
         }).then(({data})=>{
             setLoading(false);
-            // console.log(data)
-            setId(data.id);
-            setFirstname(data.firstname);
-            setLastname(data.lastname);
-            setEmail(data.email);
-            setMobilePhoneNumber(data.mobile_phone_number);
-            setAdditionalInfo(data.additional_info);
-            setAddress(data.address);
-            setAdditionalInfo(data.additional_info);
-            setCity(data.city);
-            setStateRegion(data.state_region);
-            setCountry(data.country);
+            if(data) {
+                setId(data.id);
+                setFirstname(data.firstname);
+                setLastname(data.lastname);
+                setEmail(data.email);
+                setMobilePhoneNumber(data.mobile_phone_number);
+                setAdditionalInfo(data.additional_info);
+                setAddress(data.address);
+                setAdditionalInfo(data.additional_info);
+                setCity(data.city);
+                setStateRegion(data.state_region);
+                setCountry(data.country);    
+            } else {
+                setRedr(true);
+            }
         }).catch(err=>{
             setLoading(false);
+            toast.error(errorMessage, {
+                position: toast.POSITION.BOTTOM_LEFT,
+                autoClose:false
+            })
         })
     }, [])
 
@@ -111,14 +119,14 @@ function UserDetails({apiRootUrl,token,requireAuth,match,errorMessage}) {
                 toast.success("User details updated successfully!", {
                     position: toast.POSITION.BOTTOM_LEFT
                 })
-            }            
+            } 
         }).catch(err=>{
             setLoading(false);
             toast.error(errorMessage, {
                 position: toast.POSITION.BOTTOM_LEFT,
                 autoClose:false
             })
-            })
+        })
     }    
 
     /** Admin can update user details - BE CAREFUL */
@@ -126,8 +134,10 @@ function UserDetails({apiRootUrl,token,requireAuth,match,errorMessage}) {
         <Fragment>
             {requireAuth()}
             {loading&&<Loader/>}
+            {redr&&<Redirect to = "/404"/>}
             <main>
                 <div className = "main__container">
+                    <h2 style = {{marginBottom:'25px'}}>User Details</h2>
                     <form>
                         <div>
                             <label>Firstname</label>

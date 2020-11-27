@@ -10,6 +10,8 @@ import Users from './pages/Users/Users';
 import axios from 'axios'
 import UserDetails from './pages/UserDetails/UserDetails'
 import CreateCategory from './pages/CreateCategory/CreateCategory'
+import CategoryDetails from './pages/CategoryDetails/CategoryDetails'
+import ProductDetails from './pages/ProductDetails/ProductDetails'
 
 function App() {
 
@@ -68,7 +70,7 @@ function App() {
   return (
     <div className = "container">
       <Router>
-          <NavBar toggleSidebar = {toggleSidebar}  />
+          <NavBar toggleSidebar = {toggleSidebar} clientRootUrl = {clientRootUrl} />
           <Sidebar  myClass = {myClass} closeSidebar = {closeSidebar} clientRootUrl = {clientRootUrl} />
           <ScrollToTop />
           <Switch>
@@ -76,9 +78,12 @@ function App() {
           <Route path = "/" exact = {true} component = {()=><Main apiRootUrl = {apiRootUrl}  token = {token} requireAuth = {requireAuth} />}/>
           <Route path = "/users" exact = {true} component = {()=><Users apiRootUrl = {apiRootUrl} token = {token} requireAuth = {requireAuth} />} />
           <Route path = "/user/:userId" exact = {true} component = {({match})=><UserDetails apiRootUrl = {apiRootUrl} token = {token} requireAuth = {requireAuth} match = {match} errorMessage = {errorMessage} />} />
-          {/* logo */}
+          {/*  ***************** /** get all orders by user and link to products under that and link to the products under the orders */}
+          {/* later write algorithm to figure out the most ordered */}
           <Route path = "/create-category" exact = {true} component = {()=><CreateCategory apiRootUrl = {apiRootUrl} token = {token} requireAuth = {requireAuth} errorMessage = {errorMessage} />} /> {/** redirect to categorydetails */}
-          {/* categories, categorydetails, {{ products under it -> productDetails }} && all actions e.g. starred || [check_well] */}
+          <Route path = "/category/:categoryId" exact = {true} component = {({match})=><CategoryDetails apiRootUrl = {apiRootUrl} token = {token} requireAuth = {requireAuth} errorMessage = {errorMessage} match = {match} />} />
+          <Route path = "/product/:productId" exact = {true} component = {({match})=><ProductDetails apiRootUrl = {apiRootUrl} token = {token} requireAuth = {requireAuth} errorMessage = {errorMessage} match = {match} />} />
+          {/* categories, categorydetails, {{ products under it -> productDetails(show_product_status) }} && all actions e.g. starred || [check_well] */}
           {/* orders, order -> [can update orders status] */}
           {/** search for users -> users, product, categories, orders */}
         </Switch>

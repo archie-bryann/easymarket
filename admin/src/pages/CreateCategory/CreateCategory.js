@@ -21,16 +21,16 @@ function CreateCategory({apiRootUrl,token,requireAuth,match,errorMessage}) {
 
     function createCategory(e) {
         e.preventDefault();
-        if(name.trim() === '') {
+        const formData = new FormData();
+        const imagefile = document.querySelector('#file');
+        formData.append("name", name);
+        formData.append("categoryImage",imagefile.files[0]);
+        if(name.trim() === '' || !imagefile.files[0]) {
             toast.error('All fields are required', {
                 position: toast.POSITION.BOTTOM_LEFT,
                 autoClose:false
             })
         } else {
-            const formData = new FormData();
-            const imagefile = document.querySelector('#file');
-            formData.append("name", name);
-            formData.append("categoryImage",imagefile.files[0]);
             setLoading(true);
             axios.post(`${apiRootUrl}category/`,formData, {
                 headers: {
@@ -69,7 +69,7 @@ function CreateCategory({apiRootUrl,token,requireAuth,match,errorMessage}) {
                         </div>
                         <div>
                             <label>Image</label>
-                            <input type = "file" id = "file" required/>
+                            <input type = "file" id = "file" />
                         </div>
                         <div style = {{marginTop:'14px'}}>
                             <button className = "btn block" onClick = {createCategory}>Create Category</button>

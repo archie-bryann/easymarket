@@ -2,7 +2,7 @@ import React from 'react'
 import './NavBar.css'
 import {Link} from 'react-router-dom'
 
-function NavBar({toggleSidebar}) {
+function NavBar({toggleSidebar,clientRootUrl}) {
 
     return (
         <nav className = "navbar">
@@ -15,7 +15,7 @@ function NavBar({toggleSidebar}) {
                 </div>
                 <div className = "navbar__right">
                     {/* users, product, categories, orders */}
-                    <input className = "search-box" placeholder = "Search anything..." />
+                    <input className = "search-box" placeholder = "Search anything..." title = "Search for users, products, categories or orders..." />
                     <a href = "#">
                         <i className = "fa fa-search"></i>
                     </a>
@@ -23,7 +23,7 @@ function NavBar({toggleSidebar}) {
                         <i className = "fa fa-clock"></i>
                     </a>
                     <a href = "#">
-                        <img width = "30" src = "assets/images/avatar.svg" />
+                        <img width = "30" src = {`${clientRootUrl}assets/images/avatar.svg`} />
                     </a>
                 </div>
         </nav>

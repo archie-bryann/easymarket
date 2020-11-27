@@ -59,4 +59,4 @@ function CategoryDetails({title,apiRootUrl, clientRootUrl ,match, loggedInStatus
     )
 }
 
-export default CategoryDetails
+export default CategoryDetails;

@@ -25,7 +25,7 @@ function Sidebar({myClass,closeSidebar,clientRootUrl}) {
                         create a product
                     */}
                 </div>
-                <h2>MNG</h2>
+                {/* <h2></h2> */}
                 <div className = "sidebar__link">
                     <i className = "fa fa-user-secret"></i>
                     <Link to  = "/users">Users</Link>
@@ -41,6 +41,8 @@ function Sidebar({myClass,closeSidebar,clientRootUrl}) {
                 <div className = "sidebar__link">
                     <i className = "fa fa-power-off"></i>
                     <Link to = "/logout">Logout</Link>
+                </div>
+                <div className = "sidebar__link" style = {{height:'500px'}}>
                 </div>
             </div>
         </div>

@@ -1,0 +1,20 @@
+.cat-img {
+    width: 330px;
+    object-fit: cover;
+}
+
+.category h2 {
+    margin-bottom: 10px;
+}
+
+.products {
+    margin-top: 50px;
+}
+
+.products h2 {
+    margin-bottom: 10px;
+}
+
+.products {
+    margin-bottom: 20px;
+}
