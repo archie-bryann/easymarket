@@ -3,7 +3,7 @@ import Loader from '../../components/Loader/Loader'
 import axios from 'axios'
 import {toast} from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
-import { Redirect } from 'react-router-dom'
+import { Link,Redirect } from 'react-router-dom'
 import './CategoryDetails.css'
 import Product from '../../components/Product/Product'
 import moment from 'moment'
@@ -113,10 +113,9 @@ function CategoryDetails({apiRootUrl,token,requireAuth,match,errorMessage}) {
                             </form>
                         </div>
                     </div>
-
-
-                       
                     </div>
+                   
+                    {/* <div style = {{marginBottom:'-20px'}}></div> */}
                     <div className = "products">
                         <h2>Products</h2>
                         <table>
@@ -133,6 +132,8 @@ function CategoryDetails({apiRootUrl,token,requireAuth,match,errorMessage}) {
                             </tr>
                             {products.map(({id,categoryId,name,description,image,price,visible,starred,out_of_stock,timestamp})=><Product id = {id} categoryId = {categoryId} name = {name} description = {description} image = {image} price = {price} visible = {visible} starred = {starred} out_of_stock = {out_of_stock} timestamp = {timestamp} apiRootUrl = {apiRootUrl} />)}
                         </table>
+                        <br />
+                        <Link to = {`/add-product/${category.id}`} className = "btn">Add a Product</Link>
                     </div>
                 </div>
             </main>
