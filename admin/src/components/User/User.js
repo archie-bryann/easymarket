@@ -12,7 +12,7 @@ function User({id,firstname,lastname,email,mobile_phone_number,city,joined_times
             <td>{mobile_phone_number}</td>
             <td>{city}</td>
             <td>{moment.unix(joined_timestamp).format("MM/DD/YYYY")}</td>
-            <td> <Link to = {`/user/${id}`} className = "btn">View</Link></td>
+            <td><Link to = {`/user/${id}`} className = "btn">View</Link></td>
         </tr>
     )
 }

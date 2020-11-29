@@ -34,7 +34,7 @@ function Categories({apiRootUrl,token,requireAuth,errorMessage}) {
                         <tr>
                             <th>Id</th>
                             <th>Name</th>
-                            <th>Image</th>
+                            {/* <th>Image</th> */}
                             <th>Date Created</th>
                             <th>Action</th>
                         </tr>
