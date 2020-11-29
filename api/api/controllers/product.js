@@ -29,6 +29,26 @@ exports.products_get_all = (req,res,next) => {
     }
 }
 
+exports.get_products_under_cat = (req,res,next) => {
+
+    const {categoryId} = req.params;
+
+        pool.getConnection(function(err,conn){
+            if(err) {
+                return res.status(500).json({error:'An error occured. Please try again!'});
+            } else {
+                conn.query(`select * from productSchema where categoryId = ?`, [categoryId], (err,products)=>{
+                    conn.release();
+                    if(err) {
+                        console.log(err)
+                    } else {
+                        return res.status(200).json(products);
+                    }   
+                })
+            }
+        })
+}
+
 exports.products_get_product = (req,res,next) => {
     const { productId } = req.params;
 
@@ -37,6 +57,29 @@ exports.products_get_product = (req,res,next) => {
             return res.status(500).json({error:'An error occured. Please try again!'});
         } else {
             conn.query(`select * from productSchema where ( id = ? ) and ( visible = 1 )`, [productId], function(err,product){
+                conn.release();
+                if(err) {
+                    return res.status(500).json({error:'An error occured. Please try again!'});
+                } else {
+                    if(product.length > 0) {
+                        return res.status(200).json(product[0]);
+                    } else {
+                        return res.status(200).json({error:'Product does not exist'});
+                    }
+                }
+            });
+        }
+    }); 
+}
+
+exports.products_get_product_admin = (req,res,next) => {
+    const { productId } = req.params;
+
+    pool.getConnection(function(err,conn){
+        if(err) {
+            return res.status(500).json({error:'An error occured. Please try again!'});
+        } else {
+            conn.query(`select * from productSchema where ( id = ? )`, [productId], function(err,product){
                 conn.release();
                 if(err) {
                     return res.status(500).json({error:'An error occured. Please try again!'});

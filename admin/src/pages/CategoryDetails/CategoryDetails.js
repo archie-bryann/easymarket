@@ -24,20 +24,32 @@ function CategoryDetails({apiRootUrl,token,requireAuth,match,errorMessage}) {
         setLoading(true);
         axios.get(`${apiRootUrl}category/${categoryId}`)
         .then(({data})=>{
-            setLoading(false);
             if(data.error) {
                 setRedr(true);
             } else {
                 setCategory(data);
                 setCategoryName(data.name);
                 setCategoryImage(data.image);
-                setProducts(data.products);  
+                console.log(data.products)
+
+                /** GET ALL PRODUCTS(visible/not_visible) && set them below */
+                axios.get(`${apiRootUrl}product/t/${categoryId}`)
+                .then(({data})=>{
+                    setLoading(false);
+                    console.log(data);
+                    setProducts(data);
+                    
+                }).catch(err=>{ 
+                    setLoading(false);
+                    console.log(err);   
+                })
+
+                // setProducts(data.products);
             }
         }).catch(err=>{
             setLoading(false);
             toast.error('All fields are required', {
-                position: toast.POSITION.BOTTOM_LEFT,
-                autoClose:false
+                position: toast.POSITION.BOTTOM_LEFT
             })
         })
     }, [])
@@ -54,8 +66,7 @@ function CategoryDetails({apiRootUrl,token,requireAuth,match,errorMessage}) {
         formData.append("categoryImage", imagefile.files[0]);
         if(categoryName.trim() === '' || !imagefile.files[0]) {
             toast.error('All fields are required', {
-                position: toast.POSITION.BOTTOM_LEFT,
-                autoClose:false
+                position: toast.POSITION.BOTTOM_LEFT
             })
         } else {
             setLoading(true);
@@ -67,7 +78,10 @@ function CategoryDetails({apiRootUrl,token,requireAuth,match,errorMessage}) {
             }).then(({data})=>{
                 setLoading(false);
                 // console.log(data)
-                setCategoryImage(data.image)
+                setCategoryImage(data.image);
+                toast.success('Successfully updated!', {
+                    position: toast.POSITION.BOTTOM_LEFT
+                });
             }).catch(err=>{
                 setLoading(false);
                 toast.error(errorMessage, {
@@ -130,7 +144,7 @@ function CategoryDetails({apiRootUrl,token,requireAuth,match,errorMessage}) {
                                 <th>Date</th>
                                 <th>Action</th>
                             </tr>
-                            {products.map(({id,categoryId,name,description,image,price,visible,starred,out_of_stock,timestamp})=><Product id = {id} categoryId = {categoryId} name = {name} description = {description} image = {image} price = {price} visible = {visible} starred = {starred} out_of_stock = {out_of_stock} timestamp = {timestamp} apiRootUrl = {apiRootUrl} />)}
+                            {products.map(({id,categoryId,name,description,image,price,visible,starred,out_of_stock,timestamp})=><Product key = {id} id = {id} categoryId = {categoryId} name = {name} description = {description} image = {image} price = {price} visible = {visible} starred = {starred} out_of_stock = {out_of_stock} timestamp = {timestamp} apiRootUrl = {apiRootUrl} />)}
                         </table>
                         <br />
                         <Link to = {`/add-product/${category.id}`} className = "btn">Add a Product</Link>

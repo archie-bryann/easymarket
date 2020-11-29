@@ -26,7 +26,7 @@ function ProductDetails({apiRootUrl,token,requireAuth,match,errorMessage}) {
 
     useEffect(()=>{
         setLoading(true);
-        axios.get(`${apiRootUrl}product/${productId}`)
+        axios.get(`${apiRootUrl}product/r/${productId}`)
         .then(({data})=>{
             console.log(data)
             setName(data.name);
@@ -108,7 +108,7 @@ function ProductDetails({apiRootUrl,token,requireAuth,match,errorMessage}) {
         formData.append("starred",starred);
         formData.append("out_of_stock",outOfStock);
 
-        if(name.trim() === '' || description === '' || price === '' || !imagefile.files[0]) {
+        if(name.trim() === '' || description.trim() === '' || price.trim() === '' || !imagefile.files[0]) {
             toast.error('All fields are required', {
                 position: toast.POSITION.BOTTOM_LEFT
             })
@@ -119,11 +119,15 @@ function ProductDetails({apiRootUrl,token,requireAuth,match,errorMessage}) {
                     Authorization: `Bearer ${token}`
                 }
             }).then(({data})=>{
+                console.log(data)
                 setLoading(false);
                 setImage(data.image);
+                toast.success('Successfully updated!', {
+                    position: toast.POSITION.BOTTOM_LEFT
+                });
             }).catch(err=>{
                 setLoading(false);
-                // console.log(err)
+                console.log(err)
                 toast.error('All fields are required', {
                     position: toast.POSITION.BOTTOM_LEFT
                 })
@@ -153,7 +157,6 @@ function ProductDetails({apiRootUrl,token,requireAuth,match,errorMessage}) {
                         </div>
                         <div>
                             <label>Category</label>
-                            {/* <input type = "text" onChange = {changeCategory} value = {category}></input> */}
                             <select value = {category} onChange = {changeCategory}>    
                                 {cat.map(({id,name})=><option key = {id} value = {id}>{name}</option>)}
                             </select>
@@ -197,4 +200,4 @@ function ProductDetails({apiRootUrl,token,requireAuth,match,errorMessage}) {
     )
 }
 
-export default ProductDetails
+export default ProductDetails;

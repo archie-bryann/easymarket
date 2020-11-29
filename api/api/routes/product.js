@@ -33,7 +33,10 @@ const upload = multer({
 
 router.get('/', checkAuth, ProductController.products_get_all);  // only admin
 
+router.get('/t/:categoryId', ProductController.get_products_under_cat) // only
+
 router.get('/:productId', ProductController.products_get_product); // open
+router.get('/r/:productId', ProductController.products_get_product_admin); // open
 
 router.get('/random/:limit', ProductController.products_get_random);
 

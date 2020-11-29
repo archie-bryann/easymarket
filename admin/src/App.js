@@ -12,6 +12,7 @@ import UserDetails from './pages/UserDetails/UserDetails'
 import CreateCategory from './pages/CreateCategory/CreateCategory'
 import CategoryDetails from './pages/CategoryDetails/CategoryDetails'
 import ProductDetails from './pages/ProductDetails/ProductDetails'
+import Categories from './pages/Categories/Categories';
 
 function App() {
 
@@ -76,13 +77,18 @@ function App() {
           <Switch>
           <Route path = "/login" component = { ()=><Login apiRootUrl = {apiRootUrl} clientRootUrl = {clientRootUrl}  token = {token} errorMessage = {errorMessage} verifyAuth = {verifyAuth} />} /> 
           <Route path = "/" exact = {true} component = {()=><Main apiRootUrl = {apiRootUrl}  token = {token} requireAuth = {requireAuth} />}/>
-          <Route path = "/users" exact = {true} component = {()=><Users apiRootUrl = {apiRootUrl} token = {token} requireAuth = {requireAuth} />} />
+          <Route path = "/users" exact = {true} component = {()=><Users apiRootUrl = {apiRootUrl} token = {token} requireAuth = {requireAuth} errorMessage = {errorMessage} />} />
           <Route path = "/user/:userId" exact = {true} component = {({match})=><UserDetails apiRootUrl = {apiRootUrl} token = {token} requireAuth = {requireAuth} match = {match} errorMessage = {errorMessage} />} />
           {/*  ***************** /** get all orders by user and link to products under that and link to the products under the orders */}
           {/* later write algorithm to figure out the most ordered */}
           <Route path = "/create-category" exact = {true} component = {()=><CreateCategory apiRootUrl = {apiRootUrl} token = {token} requireAuth = {requireAuth} errorMessage = {errorMessage} />} /> {/** redirect to categorydetails */}
           <Route path = "/category/:categoryId" exact = {true} component = {({match})=><CategoryDetails apiRootUrl = {apiRootUrl} token = {token} requireAuth = {requireAuth} errorMessage = {errorMessage} match = {match} />} />
           <Route path = "/product/:productId" exact = {true} component = {({match})=><ProductDetails apiRootUrl = {apiRootUrl} token = {token} requireAuth = {requireAuth} errorMessage = {errorMessage} match = {match} />} />
+
+
+          <Route path = "/categories" exact = {true} component = {()=><Categories apiRootUrl = {apiRootUrl} token = {token} requireAuth = {requireAuth} errorMessage = {errorMessage} />}  />
+
+          
           {/* categories, categorydetails, {{ products under it -> productDetails(show_product_status) }} && all actions e.g. starred || [check_well] */}
           {/* orders, order -> [can update orders status] */}
           {/** search for users -> users, product, categories, orders */}

@@ -3,8 +3,12 @@ import './Users.css'
 import Loader from '../../components/Loader/Loader'
 import axios from 'axios';
 import User from '../../components/User/User'
+import {toast} from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
-function Users({apiRootUrl,token,requireAuth}) {
+toast.configure();
+
+function Users({apiRootUrl,token,requireAuth,errorMessage}) {
 
     const [loading,setLoading] = useState(false);
     const [users,setUsers] = useState([]);
@@ -20,7 +24,10 @@ function Users({apiRootUrl,token,requireAuth}) {
             setUsers(data);
         }).catch(err=>{ 
             setLoading(false);
-            console.log(err)
+            // console.log(err);
+            toast.error(errorMessage, {
+                position: toast.POSITION.BOTTOM_LEFT
+            })
         })
     }, [apiRootUrl])
 
