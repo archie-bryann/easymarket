@@ -4,6 +4,7 @@ const fs = require('fs');
 // const metaphone = require('metaphone');
 // const stemmer = require('stemmer');
 const enhance = require("../../utils/enhance");
+const { token } = require("morgan");
 
 exports.products_get_all = (req,res,next) => {
     const tokenEmail = req.userData.email;
@@ -130,8 +131,10 @@ exports.products_update_product = (req,res,next) => {
     
     const {productId} = req.params;
     const tokenEmail = req.userData.email;
-    const {name,price,categoryId,visible,starred,out_of_stock} = req.body;
+    const {name,description,price,categoryId,visible,starred,out_of_stock} = req.body;
     const image = req.files.productImage[0].filename;
+
+    console.log(image)
 
     if(tokenEmail === process.env.adminEmail) {
         pool.getConnection(function(err,conn){
@@ -144,24 +147,35 @@ exports.products_update_product = (req,res,next) => {
                         return res.status(500).json({error:'An error occured. Please try again!'});
                     } else {
                         if(product.length > 0) {
+
                             fs.unlink(`./uploads/${product[0].image}`, function(err){
                                 if(err) {
-                                    return res.status(500).json({error:'An error occured. Please try again!'});
+                                    return res.status(200).json({error:'An error occured. Please try again!'});
                                 } else {
                                     pool.getConnection(function(err,conn){
                                         if(err) {
-                                            return res.status(500).json({error:'An error occured. Please try again!'});
+                                            return res.status(200).json({error:'An error occured. Please try again!1'});
                                         } else {
+
+                                            let sounds_like = "";
+
+                                            /** sounds_like: name, description */
+                                            sounds_like += `${enhance(name)} `;
+                                            sounds_like += `${enhance(description)} `;
+
+
                                             conn.query(`update productSchema set
                                                 categoryId = ?,
                                                 name = ?,
+                                                description=?,
                                                 image = ?,
                                                 price = ?,
                                                 visible = ?,
                                                 starred = ?,
-                                                out_of_stock = ?
+                                                out_of_stock = ?,
+                                                sounds_like = ?
                                                 where id = ?
-                                            `, [categoryId,name,image,price,visible,starred,out_of_stock,productId], function(err,result){
+                                            `, [categoryId,name,description,image,price,visible,starred,out_of_stock,sounds_like, productId], function(err,result){
                                                 conn.release();
                                                 if(err) {
                                                     return res.status(500).json({error:'An error occured. Please try again!'});
@@ -176,7 +190,7 @@ exports.products_update_product = (req,res,next) => {
                                                                 if(err) {
                                                                     return res.status(500).json({error:'An error occured. Please try again!'});
                                                                 } else {
-                                                                    return res.status(200).json(product);
+                                                                    return res.status(200).json(product[0]);
                                                                 }
                                                             });
                                                         }

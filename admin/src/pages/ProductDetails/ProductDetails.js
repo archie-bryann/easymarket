@@ -22,6 +22,7 @@ function ProductDetails({apiRootUrl,token,requireAuth,match,errorMessage}) {
     const [starred,setStarred] = useState(null);
     const [outOfStock,setOutOfStock] = useState(null);
     const [timestamp,setTimestamp] = useState(null);
+    const [cat,setCat] = useState([]);
 
     useEffect(()=>{
         setLoading(true);
@@ -43,8 +44,12 @@ function ProductDetails({apiRootUrl,token,requireAuth,match,errorMessage}) {
             // get all categories put in a state and try
             axios.get(`${apiRootUrl}category`)
             .then(({data})=>{
+                // console.log(data)
                 setLoading(false);
-                console.log(data);
+                let categories = data;
+                categories.map(({id,name})=>{
+                    setCat(prevCat=>[...prevCat,{id,name}]);
+                })
             }).catch(err=>{
                 setLoading(false);
                 toast.error(errorMessage, {
@@ -90,6 +95,42 @@ function ProductDetails({apiRootUrl,token,requireAuth,match,errorMessage}) {
         setOutOfStock(e.target.value);
     }
 
+    function updateProduct(e) {
+        e.preventDefault();        
+        const formData = new FormData();
+        const imagefile = document.querySelector('#file');
+        formData.append("name", name);
+        formData.append("productImage", imagefile.files[0]);
+        formData.append("categoryId", category);
+        formData.append("description", description);
+        formData.append("price", price);
+        formData.append("visible", visible);
+        formData.append("starred",starred);
+        formData.append("out_of_stock",outOfStock);
+
+        if(name.trim() === '' || description === '' || price === '' || !imagefile.files[0]) {
+            toast.error('All fields are required', {
+                position: toast.POSITION.BOTTOM_LEFT
+            })
+        } else {
+            setLoading(true);
+            axios.patch(`${apiRootUrl}product/${productId}`, formData, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            }).then(({data})=>{
+                setLoading(false);
+                setImage(data.image);
+            }).catch(err=>{
+                setLoading(false);
+                // console.log(err)
+                toast.error('All fields are required', {
+                    position: toast.POSITION.BOTTOM_LEFT
+                })
+            })
+        }
+    }
+
     return (    
         <Fragment>
             {requireAuth()}
@@ -107,8 +148,15 @@ function ProductDetails({apiRootUrl,token,requireAuth,match,errorMessage}) {
                             <input type = "text" onChange = {changeName} value = {name} />
                         </div>
                         <div>
+                            <label>Image</label>
+                            <input type = "file" id = "file" />
+                        </div>
+                        <div>
                             <label>Category</label>
-                            <input type = "text" onChange = {changeCategory} value = {category}></input>
+                            {/* <input type = "text" onChange = {changeCategory} value = {category}></input> */}
+                            <select value = {category} onChange = {changeCategory}>    
+                                {cat.map(({id,name})=><option key = {id} value = {id}>{name}</option>)}
+                            </select>
                         </div>
                         <div>
                             <label>Description</label>
@@ -120,15 +168,27 @@ function ProductDetails({apiRootUrl,token,requireAuth,match,errorMessage}) {
                         </div>
                         <div>
                             <label>Visible</label>
-                            <input type = "text" onChange = {changeVisible} value = {visible} />
+                            <select value = {visible} onChange = {changeVisible}>
+                                <option>0</option>
+                                <option>1</option>
+                            </select>
                         </div>
                         <div>
                             <label>Starred</label>
-                            <input type = "text" onChange = {changeStarred} value = {starred} />
+                            <select value = {starred} onChange = {changeStarred}>
+                                <option>0</option>
+                                <option>1</option>
+                            </select>
                         </div>
                         <div>
                             <label>Out Of Stock</label>
-                            <input type = "text" onChange = {changeOutOfStock} value = {outOfStock} />
+                            <select value = {outOfStock} onChange = {changeOutOfStock}>
+                                <option>0</option>
+                                <option>1</option>
+                            </select>
+                        </div>
+                        <div style = {{marginTop:'14px'}}>
+                            <button className = "btn block" onClick = {updateProduct}>Update Product</button>
                         </div>
                     </form>
                 </div>

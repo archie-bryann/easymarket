@@ -193,9 +193,14 @@ exports.categories_update_category = (req,res,next) => {
                                     if(err) {
                                         return res.status(500).json({error:'An error occured. Please try again!'});
                                     } else {
+                                        /** category: name */
+                                        let sounds_like = "";
+                                        sounds_like += `${enhance(name)} `; 
+                                        
                                         conn.query(`update categorySchema set
                                             name = '${name}',
-                                            image = '${image}'
+                                            image = '${image}',
+                                            sounds_like = '${sounds_like}'
                                             where id = '${categoryId}'
                                         `, function(err,result){
                                             conn.release();
