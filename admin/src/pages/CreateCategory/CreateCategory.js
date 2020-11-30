@@ -62,6 +62,7 @@ function CreateCategory({apiRootUrl,token,requireAuth,match,errorMessage}) {
             {redr && <Redirect to = {`/category/${categoryId}`} />}
             <main>
                 <div className = "main__container">
+                    <h2 style = {{marginBottom:'15px'}}>Create a Category</h2>
                     <form>
                         <div>
                             <label>Name</label>

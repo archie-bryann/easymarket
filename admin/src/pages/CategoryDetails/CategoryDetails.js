@@ -190,7 +190,7 @@ function CategoryDetails({apiRootUrl,token,requireAuth,match,errorMessage}) {
                             {products.map(({id,categoryId,name,description,image,price,visible,starred,out_of_stock,timestamp})=><Product key = {id} id = {id} categoryId = {categoryId} name = {name} description = {description} image = {image} price = {price} visible = {visible} starred = {starred} out_of_stock = {out_of_stock} timestamp = {timestamp} apiRootUrl = {apiRootUrl} />)}
                         </table>
                         <br />
-                        <Link to = {`/add-product/${category.id}`} className = "btn">Add a Product</Link>
+                        <Link to = {`/add-product?_category=${category.id}`} className = "btn">Add a Product</Link>
                     </div>
                 </div>
             </main>

@@ -3,7 +3,7 @@ import Loader from '../../components/Loader/Loader';
 import axios from 'axios'
 import {toast} from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
-import { Redirect } from 'react-router-dom'
+import { Link, Redirect } from 'react-router-dom'
 import moment from 'moment'
 import './ProductDetails.css'
 
@@ -28,7 +28,7 @@ function ProductDetails({apiRootUrl,token,requireAuth,match,errorMessage}) {
         setLoading(true);
         axios.get(`${apiRootUrl}product/r/${productId}`)
         .then(({data})=>{
-            console.log(data)
+            // console.log(data)
             setName(data.name);
             setImage(data.image);
             setCategory(data.categoryId);
@@ -44,7 +44,6 @@ function ProductDetails({apiRootUrl,token,requireAuth,match,errorMessage}) {
             // get all categories put in a state and try
             axios.get(`${apiRootUrl}category`)
             .then(({data})=>{
-                // console.log(data)
                 setLoading(false);
                 let categories = data;
                 categories.map(({id,name})=>{
@@ -119,7 +118,6 @@ function ProductDetails({apiRootUrl,token,requireAuth,match,errorMessage}) {
                     Authorization: `Bearer ${token}`
                 }
             }).then(({data})=>{
-                console.log(data)
                 setLoading(false);
                 setImage(data.image);
                 toast.success('Successfully updated!', {
@@ -144,7 +142,7 @@ function ProductDetails({apiRootUrl,token,requireAuth,match,errorMessage}) {
                     <h2>Product Details</h2>
                     <div class = "product">
                         <img src = {`${apiRootUrl}uploads/${image}`} alt = "" />
-                        <br /><i style = {{fontWeight:'bold'}}>Date Created: {moment.unix(timestamp).format("MM/DD/YYYY")}</i>
+                        <br /><i style = {{fontWeight:'bold'}}>Date Created: {moment.unix(timestamp).format("MM/DD/YYYY")}</i> | <Link style = {{fontWeight:'bold'}} to = {`/category/${category}`}>Go to Category</Link>
                     </div>
                     <form>
                         <div>

@@ -13,6 +13,7 @@ import CreateCategory from './pages/CreateCategory/CreateCategory'
 import CategoryDetails from './pages/CategoryDetails/CategoryDetails'
 import ProductDetails from './pages/ProductDetails/ProductDetails'
 import Categories from './pages/Categories/Categories';
+import AddProduct from './pages/AddProduct/AddProduct';
 
 function App() {
 
@@ -83,6 +84,7 @@ function App() {
           <Route path = "/category/:categoryId" exact = {true} component = {({match})=><CategoryDetails apiRootUrl = {apiRootUrl} token = {token} requireAuth = {requireAuth} errorMessage = {errorMessage} match = {match} />} />
           <Route path = "/product/:productId" exact = {true} component = {({match})=><ProductDetails apiRootUrl = {apiRootUrl} token = {token} requireAuth = {requireAuth} errorMessage = {errorMessage} match = {match} />} />
           <Route path = "/categories" exact = {true} component = {()=><Categories apiRootUrl = {apiRootUrl} token = {token} requireAuth = {requireAuth} errorMessage = {errorMessage} />}  />
+          <Route path = "/add-product" exact = {true} component = {({location})=><AddProduct apiRootUrl = {apiRootUrl} token = {token} requireAuth = {requireAuth} errorMessage = {errorMessage} location = {location} />} />
           {/** add product, add product (link from category) */}          
           {/* orders, order -> [can update orders status] */}
           {/** search for users -> users, product, categories, orders */}

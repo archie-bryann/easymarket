@@ -156,6 +156,7 @@ exports.products_add_product = (req,res,next) => {
                     } else {
                         return res.status(200).json({
                             error:0,
+                            productId:result.insertId,
                             request: {
                                 type: 'GET',
                                 url: `${process.env.rootUrl}product/${result.insertId}`
