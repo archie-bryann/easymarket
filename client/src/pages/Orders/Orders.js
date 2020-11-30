@@ -55,7 +55,7 @@ function Orders({title, apiRootUrl, clientRootUrl, loggedInStatus, cartNum, requ
                                 <th>Total</th>
                             </tr>
                             {orders.map(({id,userId,status,total,timestamp})=>
-                            <Order key = {id} id = {id} status = {status} total = {total} timestamp = {timestamp}  />)}
+                            <Order key = {id} id = {id} status = {status} total = {total} timestamp = {timestamp} />)}
                         </table>
                     </div>
                 )

@@ -4,6 +4,7 @@ import Loader from '../../components/Loader/Loader';
 import {toast} from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { Redirect } from 'react-router-dom';
+import Order from '../../components/Order/Order';
 
 toast.configure();
 
@@ -23,6 +24,7 @@ function UserDetails({apiRootUrl,token,requireAuth,match,errorMessage}) {
     const [stateRegion, setStateRegion] = useState('');
     const [country, setCountry] = useState('');
     const [redr,setRedr] = useState(false);
+    const [orders,setOrders] = useState([]);
 
     useEffect(()=>{
         setLoading(true);
@@ -31,7 +33,7 @@ function UserDetails({apiRootUrl,token,requireAuth,match,errorMessage}) {
                 Authorization: `Bearer ${token}`
             }
         }).then(({data})=>{
-            setLoading(false);
+            // setLoading(false);
             if(data) {
                 setId(data.id);
                 setFirstname(data.firstname);
@@ -43,7 +45,26 @@ function UserDetails({apiRootUrl,token,requireAuth,match,errorMessage}) {
                 setAdditionalInfo(data.additional_info);
                 setCity(data.city);
                 setStateRegion(data.state_region);
-                setCountry(data.country);    
+                setCountry(data.country);
+                
+                /** GET USER ORDERS */
+
+                axios.get(`${apiRootUrl}order/user/${userId}`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                }).then(({data})=>{
+                    console.log(data)
+                    setLoading(false)  
+                    setOrders(data);
+                }).catch(err=>{
+                    setLoading(false)
+                    toast.error(errorMessage, {
+                        position: toast.POSITION.BOTTOM_RIGHT
+                    }) 
+                })
+
+
             } else {
                 setRedr(true);
             }
@@ -193,7 +214,20 @@ function UserDetails({apiRootUrl,token,requireAuth,match,errorMessage}) {
                             <button className = "btn block" onClick = {updateUser}>Update User</button>
                         </div>
 
-                        <div style = {{height:'14px'}}></div>
+                        <div style = {{height:'45px'}}></div>
+
+
+                        <h2 style = {{marginBottom:'25px'}}>Orders</h2>
+                        <table>
+                            <tr>
+                                <th>Order</th>
+                                <th>Status</th>
+                                <th>Date</th>
+                                <th>Total</th>
+                            </tr>
+                            {orders.map(({id,userId,status,total,timestamp})=>
+                            <Order key = {id} id = {id} status = {status} total = {total} timestamp = {timestamp} />)}
+                        </table>
                     </form>
                 </div>
             </main>

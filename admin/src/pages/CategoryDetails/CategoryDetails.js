@@ -19,6 +19,7 @@ function CategoryDetails({apiRootUrl,token,requireAuth,match,errorMessage}) {
     const [categoryImage, setCategoryImage] = useState('');
     const [products,setProducts] = useState([]);
     const [redr,setRedr] = useState(false);
+    const [redr2,setRedr2] = useState(false);
     
     useEffect(() => {
         setLoading(true);
@@ -30,18 +31,18 @@ function CategoryDetails({apiRootUrl,token,requireAuth,match,errorMessage}) {
                 setCategory(data);
                 setCategoryName(data.name);
                 setCategoryImage(data.image);
-                console.log(data.products)
+                // console.log(data.products)
 
                 /** GET ALL PRODUCTS(visible/not_visible) && set them below */
                 axios.get(`${apiRootUrl}product/t/${categoryId}`)
                 .then(({data})=>{
                     setLoading(false);
-                    console.log(data);
+                    // console.log(data);
                     setProducts(data);
                     
                 }).catch(err=>{ 
                     setLoading(false);
-                    console.log(err);   
+                    // console.log(err);
                 })
 
                 // setProducts(data.products);
@@ -92,11 +93,50 @@ function CategoryDetails({apiRootUrl,token,requireAuth,match,errorMessage}) {
         }
     }
 
+    function deleteCategory() {
+        // e.preventDefault();
+        setLoading(true);
+        axios.delete(`${apiRootUrl}category/${categoryId}`, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        }).then(({data})=>{
+            if(data.error === 0) {
+                toast.success("Delete successful!", {
+                    position: toast.POSITION.BOTTOM_LEFT
+                })
+                /** redirect to categories */
+                setRedr2(true);
+            } else {
+                toast.error(data.error, {
+                    position: toast.POSITION.BOTTOM_LEFT,
+                    autoClose:false
+                })
+            }
+        }).catch(err=>{
+            toast.error(errorMessage, {
+                position: toast.POSITION.BOTTOM_LEFT,
+                autoClose:false
+            })
+        })
+    }       
+
+    /** DIALOG FORM WITH JAVASCRIPT */
+    function askAdmin(e) {
+        e.preventDefault();
+        if(window.confirm("Are you sure you want to delete this category?")) {
+            deleteCategory();
+        } else {
+
+        }
+    }
+
     return (
         <Fragment>
             {requireAuth()}
             {loading&&<Loader/>}
             {redr&&<Redirect to = "/404"/>}
+            {redr2&&<Redirect to = "/categories"/>}
             <main>
                 <div className = "main__container">
 
@@ -123,6 +163,9 @@ function CategoryDetails({apiRootUrl,token,requireAuth,match,errorMessage}) {
                                 </div>
                                 <div style = {{marginTop:'14px'}}>
                                     <button className = "btn block" onClick = {updateCategory}>Update Category</button>
+                                </div>
+                                <div style = {{marginTop:'14px'}}>
+                                    <button className = "btn block red" onClick = {askAdmin}>Delete Category</button>
                                 </div>
                             </form>
                         </div>

@@ -256,3 +256,7 @@ form .btn:focus {
     width:100%;
     text-align: center;
 }
+
+.red {
+    background: #ff291d !important;
+}
