@@ -14,6 +14,9 @@ import CategoryDetails from './pages/CategoryDetails/CategoryDetails'
 import ProductDetails from './pages/ProductDetails/ProductDetails'
 import Categories from './pages/Categories/Categories';
 import AddProduct from './pages/AddProduct/AddProduct';
+import Orders from './pages/Orders/Orders';
+import OrderDetails from './pages/OrderDetails/OrderDetails';
+import OrderUpdate from './pages/OrderUpdate/OrderUpdate';
 
 function App() {
 
@@ -85,9 +88,12 @@ function App() {
           <Route path = "/product/:productId" exact = {true} component = {({match})=><ProductDetails apiRootUrl = {apiRootUrl} token = {token} requireAuth = {requireAuth} errorMessage = {errorMessage} match = {match} />} />
           <Route path = "/categories" exact = {true} component = {()=><Categories apiRootUrl = {apiRootUrl} token = {token} requireAuth = {requireAuth} errorMessage = {errorMessage} />}  />
           <Route path = "/add-product" exact = {true} component = {({location})=><AddProduct apiRootUrl = {apiRootUrl} token = {token} requireAuth = {requireAuth} errorMessage = {errorMessage} location = {location} />} />
-          {/** add product, add product (link from category) */}          
+          <Route path = "/orders" exact = {true} component = {()=><Orders apiRootUrl = {apiRootUrl} token = {token} requireAuth = {requireAuth} errorMessage = {errorMessage}/>} />
+          <Route path = "/order/:orderId" exact = {true} component = {({match})=><OrderDetails apiRootUrl = {apiRootUrl} clientRootUrl = {clientRootUrl} token = {token} requireAuth = {requireAuth} errorMessage = {errorMessage} match = {match} />} />
+          <Route path = "/update/order/:orderId" exact = {true} component = {({match})=><OrderUpdate apiRootUrl = {apiRootUrl} clientRootUrl = {clientRootUrl} token = {token} requireAuth = {requireAuth} errorMessage = {errorMessage} match = {match} />} />
           {/* orders, order -> [can update orders status] */}
           {/** search for users -> users, product, categories, orders */}
+          {/* handle 404 */}
         </Switch>
       </Router>
     </div>

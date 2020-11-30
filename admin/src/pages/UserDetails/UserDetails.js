@@ -226,7 +226,7 @@ function UserDetails({apiRootUrl,token,requireAuth,match,errorMessage}) {
                                 <th>Total</th>
                             </tr>
                             {orders.map(({id,userId,status,total,timestamp})=>
-                            <Order key = {id} id = {id} status = {status} total = {total} timestamp = {timestamp} />)}
+                            <Order key = {id} id = {id} userId = {userId} status = {status} total = {total} timestamp = {timestamp} />)}
                         </table>
                     </form>
                 </div>

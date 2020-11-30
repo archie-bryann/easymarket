@@ -1,38 +1,34 @@
 import React, { Fragment, useEffect, useState } from 'react'
-import { Redirect } from 'react-router-dom';
-import Header from '../../components/Header/Header'
-import axios from 'axios';
+import Loader from '../../components/Loader/Loader';
+import axios from 'axios'
 import {toast} from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
-import Loader from '../../components/Loader/Loader';
 import {sentenceCase} from 'sentence-case'
+import { Link, Redirect } from 'react-router-dom';
 import OrderProduct from '../../components/OrderProduct/OrderProduct';
 
 toast.configure();
 
-function OrderDetails({title, apiRootUrl, clientRootUrl, loggedInStatus, match, cartNum, requireAuth, token, errorMessage}) {
-    
+function OrderDetails({apiRootUrl,clientRootUrl,token,requireAuth,match,errorMessage}) {
 
     const {orderId} = match.params;
-
-    document.title = `Order ${orderId} - ${title}`;
- 
+    const [loading,setLoading] = useState(false);
     const [status, setStatus] = useState('');
     const [subtotal, setSubtotal] = useState(0);
     const [delivery, setDelivery] = useState(0);
     const [total, setTotal] = useState(0);
     const [orderProducts, setOrderProducts] = useState([]);
-    const [loading, setLoading] = useState(true);
     const [redr,setRedr] = useState(false);
 
+
     useEffect(()=>{
+        setLoading(true);
         axios.get(`${apiRootUrl}order/d/${orderId}`, {
             headers: {
                 Authorization: `Bearer ${token}`
             }
         }).then(({data})=>{
             setLoading(false);
-            console.log(data)
             setStatus(data.status);
             setSubtotal(data.subtotal);
             setDelivery(data.delivery);
@@ -48,15 +44,14 @@ function OrderDetails({title, apiRootUrl, clientRootUrl, loggedInStatus, match, 
     return (
         <Fragment>
             {requireAuth()}
-            {loading&&<Loader />}
+            {loading&&<Loader/>}
             {redr&&<Redirect to = "/404" />}
-            <Header title = {title} clientRootUrl = {clientRootUrl} loggedInStatus = {loggedInStatus} cartNum = {cartNum} token = {token} />
-            <br />
-            <br />
-            <div className = "small-container cart-page">
+            <main>
+                <div className = "main__container">
+                <div>
                 <div className = "row row-2" style = {{marginTop:'-5px'}}>
-                    <h3>Order {orderId}</h3>
-                    <span><i>{sentenceCase(status)}</i></span>
+                    <h3>Order {orderId}</h3> 
+                    <i>{sentenceCase(status)}</i> | <Link to = {`/update/order/${orderId}`} className = "_btn">Update Status</Link>
                 </div>
                 <div style = {{height:'15px'}}></div>
                 <table>
@@ -99,8 +94,10 @@ function OrderDetails({title, apiRootUrl, clientRootUrl, loggedInStatus, match, 
                 <br />
                 <br />
             </div>
+                </div>
+            </main>
         </Fragment>
     )
 }
 
-export default OrderDetails
+export default OrderDetails;

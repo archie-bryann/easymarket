@@ -116,7 +116,7 @@ exports.orders_get_all = (req,res,next) => {
             if(err) {
                 return res.status(500).json({error:'An error occured. Please try again!'});
             } else {
-                conn.query(`select * from orderSchema`, function(err,orders){
+                conn.query(`select * from orderSchema order by id DESC`, function(err,orders){
                     conn.release();
                     if(err) {
                         return res.status(500).json({error:'An error occured. Please try again!'});
@@ -126,9 +126,8 @@ exports.orders_get_all = (req,res,next) => {
                             return {
                                 id:order.id,
                                 userId:order.userId,
-                                product:JSON.parse(order.product),
                                 status:order.status,
-                                amount:order.amount,
+                                total:order.total,
                                 timestamp:order.timestamp
                             }
                         }));
@@ -228,12 +227,11 @@ exports.orders_get_order = (req,res,next) => {
                                         return res.status(500).json({error:'An error occured. Please try again!'});
                                     } else {
                                         conn.query(`select * from orderedProductSchema where orderId = ?`, [orderId], function(err,orderedProducts){
-                                            // conn.release();
+                                            conn.release();
                                             if(err) {
                                                 return res.status(500).json({error:'An error occured. Please try again!'});
                                             } else {
-                                                console.log(o);
-                                                return res.status(200).json( {
+                                                return res.status(200).json({
                                                     id:o.id,
                                                     userId:o.userId,
                                                     status:o.status,
@@ -242,7 +240,7 @@ exports.orders_get_order = (req,res,next) => {
                                                     total:o.total,
                                                     timestamp:o.timestamp,
                                                     orderedProducts
-                                                })
+                                                });
                                             }
                                         });
                                     }
@@ -273,38 +271,39 @@ exports.orders_update_order_status = (req,res,next) => {
     const { orderId, status } = req.params;
     const tokenUserId = req.userData.userId;
     const tokenEmail = req.userData.email;
+    console.log(1);
 
     pool.getConnection(function(err,conn){
         if(err) {
-            return res.status(500).json({eror:'An error occured. Please try again!'});
+            return res.status(200).json({eror:'An error occured. Please try again!0'});
         } else {
             conn.query(`select * from orderSchema where id = ?`, [orderId], function(err,order){
                 conn.release();
                 if(err) {
-                    return res.status(500).json({eror:'An error occured. Please try again!'});
+                    return res.status(200).json({eror:'An error occured. Please try again!1'});
                 } else {
                     if(order.length > 0) {
                         if(order[0].userId === tokenUserId || tokenEmail === process.env.adminEmail) {
                             pool.getConnection(function(err,conn){
                                 if(err) {
-                                    return res.status(500).json({error:'An error occured. Please try again!'});
+                                    return res.status(200).json({error:'An error occured. Please try again!2'});
                                 } else {
                                     conn.query(`update orderSchema set status = ? where id = ?`, [status,orderId], function(err,result){
                                         conn.release();
                                         if(err) {
-                                            return res.status(500).json({error:'An error occured. Please try again!'});
+                                            return res.status(200).json({error:'An error occured. Please try again!2'});
                                         } else {
                                             // res.status(200).json(result);
                                             pool.getConnection(function(err,conn){
                                                 if(err) {
-                                                    return res.status(500).json({error:'An error occured. Please try again!'});
+                                                    return res.status(200).json({error:'An error occured. Please try again!3'});
                                                 } else {
                                                     conn.query(`select * from orderSchema where id = ?`, [orderId], function(err,order){
                                                         conn.release();
                                                         if(err) {
-                                                            return res.status(500).json({error:'An error occured. Please try again!'});
+                                                            return res.status(200).json({error:'An error occured. Please try again!4'});
                                                         } else {
-                                                            return res.status(200).json(order[0]);
+                                                            return res.status(200).json({error:0},order[0]);
                                                         }
                                                     });
                                                 }
