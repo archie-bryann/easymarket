@@ -268,42 +268,42 @@ exports.orders_update_order_status = (req,res,next) => {
 
     // users can update from unfulfilled to cancelled
     // only admin/logistics can update from unfulfilled to fulfilled
-    const { orderId, status } = req.params;
+    const { orderId } = req.params;
+    const {status} = req.body;
     const tokenUserId = req.userData.userId;
     const tokenEmail = req.userData.email;
-    console.log(1);
 
     pool.getConnection(function(err,conn){
         if(err) {
-            return res.status(200).json({eror:'An error occured. Please try again!0'});
+            return res.status(500).json({eror:'An error occured. Please try again!0'});
         } else {
             conn.query(`select * from orderSchema where id = ?`, [orderId], function(err,order){
                 conn.release();
                 if(err) {
-                    return res.status(200).json({eror:'An error occured. Please try again!1'});
+                    return res.status(500).json({eror:'An error occured. Please try again!1'});
                 } else {
                     if(order.length > 0) {
                         if(order[0].userId === tokenUserId || tokenEmail === process.env.adminEmail) {
                             pool.getConnection(function(err,conn){
                                 if(err) {
-                                    return res.status(200).json({error:'An error occured. Please try again!2'});
+                                    return res.status(500).json({error:'An error occured. Please try again!2'});
                                 } else {
                                     conn.query(`update orderSchema set status = ? where id = ?`, [status,orderId], function(err,result){
                                         conn.release();
                                         if(err) {
-                                            return res.status(200).json({error:'An error occured. Please try again!2'});
+                                            return res.status(500).json({error:'An error occured. Please try again!2'});
                                         } else {
                                             // res.status(200).json(result);
                                             pool.getConnection(function(err,conn){
                                                 if(err) {
-                                                    return res.status(200).json({error:'An error occured. Please try again!3'});
+                                                    return res.status(500).json({error:'An error occured. Please try again!3'});
                                                 } else {
                                                     conn.query(`select * from orderSchema where id = ?`, [orderId], function(err,order){
                                                         conn.release();
                                                         if(err) {
-                                                            return res.status(200).json({error:'An error occured. Please try again!4'});
+                                                            return res.status(500).json({error:'An error occured. Please try again!4'});
                                                         } else {
-                                                            return res.status(200).json({error:0},order[0]);
+                                                            return res.status(200).json(order[0]);
                                                         }
                                                     });
                                                 }
@@ -322,6 +322,4 @@ exports.orders_update_order_status = (req,res,next) => {
             });
         }
     })
-    
-   
 }

@@ -41,7 +41,8 @@ function Login({apiRootUrl, clientRootUrl, errorMessage, verifyAuth}) {
                     localStorage.setItem('wpt', data.token);
                     setColor('green');      
                     setLoginErr('Login successful!');
-                    setRedr(true);
+                    // setRedr(true);
+                    window.location="/";
                 } else {
                     setColor('red');
                     setLoginErr(data.error);

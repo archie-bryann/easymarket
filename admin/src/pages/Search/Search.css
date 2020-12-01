@@ -1,0 +1,11 @@
+.group div {
+    margin-bottom: 25px;
+}
+
+.group div h2 {
+    margin-bottom: 10px;
+}
+
+.group div Link, a {
+    margin-inline-start: 15px;
+}

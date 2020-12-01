@@ -2,8 +2,8 @@ const express = require('express');
 const app = express();
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
-const path = require('path');
-const cors = require('cors');
+// const path = require('path');
+// const cors = require('cors');
 
 const userRoutes = require('./api/routes/user');
 const adminRoutes = require('./api/routes/admin');
@@ -20,10 +20,10 @@ app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({extended:false}));
 app.use(bodyParser.json());
 
-const corsOptions = {
-    origin:true,
-    credentials:true
-}
+// const corsOptions = {
+//     origin:true,
+//     credentials:true
+// }
 
 // app.options('*', cors(corsOptions));
 // app.listen(80, function(){

@@ -13,6 +13,6 @@ router.get('/user/:userId', checkAuth, OrderController.get_all_previous_orders_f
 
 router.get('/d/:orderId', checkAuth, OrderController.orders_get_order); // open // make use of timestamp
 
-router.patch('/t/:orderId/:status', OrderController.orders_update_order_status); // open {{ for particular user }}
+router.patch('/t/:orderId', checkAuth, OrderController.orders_update_order_status); // open {{ for particular user }}
 
 module.exports = router;

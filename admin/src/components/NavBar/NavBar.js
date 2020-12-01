@@ -1,8 +1,14 @@
-import React from 'react'
+import React, { useState } from 'react'
 import './NavBar.css'
 import {Link} from 'react-router-dom'
 
 function NavBar({toggleSidebar,clientRootUrl}) {
+
+    const [q,setQ] = useState(null);
+
+    function changeQ(e) {
+        setQ(e.target.value);
+    }
 
     return (
         <nav className = "navbar">
@@ -15,13 +21,13 @@ function NavBar({toggleSidebar,clientRootUrl}) {
                 </div>
                 <div className = "navbar__right">
                     {/* users, product, categories, orders */}
-                    <input className = "search-box" placeholder = "Search anything..." title = "Search for users, products, categories or orders..." />
-                    <a href = "#">
-                        <i className = "fa fa-search"></i>
-                    </a>
-                    <a href = "#">
+                    <input className = "search-box" placeholder = "Search anything..." title = "Search for users, products, categories or orders..." value = {q} onChange = {changeQ} />
+                    <Link to = {`/search?q=${q?q:''}`}>
+                        <i className = "fa fa-search" style = {{fontSize:'20px',marginLeft:'-12px'}}></i>
+                    </Link>
+                    {/* <a href = "#">
                         <i className = "fa fa-clock"></i>
-                    </a>
+                    </a> */}
                     <a href = "#">
                         <img width = "30" src = {`${clientRootUrl}assets/images/avatar.svg`} />
                     </a>

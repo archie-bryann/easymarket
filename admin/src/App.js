@@ -17,6 +17,8 @@ import AddProduct from './pages/AddProduct/AddProduct';
 import Orders from './pages/Orders/Orders';
 import OrderDetails from './pages/OrderDetails/OrderDetails';
 import OrderUpdate from './pages/OrderUpdate/OrderUpdate';
+import Logout from './pages/Logout/Logout';
+import Search from './pages/Search/Search';
 
 function App() {
 
@@ -27,7 +29,6 @@ function App() {
 
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [myClass,setMyClass] = useState('');
-  // const [loggedIn, setLoggedIn] = useState(true);
 
   function toggleSidebar() {
     if(!sidebarOpen) {
@@ -75,10 +76,10 @@ function App() {
   return (
     <div className = "container">
       <Router>
-          <NavBar toggleSidebar = {toggleSidebar} clientRootUrl = {clientRootUrl} />
-          <Sidebar  myClass = {myClass} closeSidebar = {closeSidebar} clientRootUrl = {clientRootUrl} />
-          <ScrollToTop />
-          <Switch>
+        <NavBar toggleSidebar = {toggleSidebar} clientRootUrl = {clientRootUrl} />
+        <Sidebar  myClass = {myClass} closeSidebar = {closeSidebar} clientRootUrl = {clientRootUrl} />
+        <ScrollToTop />
+        <Switch>
           <Route path = "/login" component = { ()=><Login apiRootUrl = {apiRootUrl} clientRootUrl = {clientRootUrl}  token = {token} errorMessage = {errorMessage} verifyAuth = {verifyAuth} />} /> 
           <Route path = "/" exact = {true} component = {()=><Main apiRootUrl = {apiRootUrl}  token = {token} requireAuth = {requireAuth} />}/>
           <Route path = "/users" exact = {true} component = {()=><Users apiRootUrl = {apiRootUrl} token = {token} requireAuth = {requireAuth} errorMessage = {errorMessage} />} />
@@ -91,10 +92,21 @@ function App() {
           <Route path = "/orders" exact = {true} component = {()=><Orders apiRootUrl = {apiRootUrl} token = {token} requireAuth = {requireAuth} errorMessage = {errorMessage}/>} />
           <Route path = "/order/:orderId" exact = {true} component = {({match})=><OrderDetails apiRootUrl = {apiRootUrl} clientRootUrl = {clientRootUrl} token = {token} requireAuth = {requireAuth} errorMessage = {errorMessage} match = {match} />} />
           <Route path = "/update/order/:orderId" exact = {true} component = {({match})=><OrderUpdate apiRootUrl = {apiRootUrl} clientRootUrl = {clientRootUrl} token = {token} requireAuth = {requireAuth} errorMessage = {errorMessage} match = {match} />} />
-          {/* orders, order -> [can update orders status] */}
-          {/** search for users -> users, product, categories, orders */}
-          {/* handle 404 */}
-        </Switch>
+          <Route path = "/logout" exact = {true} component = {Logout} />
+          <Route path = "/search" exact = {true} component = {({location})=><Search apiRootUrl = {apiRootUrl} clientRootUrl = {clientRootUrl} token = {token} requireAuth = {requireAuth} errorMessage = {errorMessage} location = {location} />} />
+          {/** cards in the front - all important details */}
+          <Route render = {()=>{
+            return (
+                <Fragment>
+                  <main>
+                    <div className = "main__container">
+                      <h1>404 Error: Page Not Found</h1>
+                    </div>
+                  </main>
+                </Fragment>
+            )
+          }}/>
+      </Switch>
       </Router>
     </div>
   );

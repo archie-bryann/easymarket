@@ -17,7 +17,7 @@ function OrderProduct({productId,price,quantity,orderId,apiRootUrl,clientRootUrl
         axios.get(`${apiRootUrl}product/r/${productId}`)
         .then(({data})=>{
             // setLoading(false)
-            console.log(data)
+            // console.log(data)
             setCategoryId(data.categoryId);
             setName(data.name);
             setImage(data.image);

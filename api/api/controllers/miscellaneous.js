@@ -2,6 +2,8 @@ const pool = require('../../utils/pool');
 const PayStack = require('paystack-node');
 const checkLocationFee = require('../../utils/locationFee');
 const deliveryFee = require('../../utils/deliveryFee');
+const enhance = require('../../utils/enhance');
+const { categories_create_category } = require('./category');
 const environment = process.env.NODE_ENV;
 const paystackTestSecretKey = process.env.paystackTestSecretKey;
 const paystackLiveSecretKey = process.env.paystackLiveSecretKey;
@@ -165,3 +167,83 @@ exports.verify_transaction = (req,res,next) => {
     })
     // put return in all response
 }
+
+/** admin search */
+exports.sudo_search = (req,res,next) => {
+    // users & orders {{ exactly_like }}
+    // products & categories {{ use sounds_like }}
+    var {q} = req.params;
+    t = '%'+q+'%'; // normal
+
+    var r = enhance(q);
+    r = '%'+r+'%';
+
+    const result = {};
+    pool.getConnection((err,conn)=>{
+        if(err) {
+            return res.status(500).json({error:'An error occured. Please try again!'})
+        } else {
+            conn.query(`select * from userSchema where 
+                        id like ? or
+                        firstname like ? or 
+                        lastname like ? or
+                        email like ? or
+                        location like ? or 
+                        mobile_phone_number like ? or
+                        additional_mobile_number like ? or
+                        address like ? or
+                        additional_info like ? or
+                        state_region like ? or
+                        city like ? or
+                        country like ? or
+                        joined_timestamp like ?
+            `, [t,t,t,t,t,t,t,t,t,t,t,t,t], (err,users)=>{
+                if(err) {
+                    return res.status(500).json({error:'An error occured. Please try again!'})
+                } else {
+                    result["users"] = users;
+
+                    conn.query(`select * from orderSchema where
+                                id like ? or
+                                userId like ? or
+                                status like ? or
+                                subtotal like ? or
+                                delivery like ? or
+                                total like ? or
+                                timestamp like ?                      
+                    `, [t,t,t,t,t,t,t], (err,orders)=>{
+                        if(err) {
+                            return res.status(500).json({error:'An error occured. Please try again!'})
+                        } else {
+                            result["orders"] = orders;
+
+                            conn.query(`select * from categorySchema where sounds_like like ?`, [r], (err,categories)=>{
+                                conn.release();
+                                if(err) {
+                                    return res.status(500).json({error:'An error occured. Please try again!'})
+                                } else {
+                                    result["categories"] = categories;
+
+                                    conn.query(`select * from productSchema where sounds_like like ?`, [r], (err,products)=>{
+                                        if(err) {
+                                            return res.status(500).json({error:'An error occured. Please try again!'})
+                                        } else {
+                                            result["products"] = products;
+
+                                            return res.status(200).json(result);
+                                        }
+                                    })
+                                }
+                            })
+
+                        }
+                    })
+                    
+                    // return res.status(200).json(result)
+                    
+                }
+            })
+
+        }
+    })
+}   

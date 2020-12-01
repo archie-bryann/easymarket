@@ -13,6 +13,7 @@ function OrderUpdate({apiRootUrl,clientRootUrl,token,requireAuth,match,errorMess
     const [loading,setLoading] = useState(false);
     const [status, setStatus] = useState('');
     const [redr,setRedr] = useState(false);
+    const [redr2,setRedr2] = useState(false);
 
     useEffect(()=>{
         setLoading(true);
@@ -37,13 +38,18 @@ function OrderUpdate({apiRootUrl,clientRootUrl,token,requireAuth,match,errorMess
     function updateOrderStatus(e) {
         e.preventDefault();
         setLoading(true);
-        axios.patch(`${apiRootUrl}order/t/${orderId}/${status}`)
+        axios.patch(`${apiRootUrl}order/t/${orderId}`, {
+            status
+        }, {
+            headers: {
+                Authorization:`Bearer ${token}`
+            }
+        })
         .then(({data})=>{
             setLoading(false);
-            console.log(token);
-            console.log(data)
+            setRedr2(true);
         }).catch(err=>{
-            console.log(err)
+            // console.log(err)
             setLoading(false);
             toast.error(errorMessage, {
                 position: toast.POSITION.BOTTOM_LEFT
@@ -56,6 +62,7 @@ function OrderUpdate({apiRootUrl,clientRootUrl,token,requireAuth,match,errorMess
             {requireAuth()}
             {loading&&<Loader/>}
             {redr&&<Redirect to = "/404" />}
+            {redr2&&<Redirect to = {`/order/${orderId}`} />}
             <main>
                 <div className = "main__container">
                     <h2 style = {{marginBottom:'10px'}}>Update Order Status</h2>

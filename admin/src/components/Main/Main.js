@@ -52,9 +52,87 @@ function Main({requireAuth}) {
                     {/* <span className = "font-bold text-title">645</span> */}
                   </div>
                 </div>
+
+                <div className = "card">
+                  <i className = "fas fa-user fa-2x text text-lightblue"></i>
+                  <div className = "card__inner">
+                    <p className = "text-primary">Number of Users</p>
+                    <big><b>340</b></big>
+                    {/* <span className = "font-bold text-title">578</span> */}
+                  </div>
+                </div>
+
+                <div className = "card">
+                  <i className = "fas fa-burn fa-2x text-red"></i>
+                  <div className = "card__inner">
+                    <p className = "text-primary">Number of Orders</p>
+                    <big><b>340</b></big>
+                    {/* <span className = "font-bold text-title">2478</span> */}
+                  </div>
+                </div>
+
+
+                <div className = "card">
+                  <i className = "fas fa-video fa-2x text-yellow"></i>
+                  <div className = "card__inner">
+                    <p className = "text-primary">Number of Categories</p>
+                    <big><b>340</b></big>
+                    {/* <span className = "font-bold text-title">340</span> */}
+                  </div>
+                </div>
+
+                <div className = "card">
+                  <i className = "fa fa-thumbs-up fa-2x text-green"></i>
+                  <div className = "card__inner">
+                    <p className = "text-primary">Number of Products</p>
+                    <big><b>340</b></big>
+                    {/* <span className = "font-bold text-title">645</span> */}
+                  </div>
+                </div>
+
+                <div className = "card">
+                  <i className = "fas fa-user fa-2x text text-lightblue"></i>
+                  <div className = "card__inner">
+                    <p className = "text-primary">Number of Users</p>
+                    <big><b>340</b></big>
+                    {/* <span className = "font-bold text-title">578</span> */}
+                  </div>
+                </div>
+
+                <div className = "card">
+                  <i className = "fas fa-burn fa-2x text-red"></i>
+                  <div className = "card__inner">
+                    <p className = "text-primary">Number of Orders</p>
+                    <big><b>340</b></big>
+                    {/* <span className = "font-bold text-title">2478</span> */}
+                  </div>
+                </div>
+
+
+                <div className = "card">
+                  <i className = "fas fa-video fa-2x text-yellow"></i>
+                  <div className = "card__inner">
+                    <p className = "text-primary">Number of Categories</p>
+                    <big><b>340</b></big>
+                    {/* <span className = "font-bold text-title">340</span> */}
+                  </div>
+                </div>
+
+                <div className = "card">
+                  <i className = "fa fa-thumbs-up fa-2x text-green"></i>
+                  <div className = "card__inner">
+                    <p className = "text-primary">Number of Products</p>
+                    <big><b>340</b></big>
+                    {/* <span className = "font-bold text-title">645</span> */}
+                  </div>
+                </div>
+
+                          
               </div>
 
-              <div className = "charts">
+              
+
+              {/* <div className = "charts">
                 
                 <div className = "charts__left">
                   <div className = "charts__left__title">
@@ -119,7 +197,7 @@ function Main({requireAuth}) {
                   </div>
                 </div>
 
-              </div>
+              </div> */}
 
 
 
