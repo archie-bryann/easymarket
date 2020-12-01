@@ -100,14 +100,6 @@ function ProductDetails({title, apiRootUrl, clientRootUrl, match, loggedInStatus
         })
     }
 
-    // function changeImage(e) {
-    //     setImage(e.target.src);
-
-
-    
-    // }
-
-
     function requireAuthForAction() {
         if(!localStorage.getItem('wpt')) {
             setRedr(true);

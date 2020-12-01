@@ -48,10 +48,10 @@ exports.add_to_cart = (req,res,next) => {
     const { productId, quantity } = req.body;
     const { userId } = req.userData;
 
-    pool.getConnection(function(err,conn){
-        if(err) {
-            return res.status(500).json({error:'An error occured. Please try again!'});
-        } else {
+    // pool.getConnection(function(err,conn){
+    //     if(err) {
+    //         return res.status(500).json({error:'An error occured. Please try again!'});
+    //     } else {
             pool.getConnection(function(err,conn){
                 if(err) {
                     return res.status(500).json({error:'An error occured. Please try again!'});
@@ -94,8 +94,8 @@ exports.add_to_cart = (req,res,next) => {
                 }
             });
         }
-    }); 
-}
+//     }); 
+// }
 
 // update quantity
 exports.update_cart_product_details = (req,res,next) => {
