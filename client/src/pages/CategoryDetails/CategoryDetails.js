@@ -53,7 +53,9 @@ function CategoryDetails({title,apiRootUrl, clientRootUrl ,match, loggedInStatus
                 </div>
                 <div style = {{marginTop:'22px'}}></div>
             </Products>
-
+            {products.length<1 && (
+                <div style = {{height:'200px'}}></div>
+            )}
             
         </React.Fragment>
     )

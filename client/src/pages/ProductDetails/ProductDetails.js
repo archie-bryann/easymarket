@@ -27,7 +27,6 @@ function ProductDetails({title, apiRootUrl, clientRootUrl, match, loggedInStatus
 
     const [redr, setRedr] = useState(false);
 
-    const [checker, setChecker] = useState(false);
 
     document.title = `${product.name} - ${title}`;
 
@@ -40,23 +39,24 @@ function ProductDetails({title, apiRootUrl, clientRootUrl, match, loggedInStatus
             } else {
                 setProduct(res.data);
                 setIsLoading(false);
-                if(checker) {
-                    setChecker(false)
-                } else {
-                    setChecker(true);
-                }
+                /** FOR RELATED PRODUCTS */
+                axios.get(`${apiRootUrl}category/related/${categoryId}/${productId}`)
+                .then(res=>{
+                    setRelatedProducts(res.data)
+                })
+                .catch(err=>console.log(err))
             }
         })
         .catch(err=>console.log(err))
     }, [productId,categoryId]);
 
-    useEffect(() => {
-        axios.get(`${apiRootUrl}category/related/${categoryId}/${productId}`)
-        .then(res=>{
-            setRelatedProducts(res.data)
-        })
-        .catch(err=>console.log(err))
-    }, [checker]);
+    // useEffect(() => {
+    //     axios.get(`${apiRootUrl}category/related/${categoryId}/${productId}`)
+    //     .then(res=>{
+    //         setRelatedProducts(res.data)
+    //     })
+    //     .catch(err=>console.log(err))
+    // }, [checker]);
 
     function addToCart() {
 
