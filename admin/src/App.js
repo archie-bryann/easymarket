@@ -1,6 +1,6 @@
 import { Fragment, useState } from 'react';
 import NavBar from './components/NavBar/NavBar';
-import Main from './components/Main/Main';
+import Home from './components/Home/Home';
 import './App.css'
 import Sidebar from './components/Sidebar/Sidebar'
 import { BrowserRouter as Router, Redirect, Route,Switch } from 'react-router-dom';
@@ -81,7 +81,7 @@ function App() {
         <ScrollToTop />
         <Switch>
           <Route path = "/login" component = { ()=><Login apiRootUrl = {apiRootUrl} clientRootUrl = {clientRootUrl}  token = {token} errorMessage = {errorMessage} verifyAuth = {verifyAuth} />} /> 
-          <Route path = "/" exact = {true} component = {()=><Main apiRootUrl = {apiRootUrl}  token = {token} requireAuth = {requireAuth} />}/>
+          <Route path = "/" exact = {true} component = {()=><Home apiRootUrl = {apiRootUrl}  token = {token} requireAuth = {requireAuth} />}/>
           <Route path = "/users" exact = {true} component = {()=><Users apiRootUrl = {apiRootUrl} token = {token} requireAuth = {requireAuth} errorMessage = {errorMessage} />} />
           <Route path = "/user/:userId" exact = {true} component = {({match})=><UserDetails apiRootUrl = {apiRootUrl} token = {token} requireAuth = {requireAuth} match = {match} errorMessage = {errorMessage} />} />
           <Route path = "/create-category" exact = {true} component = {()=><CreateCategory apiRootUrl = {apiRootUrl} token = {token} requireAuth = {requireAuth} errorMessage = {errorMessage} />} /> {/** redirect to categorydetails */}
@@ -94,7 +94,6 @@ function App() {
           <Route path = "/update/order/:orderId" exact = {true} component = {({match})=><OrderUpdate apiRootUrl = {apiRootUrl} clientRootUrl = {clientRootUrl} token = {token} requireAuth = {requireAuth} errorMessage = {errorMessage} match = {match} />} />
           <Route path = "/logout" exact = {true} component = {Logout} />
           <Route path = "/search" exact = {true} component = {({location})=><Search apiRootUrl = {apiRootUrl} clientRootUrl = {clientRootUrl} token = {token} requireAuth = {requireAuth} errorMessage = {errorMessage} location = {location} />} />
-          {/** cards in the front - all important details */}
           <Route render = {()=>{
             return (
                 <Fragment>

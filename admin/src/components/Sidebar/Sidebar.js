@@ -19,7 +19,7 @@ function Sidebar({myClass,closeSidebar,clientRootUrl}) {
                 <div className = "sidebar__link active_menu_link">
                     <i className = "fa fa-home"></i>
                     <a href = "fas fa-home"></a>
-                    <Link to = "/">Dashboard</Link>
+                    <Link to = "/" style = {{marginLeft:'-5px'}}>Dashboard</Link>
                     {/* 
                         create a category
                         create a product

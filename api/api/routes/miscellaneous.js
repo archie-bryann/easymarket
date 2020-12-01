@@ -10,6 +10,8 @@ router.get('/fee/:subtotal/:city', checkAuth, MiscellaneousController.delivery_c
 
 router.get('/verify/transaction/:reference/:logisticFee/:subtotal', checkAuth, MiscellaneousController.verify_transaction);
 
-router.get('/search/:q', checkAuth, MiscellaneousController.sudo_search)
+router.get('/search/:q', checkAuth, MiscellaneousController.sudo_search);
+
+router.get('/dashboard', checkAuth, MiscellaneousController.dashboard);
 
 module.exports = router;

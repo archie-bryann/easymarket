@@ -238,12 +238,79 @@ exports.sudo_search = (req,res,next) => {
 
                         }
                     })
-                    
-                    // return res.status(200).json(result)
-                    
                 }
             })
 
         }
     })
-}   
+}
+
+exports.dashboard = (req,res,next) => {
+
+    var result = {};
+
+    pool.getConnection((err,conn)=>{
+        if(err) {
+            return res.status(500).json({error:'An error occured. Please try again!'});
+        } else {
+            conn.query(`select count(*) from userSchema`, (err,users)=>{
+                if(err) {
+                    return res.status(500).json({error:'An error occured. Please try again!'});
+                } else {
+                    result.users = users[0]["count(*)"];
+                    
+                    conn.query(`select count(*) from orderSchema`, (err,orders)=>{
+                        if(err) {
+                            return res.status(500).json({error:'An error occured. Please try again!'});
+                        } else {
+                            result.orders = orders[0]["count(*)"];
+                            
+                            conn.query(`select count(*) from orderSchema where status = 'fulfilled'`, (err,fulfilledOrders)=>{
+                                if(err) {
+                                    return res.status(500).json({error:'An error occured. Please try again!'});
+                                } else {
+                                    result.fulfilledOrders = fulfilledOrders[0]["count(*)"];
+                                    
+                                    conn.query(`select count(*) from orderSchema where status = 'pending'`, (err,pendingOrders)=>{
+                                        if(err) {
+                                            return res.status(500).json({error:'An error occured. Please try again!'});
+                                        } else {
+                                            result.pendingOrders = pendingOrders[0]["count(*)"];
+
+                                            conn.query(`select count(*) from orderSchema where status = 'cancelled'`, (err,cancelledOrders)=>{
+                                                if(err) {
+                                                    return res.status(500).json({error:'An error occured. Please try again!'});
+                                                } else {
+                                                    result.cancelledOrders = cancelledOrders[0]["count(*)"];
+
+                                                    conn.query(`select count(*) from categorySchema`, (err,categories)=>{
+                                                        if(err) {
+                                                            return res.status(500).json({error:'An error occured. Please try again!'});
+                                                        } else {
+                                                            result.categories = categories[0]["count(*)"];
+
+                                                            conn.query(`select count(*) from productSchema`, (err,products)=>{
+                                                                conn.release();
+                                                                if(err) {
+                                                                    return res.status(500).json({error:'An error occured. Please try again!'});
+                                                                } else {
+                                                                    result.products = products[0]["count(*)"];
+
+                                                                    res.status(200).json(result);
+                                                                }
+                                                            })
+                                                        }
+                                                    })
+                                                }
+                                            });
+                                        }
+                                    })
+                                }
+                            })
+                        }
+                    })
+                }
+            });
+        }
+    })
+}

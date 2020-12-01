@@ -28,9 +28,9 @@ function NavBar({toggleSidebar,clientRootUrl}) {
                     {/* <a href = "#">
                         <i className = "fa fa-clock"></i>
                     </a> */}
-                    <a href = "#">
+                    {/* <a href = "#">
                         <img width = "30" src = {`${clientRootUrl}assets/images/avatar.svg`} />
-                    </a>
+                    </a> */}
                 </div>
         </nav>
     )
