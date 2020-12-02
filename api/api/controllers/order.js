@@ -145,7 +145,7 @@ exports.get_status_orders = (req,res,next) => {
     const { status } = req.params;
     const tokenEmail = req.userData.email;
 
-    if(tokenEmail === process.env.adminEmail) {
+    if(tokenEmail === process.env.adminEmail || tokenEmail === process.env.logisticsUsername) {
         pool.getConnection(function(err,conn){
             if(err) {
                 return res.status(500).json({error:'An error occured. Please try again!'});
@@ -220,7 +220,7 @@ exports.orders_get_order = (req,res,next) => {
                     return res.status(500).json({error:'An error occured. Please try again!'});
                 } else {
                     if(order.length > 0) {
-                        if(order[0].userId === tokenUserId || tokenEmail === process.env.adminEmail) {
+                        if(order[0].userId === tokenUserId || tokenEmail === process.env.adminEmail || tokenEmail === process.env.logisticsUsername) {
                             order.map((o)=>{
                                 pool.getConnection(function(err,conn){
                                     if(err) {
@@ -283,7 +283,7 @@ exports.orders_update_order_status = (req,res,next) => {
                     return res.status(500).json({eror:'An error occured. Please try again!1'});
                 } else {
                     if(order.length > 0) {
-                        if(order[0].userId === tokenUserId || tokenEmail === process.env.adminEmail) {
+                        if(order[0].userId === tokenUserId || tokenEmail === process.env.adminEmail || tokenEmail === process.env.logisticsUsername) {
                             pool.getConnection(function(err,conn){
                                 if(err) {
                                     return res.status(500).json({error:'An error occured. Please try again!2'});

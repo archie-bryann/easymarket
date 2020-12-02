@@ -1,6 +1,6 @@
 import { Fragment, useState } from 'react';
 import NavBar from './components/NavBar/NavBar';
-import Home from './components/Home/Home';
+import Home from './pages/Home/Home';
 import './App.css'
 import Sidebar from './components/Sidebar/Sidebar'
 import { BrowserRouter as Router, Redirect, Route,Switch } from 'react-router-dom';
@@ -92,7 +92,7 @@ function App() {
           <Route path = "/orders" exact = {true} component = {()=><Orders apiRootUrl = {apiRootUrl} token = {token} requireAuth = {requireAuth} errorMessage = {errorMessage}/>} />
           <Route path = "/order/:orderId" exact = {true} component = {({match})=><OrderDetails apiRootUrl = {apiRootUrl} clientRootUrl = {clientRootUrl} token = {token} requireAuth = {requireAuth} errorMessage = {errorMessage} match = {match} />} />
           <Route path = "/update/order/:orderId" exact = {true} component = {({match})=><OrderUpdate apiRootUrl = {apiRootUrl} clientRootUrl = {clientRootUrl} token = {token} requireAuth = {requireAuth} errorMessage = {errorMessage} match = {match} />} />
-          <Route path = "/logout" exact = {true} component = {Logout} />
+          <Route path = "/logout" exact = {true} component = {()=><Logout requireAuth = {requireAuth} />} />
           <Route path = "/search" exact = {true} component = {({location})=><Search apiRootUrl = {apiRootUrl} clientRootUrl = {clientRootUrl} token = {token} requireAuth = {requireAuth} errorMessage = {errorMessage} location = {location} />} />
           <Route render = {()=>{
             return (

@@ -1,7 +1,7 @@
 import React, { Fragment, useState, useEffect } from 'react'
 import { Redirect } from 'react-router-dom';
 
-function Logout({requireAuth}) {
+function Logout() {
 
     const [redr,setRedr] = useState(false);
 
@@ -12,7 +12,7 @@ function Logout({requireAuth}) {
 
     return (
         <Fragment>
-            {requireAuth()}
+        
         </Fragment>
     )
 }

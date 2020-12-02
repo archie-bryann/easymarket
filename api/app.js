@@ -14,7 +14,7 @@ const marketRoutes = require('./api/routes/market');
 const searchRoutes = require('./api/routes/search');
 const cartRoutes = require('./api/routes/cart');
 const miscellaneousRoutes = require('./api/routes/miscellaneous');
-
+const logisticsRoutes = require('./api/routes/logistics');
 
 app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({extended:false}));
@@ -70,7 +70,7 @@ app.use('/market', marketRoutes);
 app.use('/search', searchRoutes);
 app.use('/cart', cartRoutes);
 app.use('/miscellaneous', miscellaneousRoutes);
-
+app.use('/logistics', logisticsRoutes);
 
 // sample code to create static filepath
 // app.use('/uploads', express.static('img'));

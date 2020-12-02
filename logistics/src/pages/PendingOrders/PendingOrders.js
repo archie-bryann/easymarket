@@ -1,20 +1,20 @@
-import React, { Fragment, useEffect, useState } from 'react'
-import Loader from '../../components/Loader/Loader';
-import axios from 'axios'
+import React, {Fragment, useState, useEffect} from 'react'
 import {toast} from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+import axios from 'axios'
+import Loader from '../../components/Loader/Loader';
 import Order from '../../components/Order/Order';
 
 toast.configure();
 
-function Orders({apiRootUrl,token,requireAuth,errorMessage,location}) {
+function PendingOrders({apiRootUrl, clientRootUrl, token, errorMessage, requireAuth}) {
 
-    const [loading,setLoading]=useState(false);
-    const [orders,setOrders]=useState([]);
-    
-    useEffect(()=>{
+    const [loading,setLoading] = useState(false);
+    const [orders,setOrders] = useState([]);
+
+    useEffect(() => {
         setLoading(true);
-        axios.get(`${apiRootUrl}order`, {
+        axios.get(`${apiRootUrl}order/status/pending`, {
             headers: {
                 Authorization: `Bearer ${token}`
             }
@@ -35,17 +35,16 @@ function Orders({apiRootUrl,token,requireAuth,errorMessage,location}) {
             {loading&&<Loader/>}
             <main>
                 <div className = "main__container">
-                    <h2 style = {{marginBottom:'15px'}}>Orders</h2>
+                    <h2 style = {{marginBottom:'15px'}}>Pending Orders</h2>
                     <table>
                         <tr>
                             <th>Order</th>
-                            <th>User</th>
-                            <th>Status</th>
                             <th>Date</th>
+                            <th>Deadline</th>
                             <th>Total</th>
                             <th>Action</th>
-                        </tr>
-                        {orders.map(({id,userId,status,total,timestamp})=><Order key = {id} id = {id} userId = {userId} status = {status} total = {total} timestamp = {timestamp} />)}
+                        </tr>   
+                        {orders.map(({id,total,timestamp})=><Order key = {id} id = {id} total = {total} timestamp = {timestamp} more = {true} />)}
                     </table>
                 </div>
             </main>
@@ -53,4 +52,6 @@ function Orders({apiRootUrl,token,requireAuth,errorMessage,location}) {
     )
 }
 
-export default Orders;
+export default PendingOrders
+
+/** See more: will contain the page -> orderedProducts && Address */

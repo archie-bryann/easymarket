@@ -1,7 +1,8 @@
 import React, { Fragment, useEffect, useState } from 'react'
 import './Home.css'
 import axios from 'axios'
-import Loader from '../Loader/Loader';
+import Loader from '../../components/Loader/Loader';
+import { Link } from 'react-router-dom';
 
 function Home({requireAuth,apiRootUrl,token}) {
 
@@ -32,79 +33,54 @@ function Home({requireAuth,apiRootUrl,token}) {
             <div className = "main__title">
               <img src = "assets/images/hello.svg" />
               <div className = "main_greeting">
-                <h1>Hello Precious</h1>
-                <p>Welcome to your admin dashboard</p>
+                <h1>Hello Admin</h1>
+                <p>Welcome to your dashboard</p>
               </div>
             </div>
 
             <div className = "main__cards">
-              <div className = "card">
-                <i className = "fas fa-user fa-2x text text-lightblue"></i>
-                <div className = "card__inner">
-                  <p className = "text-primary">Number of Users</p>
-                  <big><b>{data.users}</b></big>
-                  {/* <span className = "font-bold text-title">578</span> */}
-                </div>
-              </div>
 
-              <div className = "card">
-                <i className = "fas fa-burn fa-2x text-red"></i>
-                <div className = "card__inner">
-                  <p className = "text-primary">Number of Orders</p>
-                  <big><b>{data.orders}</b></big>
-                  {/* <span className = "font-bold text-title">2478</span> */}
+              <Link to = "/" className = "d">
+                <div className = "card">
+                  <i className = "fas fa-burn fa-2x text-red"></i>
+                  <div className = "card__inner">
+                    <p className = "text-primary">Number of Orders</p>
+                    <big><b>{data.orders}</b></big>
+                  </div>
                 </div>
-              </div>
+              </Link>
 
-
-              <div className = "card">
-                <i className = "fas fa-video fa-2x text-yellow"></i>
-                <div className = "card__inner">
-                  <p className = "text-primary">Fulfilled Orders</p>
-                  <big><b>{data.fulfilledOrders}</b></big>
-                  {/* <span className = "font-bold text-title">340</span> */}
+              <Link to = "/pending-orders" className = "d">
+                <div className = "card">
+                  <i className = "fas fa-bone fa-2x text-yellow"></i>
+                  <div className = "card__inner">
+                    <p className = "text-primary">Pending Orders</p>
+                    <big><b>{data.pendingOrders}</b></big>
+                  </div>
                 </div>
-              </div>
-
-              <div className = "card">
-                <i className = "fas fa-video fa-2x text-yellow"></i>
-                <div className = "card__inner">
-                  <p className = "text-primary">Pending Orders</p>
-                  <big><b>{data.pendingOrders}</b></big>
-                  {/* <span className = "font-bold text-title">340</span> */}
+              </Link>
+          
+              <Link to = "/fulfilled-orders" className = "d">
+                <div className = "card">
+                  <i className = "fas fa-book-reader fa-2x text-red"></i>
+                  <div className = "card__inner">
+                    <p className = "text-primary">Fulfilled Orders</p>
+                    <big><b>{data.fulfilledOrders}</b></big>
+                  </div>
                 </div>
-              </div>
+              </Link>
 
-              <div className = "card">
-                <i className = "fa fa-thumbs-up fa-2x text-green"></i>
-                <div className = "card__inner">
-                  <p className = "text-primary">Cancelled Orders</p>
-                  <big><b>{data.cancelledOrders}</b></big>
-                  {/* <span className = "font-bold text-title">645</span> */}
+              <Link to = "/cancelled-orders" className = "d">
+                <div className = "card">
+                  <i className = "fas fa-brain fa-2x text-green"></i>
+                  <div className = "card__inner">
+                    <p className = "text-primary">Cancelled Orders</p>
+                    <big><b>{data.cancelledOrders}</b></big>
+                  </div>
                 </div>
-              </div>
+              </Link>
 
-              <div className = "card">
-                <i className = "fas fa-user fa-2x text text-lightblue"></i>
-                <div className = "card__inner">
-                  <p className = "text-primary">Number of Categories</p>
-                  <big><b>{data.categories}</b></big>
-                  {/* <span className = "font-bold text-title">578</span> */}
-                </div>
-              </div>
-
-              <div className = "card">
-                <i className = "fas fa-user fa-2x text text-lightblue"></i>
-                <div className = "card__inner">
-                  <p className = "text-primary">Number of Products</p>
-                  <big><b>{data.products}</b></big>
-                  {/* <span className = "font-bold text-title">578</span> */}
-                </div>
-              </div>
-                        
             </div>
-
-            
 
             {/* <div className = "charts">
               
