@@ -1,15 +1,15 @@
 import React from 'react'
 import './Testimonial.css'
 
-function Testimonial() {
+function Testimonial({clientRootUrl}) {
     return (
         <div className = "testimonial">
             <div className = "small-container">
                 <div className = "row">
                     <div className = "col-3">
                         <i className =  "fa fa-quote-left"></i>
-                        <p>Lorem ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever.</p>
-                        <img src = "img.png" />
+                        <p>Whoa Foodnet is slick. They delivery the food items I ordered within the day. Their platform is just so fast and easy to use.</p>
+                        <img src = {`${clientRootUrl}images/joshua-oluwagbemiga-v_xXhGuMqsw-unsplash.jpg`} style = {{objectFit:'contain',height:'100px'}} />
                         <h3>Sean Parker</h3>
                         <div className = "rating">
                             <i className = "fa fa-star"></i>
@@ -22,8 +22,8 @@ function Testimonial() {
                     </div>
                     <div className = "col-3">
                         <i className =  "fa fa-quote-left"></i>
-                        <p>Lorem ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever.</p>
-                        <img src = "img.png" />
+                        <p>Foodnet saves the stress of going to the market almost evey day whenever i'm need of food items as a housewife. They literally brought the market to me.</p>
+                        <img src = {`${clientRootUrl}images/jide-salau-hwc1A8Iery0-unsplash.jpg`} style = {{objectFit:'contain',height:'100px'}} />
                         <div className = "rating">
                             <i className = "fa fa-star"></i>
                             <i className = "fa fa-star"></i>
@@ -36,8 +36,8 @@ function Testimonial() {
                     </div>
                     <div className = "col-3">
                         <i className =  "fa fa-quote-left"></i>
-                        <p>Lorem ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever.</p>
-                        <img src = "img.png" />
+                        <p>Where has this been all my life. Foodnet works like magic.</p>
+                        <img src = {`${clientRootUrl}images/dominic-uzoanya-YkcWN0oc__s-unsplash.jpg`} style = {{objectFit:'contain',height:'100px'}} />
                         <div className = "rating">
                             <i className = "fa fa-star"></i>
                             <i className = "fa fa-star"></i>

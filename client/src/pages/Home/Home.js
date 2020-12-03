@@ -74,7 +74,7 @@ function Home({title,apiRootUrl, clientRootUrl, loggedInStatus, match, cartNum,t
                             onClick = {()=>setRedr(true)}
                         />
                         </form>
-                        <div style = {{marginTop:'-30px'}}></div>
+                        <div style = {{marginTop:'-30px'}}></div>cli
                         <Link id = "searchButton" to = {`/search?q=${q}`} ref = {linkRef} className="btn">Search</Link>
                     </div>
                     <div className = "col-2">
@@ -88,9 +88,9 @@ function Home({title,apiRootUrl, clientRootUrl, loggedInStatus, match, cartNum,t
             </Products>
             {/* <Offer /> */}
             <div style = {{marginTop:'-30px'}}></div>
-            <Testimonials />
+            <Testimonials clientRootUrl = {clientRootUrl} />
             <br />
-            <Brands />
+            {/* <Brands /> */}
         </React.Fragment>
     )
 }
