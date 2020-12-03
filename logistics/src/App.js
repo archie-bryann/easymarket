@@ -18,6 +18,7 @@ import Search from './pages/Search/Search'
 function App() {
 
   const title = "Foodnet";
+  const adminEmail = 'admin@foodnet.com.ng';
   const homeUrl = "http://localhost:3000/";
   const clientRootUrl = "http://localhost:7000/";
   const apiRootUrl = "http://localhost:9000/";
@@ -73,7 +74,7 @@ function App() {
       <div className = "container">
         <Router>
           <NavBar toggleSidebar = {toggleSidebar} clientRootUrl = {clientRootUrl} />
-          <Sidebar  myClass = {myClass} closeSidebar = {closeSidebar} clientRootUrl = {clientRootUrl} />
+          <Sidebar myClass = {myClass} closeSidebar = {closeSidebar} clientRootUrl = {clientRootUrl} adminEmail = {adminEmail} />
           <ScrollToTop />
           <Switch>
             <Route path = "/" exact = {true} component = {()=><Home apiRootUrl = {apiRootUrl} token = {token} requireAuth = {requireAuth} />}/>

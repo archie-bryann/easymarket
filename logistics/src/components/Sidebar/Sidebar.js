@@ -2,7 +2,7 @@ import React from 'react'
 import './Sidebar.css'
 import {Link} from 'react-router-dom'
 
-function Sidebar({myClass,closeSidebar,clientRootUrl}) {
+function Sidebar({myClass,closeSidebar,clientRootUrl,adminEmail}) {
 
     return (
         <div id = "sidebar" className = {myClass}>
@@ -26,11 +26,11 @@ function Sidebar({myClass,closeSidebar,clientRootUrl}) {
                     <i className = "fa fa-user-secret"></i>
                     <Link to  = "/pending-orders">Pending Orders</Link>
                 </div>
-                {/* <div className = "sidebar__link">
-                    <i className = "fas fa-building"></i>
-                    <Link to  = "/fulfilled-orders">Fulfilled Orders</Link>
-                </div>
                 <div className = "sidebar__link">
+                    <i className = "fas fa-building"></i>
+                    <a href  = {`mailto:${adminEmail}`}>Contact Foodnet</a>
+                </div>
+                {/* <div className = "sidebar__link">
                     <i className = "fa fa-archive"></i>
                     <Link to  = "/cancelled-orders">Cancelled Orders</Link>
                 </div> */}
