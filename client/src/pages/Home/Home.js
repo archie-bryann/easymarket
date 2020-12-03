@@ -74,7 +74,7 @@ function Home({title,apiRootUrl, clientRootUrl, loggedInStatus, match, cartNum,t
                             onClick = {()=>setRedr(true)}
                         />
                         </form>
-                        <div style = {{marginTop:'-30px'}}></div>cli
+                        <div style = {{marginTop:'-30px'}}></div>
                         <Link id = "searchButton" to = {`/search?q=${q}`} ref = {linkRef} className="btn">Search</Link>
                     </div>
                     <div className = "col-2">
