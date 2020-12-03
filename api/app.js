@@ -31,6 +31,11 @@ app.use(bodyParser.json());
 // });
 
 app.use((req,res,next) => {
+    const allowedOrigins = ['http://localhost:3000', 'http://localhost:6200', 'http://localhost:7000'];
+    const origin = req.headers.origin;
+    if (allowedOrigins.includes(origin)) {
+        res.setHeader('Access-Control-Allow-Origin', origin);
+    }
     res.header("Access-Control-Allow-Origin","*"); // change later
     res.header("Access-Control-Allow-Credentials", "true"); 
     res.header('Access-Control-Allow-Methods', 'PUT, POST, PATCH, DELETE, GET, OPTIONS');

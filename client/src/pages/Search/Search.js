@@ -8,8 +8,12 @@ import { Link } from 'react-router-dom/cjs/react-router-dom.min'
 import axios from 'axios'
 import Category from '../../components/Category/Category'
 import Loader from '../../components/Loader/Loader'
+import {toast} from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
-function Search({title,apiRootUrl,clientRootUrl, location, email, loggedInStatus,cartNum, token}) {
+toast.configure();
+
+function Search({title,apiRootUrl,clientRootUrl, location, email, loggedInStatus,cartNum, token,errorMessage}) {
 
     const inputRef = useRef(null);
     const linkRef = useRef(null);
@@ -44,7 +48,12 @@ function Search({title,apiRootUrl,clientRootUrl, location, email, loggedInStatus
                 setCategoryResults(res.data.categories)
                 setIsLoading(false)
             })
-            .catch(err=>console.log(err))
+            .catch(err=>{
+                toast.error(errorMessage, {
+                    position: toast.POSITION.BOTTOM_RIGHT
+                })
+                setIsLoading(false)
+            })
         } else {
             setIsLoading(true) 
             inputRef.current.focus()

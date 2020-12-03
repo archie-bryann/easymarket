@@ -146,7 +146,7 @@ function App() {
           <Switch>
             <Route path = "/" exact = {true} component = {({match})=>(
               // <UserContext.Provider value = {loggedInStatus}>
-                <Home loggedInStatus = {loggedInStatus} title = {title} apiRootUrl = {apiRootUrl} clientRootUrl = {clientRootUrl}  match = {match} cartNum = {cartNum} token = {token} />
+                <Home loggedInStatus = {loggedInStatus} title = {title} apiRootUrl = {apiRootUrl} clientRootUrl = {clientRootUrl}  match = {match} cartNum = {cartNum} token = {token} errorMessage = {errorMessage} />
               // </UserContext.Provider>
             )} />
 
@@ -156,9 +156,9 @@ function App() {
 
             <Route path = "/contact" exact = {true} component = {({match})=><Contact loggedInStatus = {loggedInStatus} title = {title} apiRootUrl = {apiRootUrl} clientRootUrl = {clientRootUrl} email = {email} match = {match} cartNum = {cartNum} token = {token} />} />
 
-            <Route path = "/search" exact = {true} component = {({location,match})=><Search loggedInStatus = {loggedInStatus} title = {title} apiRootUrl = {apiRootUrl} clientRootUrl = {clientRootUrl} location = {location} match = {match} email = {email} cartNum = {cartNum} token = {token} />} />
+            <Route path = "/search" exact = {true} component = {({location,match})=><Search loggedInStatus = {loggedInStatus} title = {title} apiRootUrl = {apiRootUrl} clientRootUrl = {clientRootUrl} location = {location} match = {match} email = {email} cartNum = {cartNum} token = {token} errorMessage = {errorMessage} />} />
 
-            <Route path = "/category/:categoryId" exact = {true} component = {({match})=>(<CategoryDetails loggedInStatus = {loggedInStatus} title = {title} apiRootUrl = {apiRootUrl} clientRootUrl = {clientRootUrl} match = {match} cartNum = {cartNum} token = {token} />)} />
+            <Route path = "/category/:categoryId" exact = {true} component = {({match})=>(<CategoryDetails loggedInStatus = {loggedInStatus} title = {title} apiRootUrl = {apiRootUrl} clientRootUrl = {clientRootUrl} match = {match} cartNum = {cartNum} token = {token} errorMessage = {errorMessage} />)} />
             {/* categories --> all categories(4 per one) -> see all */}
 
             <Route path = "/product/:productId/:categoryId" exact = {true} component = {({match})=>(<ProductDetails loggedInStatus = {loggedInStatus} title = {title} apiRootUrl = {apiRootUrl} clientRootUrl = {clientRootUrl} match = {match} loggedInStatus = {loggedInStatus} token = {token} errorMessage = {errorMessage} cartNum = {cartNum} increaseCartNum = {increaseCartNum} />)}  /> 
@@ -181,7 +181,7 @@ function App() {
 
             <Route path = "/account" exact = {true} component = {({match})=><Account title = {title} clientRootUrl = {clientRootUrl} apiRootUrl = {apiRootUrl} match = {match} loggedInStatus = {loggedInStatus} cartNum = {cartNum} verifyAuth = {verifyAuth} token = {token} errorMessage = {errorMessage} />  } />
 
-            <Route path = "/verify/:email/:v_token" exact = {true} component = {({match})=><Verify title = {title} clientRootUrl = {clientRootUrl} apiRootUrl = {apiRootUrl} match = {match} loggedInStatus = {loggedInStatus} verifyAuth = {verifyAuth} token = {token} />} />
+            <Route path = "/verify/:email/:v_token" exact = {true} component = {({match})=><Verify title = {title} clientRootUrl = {clientRootUrl} apiRootUrl = {apiRootUrl} match = {match} loggedInStatus = {loggedInStatus} verifyAuth = {verifyAuth} token = {token} errorMessage = {errorMessage} />} />
 
             <Route path = "/not-available" component = {()=><NotAvailable title = {title} clientRootUrl = {clientRootUrl} loggedInStatus = {loggedInStatus}  cartNum = {cartNum} token = {token} />} />
 

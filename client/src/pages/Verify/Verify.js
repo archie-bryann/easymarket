@@ -8,7 +8,7 @@ import 'react-toastify/dist/ReactToastify.css'
 
 toast.configure();
 
-function Verify({title,clientRootUrl,apiRootUrl,match,loggedInStatus, verifyAuth, token}) {
+function Verify({title,clientRootUrl,apiRootUrl,match,loggedInStatus, verifyAuth, token, errorMessage}) {
     
     const {email,v_token} = match.params;
 
@@ -20,7 +20,7 @@ function Verify({title,clientRootUrl,apiRootUrl,match,loggedInStatus, verifyAuth
     useEffect(()=>{
         axios.post(`${apiRootUrl}user/verify/${email}/${v_token}`)
         .then(({data})=>{
-            console.log(data);
+            // console.log(data);
             setChecking(false);
             if(data.error === 0) {
                 // store new token
@@ -30,9 +30,7 @@ function Verify({title,clientRootUrl,apiRootUrl,match,loggedInStatus, verifyAuth
                 // setRedr(true);
                 window.location = "/";
             } else {
-                    // toast.error(data.error, {
-                    //     position: toast.POSITION.BOTTOM_RIGHT
-                    // }) 
+
             setWaiting(false);
 
             }
@@ -42,7 +40,10 @@ function Verify({title,clientRootUrl,apiRootUrl,match,loggedInStatus, verifyAuth
             // remove loader
             setChecking(false);
 
-            console.log(err)
+            // console.log(err)
+                        toast.error(errorMessage, {
+                position: toast.POSITION.BOTTOM_RIGHT
+            }) 
             
             // show bad image
 

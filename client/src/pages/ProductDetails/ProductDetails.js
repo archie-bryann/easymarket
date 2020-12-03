@@ -38,16 +38,27 @@ function ProductDetails({title, apiRootUrl, clientRootUrl, match, loggedInStatus
                 setNotFoundStatus(true)
             } else {
                 setProduct(res.data);
-                setIsLoading(false);
                 /** FOR RELATED PRODUCTS */
                 axios.get(`${apiRootUrl}category/related/${categoryId}/${productId}`)
                 .then(res=>{
+                    setIsLoading(false);
                     setRelatedProducts(res.data)
                 })
-                .catch(err=>console.log(err))
+                .catch(err=>{
+                    setIsLoading(false);
+                    toast.error(errorMessage, {
+                        position: toast.POSITION.BOTTOM_RIGHT
+                    })
+                    
+                })
             }
         })
-        .catch(err=>console.log(err))
+        .catch(err=>{
+            setIsLoading(false);
+            toast.error(errorMessage, {
+                position: toast.POSITION.BOTTOM_RIGHT
+            })
+        })
     }, [productId,categoryId]);
 
     // useEffect(() => {
@@ -85,14 +96,14 @@ function ProductDetails({title, apiRootUrl, clientRootUrl, match, loggedInStatus
                     position: toast.POSITION.BOTTOM_RIGHT
                 })
             } else {
-                console.log(data)
+                // console.log(data)
                 toast.error(errorMessage, {
                     position: toast.POSITION.BOTTOM_RIGHT
                 })
             }
         })
         .catch(err=>{
-            console.log(err)
+            // console.log(err)
             setIsLoading(true);
             toast.error(errorMessage, {
                 position: toast.POSITION.BOTTOM_RIGHT

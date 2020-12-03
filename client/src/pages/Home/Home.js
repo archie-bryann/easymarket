@@ -9,8 +9,12 @@ import Offer from '../../components/Offer/Offer'
 import Testimonials from '../../components/Testimonials/Testimonial'
 import Brands from '../../components/Brands/Brands'
 import Loader from '../../components/Loader/Loader'
+import {toast} from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
-function Home({title,apiRootUrl, clientRootUrl, loggedInStatus, match, cartNum,token}) {
+toast.configure();
+
+function Home({title,apiRootUrl, clientRootUrl, loggedInStatus, match, cartNum,token,errorMessage}) {
 
 
     const linkRef = useRef(null);
@@ -30,7 +34,11 @@ function Home({title,apiRootUrl, clientRootUrl, loggedInStatus, match, cartNum,t
             setProducts(res.data);
             setIsLoading(false);
         })
-        .catch(err=>console.log(err))
+        .catch(err=>{
+            toast.error(errorMessage, {
+                position: toast.POSITION.BOTTOM_RIGHT
+            })
+        })
     }, [apiRootUrl])
 
     function changeHandler(e) {

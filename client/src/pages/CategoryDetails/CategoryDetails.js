@@ -5,8 +5,12 @@ import Header from '../../components/Header/Header';
 import Loader from '../../components/Loader/Loader';
 import Products from '../../components/Products/Products'; 
 import './CategoryDetails.css'
+import {toast} from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
-function CategoryDetails({title,apiRootUrl, clientRootUrl ,match, loggedInStatus, cartNum, token}) {
+toast.configure();
+
+function CategoryDetails({title,apiRootUrl, clientRootUrl ,match, loggedInStatus, cartNum, token, errorMessage}) {
 
     const categoryId = match.params.categoryId; 
 
@@ -28,7 +32,11 @@ function CategoryDetails({title,apiRootUrl, clientRootUrl ,match, loggedInStatus
                 setIsLoading(false) 
             }
         })
-        .catch(err=>console.log(err))
+        .catch(err=>{
+            toast.error(errorMessage, {
+                position: toast.POSITION.BOTTOM_RIGHT
+            })   
+        })
     }, [categoryId,apiRootUrl])
 
     document.title = `${category.name} - ${title}`;

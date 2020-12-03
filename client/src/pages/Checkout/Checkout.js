@@ -125,44 +125,44 @@ function Checkout({title, clientRootUrl, apiRootUrl, loggedInStatus, token, erro
                     .then(({data})=>{
                         setIsLoading(false);
                         if(data.error === 0) {
-                            console.log(data)
+                            // console.log(data)
                             setCartNumToZero();
                             // setOrderId(data.orderId)
                             // setRedr(true);
                             window.location=`/orders`
                             // window.location=`/order/${data.orderId}`
                         } else {
-                            console.log(errorMessage)
-                            // toast.error(errorMessage, {
-                            //     position: toast.POSITION.BOTTOM_RIGHT,
-                            //     autoClose:false
-                            // })
+                            // console.log(errorMessage)
+                            toast.error(errorMessage, {
+                                position: toast.POSITION.BOTTOM_RIGHT,
+                                autoClose:false
+                            })
                         }
                     })
                     .catch(err=>{
                         setIsLoading(false);
-                        console.log(err)
-                        // toast.error(errorMessage, {
-                        //     position: toast.POSITION.BOTTOM_RIGHT,
-                        //     autoClose:false
-                        // })
+                        // console.log(err)
+                        toast.error(errorMessage, {
+                            position: toast.POSITION.BOTTOM_RIGHT,
+                            autoClose:false
+                        })
                     })
                 } else {
                     setIsLoading(false);
-                    // toast.error(errorMessage, {
-                    //     position: toast.POSITION.BOTTOM_RIGHT,
-                    //     autoClose:false
-                    // })
-                    console.log(errorMessage)
+                    toast.error(errorMessage, {
+                        position: toast.POSITION.BOTTOM_RIGHT,
+                        autoClose:false
+                    })
+                    // console.log(errorMessage)
                 }
             })
             .catch(err=>{
                 setIsLoading(false);
-                console.log(err)
-                // toast.error(errorMessage, {
-                //     position: toast.POSITION.BOTTOM_RIGHT,
-                //     autoClose:false
-                // })
+                // console.log(err)
+                toast.error(errorMessage, {
+                    position: toast.POSITION.BOTTOM_RIGHT,
+                    autoClose:false
+                })
             })
         },
         onClose: () => {
@@ -174,7 +174,7 @@ function Checkout({title, clientRootUrl, apiRootUrl, loggedInStatus, token, erro
 
     useEffect(() => {
         setTotal(subTotals + delivery);
-        console.log(4)
+        // console.log(4)
     }, [delivery])
 
 
@@ -283,7 +283,7 @@ function Checkout({title, clientRootUrl, apiRootUrl, loggedInStatus, token, erro
         /** Get The Delivery Cost of The Products @ The Good Time */
 
         setTotal(subTotals+delivery);
-        console.log(3)
+        // console.log(3)
 
     }, [subTotals])
 
@@ -301,7 +301,7 @@ function Checkout({title, clientRootUrl, apiRootUrl, loggedInStatus, token, erro
                 Authorization: `Bearer ${token}`
             }
         }).then(({data})=>{
-            console.log(data)
+            // console.log(data)
             setDelivery(data.fee.totalDeliveryFee);
             setLogisticFees(data.fee.logisticFees);
         })
@@ -359,7 +359,7 @@ function Checkout({title, clientRootUrl, apiRootUrl, loggedInStatus, token, erro
                 // window.location = `/checkout`;
             }
         }).catch(err=>{
-            console.log(err)
+            // console.log(err)
         })
     }
     /** ../end of FUNCTIONS FOR FORMS */
