@@ -2,8 +2,9 @@ import React, { Fragment } from 'react'
 import './Order.css'
 import moment from "moment"
 import { Link } from 'react-router-dom'
+import {sentenceCase} from 'sentence-case'
 
-function Order({id,subtotal,logisticFee,timestamp,more}) {
+function Order({id,subtotal,logisticFee,status,timestamp,more,r}) {
 
     const today = "Before 8pm today";
     const tomorrow = "Before 8pm tomorrow";
@@ -31,11 +32,12 @@ function Order({id,subtotal,logisticFee,timestamp,more}) {
                         </div>
                     </div>
                 </td>
+                {r&&<td><i>{sentenceCase(status)}</i></td>}
                 <td>{moment.unix(timestamp).format("MM/DD/YYYY [at] h:mm a")}</td>
                 {more&&<td>{deadline()}</td>}
                 <td>{Number(subtotal).toLocaleString(undefined, {maximumFractionDigits:2})}</td>
                 <td>{Number(logisticFee).toLocaleString(undefined, {maximumFractionDigits:2})}</td>
-                <td><Link to = {`/update/order/${id}`} className = "btn">Update</Link></td>
+                <td>{(status==='pending')&&(<Link to = {`/update/order/${id}`} className = "btn">Update</Link>)}</td>
             </tr>       
         </Fragment>
     )

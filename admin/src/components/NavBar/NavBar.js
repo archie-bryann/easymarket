@@ -25,12 +25,6 @@ function NavBar({toggleSidebar,clientRootUrl}) {
                     <Link to = {`/search?q=${q?q:''}`}>
                         <i className = "fa fa-search" style = {{fontSize:'20px',marginLeft:'-12px'}}></i>
                     </Link>
-                    {/* <a href = "#">
-                        <i className = "fa fa-clock"></i>
-                    </a> */}
-                    {/* <a href = "#">
-                        <img width = "30" src = {`${clientRootUrl}assets/images/avatar.svg`} />
-                    </a> */}
                 </div>
         </nav>
     )

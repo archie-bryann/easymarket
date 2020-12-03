@@ -14,4 +14,6 @@ router.get('/search/:q', checkAuth, MiscellaneousController.sudo_search);
 
 router.get('/dashboard', checkAuth, MiscellaneousController.dashboard);
 
+router.get('/order/search/:q', checkAuth, MiscellaneousController.order_search)
+
 module.exports = router;

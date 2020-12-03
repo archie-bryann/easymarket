@@ -14,6 +14,7 @@ function OrderUpdate({apiRootUrl,clientRootUrl,token,requireAuth,match,errorMess
     const [status, setStatus] = useState('');
     const [redr,setRedr] = useState(false);
     const [redr2,setRedr2] = useState(false);
+    const [t,setT]=useState(false);
 
     useEffect(()=>{
         setLoading(true);
@@ -24,6 +25,7 @@ function OrderUpdate({apiRootUrl,clientRootUrl,token,requireAuth,match,errorMess
         }).then(({data})=>{
             setLoading(false);
             setStatus(data.status);
+            setT(true);
         }).catch(err=>{
             setLoading(false);
             // redirect to /404
@@ -32,6 +34,7 @@ function OrderUpdate({apiRootUrl,clientRootUrl,token,requireAuth,match,errorMess
     }, [apiRootUrl])
 
     function changeStatus(e) {
+        setT(false);
         setStatus(e.target.value);
     }
 
@@ -39,7 +42,8 @@ function OrderUpdate({apiRootUrl,clientRootUrl,token,requireAuth,match,errorMess
         // e.preventDefault();
         setLoading(true);
         axios.patch(`${apiRootUrl}order/t/${orderId}`, {
-            status
+            status,
+            description:"...logistics",
         }, {
             headers: {
                 Authorization:`Bearer ${token}`
@@ -71,6 +75,9 @@ function OrderUpdate({apiRootUrl,clientRootUrl,token,requireAuth,match,errorMess
         <Fragment>
             {requireAuth()}
             {loading&&<Loader/>}
+            {console.log(status)}
+            {/* To block logistics from updating anything other than a pending order */}
+            {(status!== "pending"&&t)&&<Redirect to = "/404"/>}
             {redr&&<Redirect to = "/404" />}
             {redr2&&<Redirect to = {`/order/${orderId}`} />}
             <main>

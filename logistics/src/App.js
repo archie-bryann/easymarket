@@ -13,6 +13,7 @@ import FulfilledOrders from './pages/FulfilledOrders/FulfilledOrders';
 import CancelledOrders from './pages/CancelledOrders/CancelledOrders';
 import OrderUpdate from './pages/OrderUpdate/OrderUpdate'
 import OrderDetails from './pages/OrderDetails/OrderDetails'
+import Search from './pages/Search/Search'
 
 function App() {
 
@@ -82,7 +83,10 @@ function App() {
             <Route path = "/cancelled-orders" component = {()=><CancelledOrders apiRootUrl = {apiRootUrl} clientRootUrl = {clientRootUrl}  token = {token} errorMessage = {errorMessage} requireAuth = {requireAuth} />} /> */}
           <Route path = "/update/order/:orderId" exact = {true} component = {({match})=><OrderUpdate apiRootUrl = {apiRootUrl} clientRootUrl = {clientRootUrl} token = {token} requireAuth = {requireAuth} errorMessage = {errorMessage} match = {match} />} />
           <Route path = "/order/:orderId" exact = {true} component = {({match})=><OrderDetails apiRootUrl = {apiRootUrl} clientRootUrl = {clientRootUrl} token = {token} requireAuth = {requireAuth} errorMessage = {errorMessage} match = {match} title = {title} homeUrl = {homeUrl} />} />
-          
+
+          <Route path = "/search" exact = {true} component = {({location})=><Search apiRootUrl = {apiRootUrl} clientRootUrl = {clientRootUrl} token = {token} requireAuth = {requireAuth} errorMessage = {errorMessage} location = {location} />} />
+
+
           <Route path = "/logout" exact = {true} component = {()=><Logout requireAuth = {requireAuth} />} />
           <Route render = {()=>{
             return (

@@ -45,7 +45,7 @@ function PendingOrders({apiRootUrl, clientRootUrl, token, errorMessage, requireA
                             <th>Delivery Fee (₦)</th>
                             <th>Action</th>
                         </tr>   
-                        {orders.map(({id,subtotal,logisticFee,timestamp})=><Order key = {id} id = {id} subtotal = {subtotal} logisticFee = {logisticFee} timestamp = {timestamp} more = {true} />)}
+                        {orders.map(({id,subtotal,logisticFee,status,timestamp})=><Order key = {id} id = {id} subtotal = {subtotal} logisticFee = {logisticFee} status = {status} timestamp = {timestamp} more = {true} />)}
                     </table>
                 </div>
             </main> 

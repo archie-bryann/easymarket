@@ -94,52 +94,52 @@ exports.verify_transaction = (req,res,next) => {
                     const promise3 = paystack.initiateTransfer({
                         source:"balance",
                         reason: logisticReason,
-                        amount: logisticFee * 100, /** GET LOGISTIC AMOUNT */
+                        amount: (subtotal+logisticFee) * 100, /** Market Cost & Logistic Fee */
                         recipient: recipient_code,
                         reference: Math.floor((Math.random() * 1000000000) + 1)
                     })
                     promise3.then(function({body}){
                         if(body.data.status === "success") {
                             // will only work with real transactions
-                            // res.status(200).json({error:0})
+                            return res.status(200).json({error:0})
 
 
                             /** FROM HERE WE MAKE TRANSFER TO THE WHOLESALER */
-                            const promise4 = paystack.createTransferRecipient({
-                                type:"nuban",
-                                name: wholesalersName,
-                                account_number: wholesalersAccNumber,
-                                bank_code: wholesalersBankCode,
-                                currency: "NGN"
-                            })
+                            // const promise4 = paystack.createTransferRecipient({
+                            //     type:"nuban",
+                            //     name: wholesalersName,
+                            //     account_number: wholesalersAccNumber,
+                            //     bank_code: wholesalersBankCode,
+                            //     currency: "NGN"
+                            // })
 
-                            promise4.then(function({body}){
-                                if(body.data.active === true) {
-                                    /** Make Transfer */
-                                    const recipient_code_2 = body.data.recipient_code;
+                            // promise4.then(function({body}){
+                            //     if(body.data.active === true) {
+                            //         /** Make Transfer */
+                            //         const recipient_code_2 = body.data.recipient_code;
 
-                                    const promise5 = paystack.initiateTransfer({
-                                        source:"balance",
-                                        reason:wholesalersReason,
-                                        amount: subtotal * 100, /** GET WHOLESALERS AMOUNT */
-                                        recipient: recipient_code_2,
-                                        reference: Math.floor((Math.random() * 1000000000) + 1)
-                                    })
+                            //         const promise5 = paystack.initiateTransfer({
+                            //             source:"balance",
+                            //             reason:wholesalersReason,
+                            //             amount: subtotal * 100, /** GET WHOLESALERS AMOUNT */
+                            //             recipient: recipient_code_2,
+                            //             reference: Math.floor((Math.random() * 1000000000) + 1)
+                            //         })
 
-                                    promise5.then(function({body}){
-                                        if(body.data.status === "success") {
-                                            // res.status(200).json({error:0})
-                                        }   else {
-                                            /** Handle Error */
-                                            return res.status(500).json({error:'An error occured. Please try again!'})
-                                        }
-                                    })
+                            //         promise5.then(function({body}){
+                            //             if(body.data.status === "success") {
+                            //                 // res.status(200).json({error:0})
+                            //             }   else {
+                            //                 /** Handle Error */
+                            //                 return res.status(500).json({error:'An error occured. Please try again!'})
+                            //             }
+                            //         })
 
-                                } else {
-                                    /** Handle Error */
-                                    return res.status(500).json({error:'An error occured. Please try again!'})
-                                }
-                            })
+                            //     } else {
+                            //         /** Handle Error */
+                            //         return res.status(500).json({error:'An error occured. Please try again!'})
+                            //     }
+                            // })
 
                         } else {
                             /** Handle Error */
@@ -181,7 +181,7 @@ exports.sudo_search = (req,res,next) => {
     const result = {};
     pool.getConnection((err,conn)=>{
         if(err) {
-            return res.status(500).json({error:'An error occured. Please try again!'})
+            return res.status(500).json({error:'An error occured. Please try again!'});
         } else {
             conn.query(`select * from userSchema where 
                         id like ? or
@@ -311,6 +311,25 @@ exports.dashboard = (req,res,next) => {
                     })
                 }
             });
+        }
+    })
+}
+
+exports.order_search = (req,res,next) => {
+    const {q} = req.params;
+    
+    pool.getConnection((err,conn)=>{
+        if(err) {
+            return res.status(500).json({error:'An error occured. Please try again!'});
+        } else {
+            conn.query(`select * from orderSchema where id = ?`, [q], (err,orders)=>{
+                conn.release();
+                if(err) {
+                    return res.status(500).json({error:'An error occured. Please try again!'})
+                } else {
+                    res.status(200).json(orders);
+                }
+            })
         }
     })
 }

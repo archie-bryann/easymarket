@@ -75,7 +75,9 @@ create table orderSchema (
     logisticFee varchar(256),
     delivery varchar(256), 
     total varchar(256), -- total price
-    timestamp varchar(256)
+    action_description varchar(256),
+    timestamp varchar(256),
+    action_timestamp varchar(256),
 )
 
 create table orderedProductSchema (

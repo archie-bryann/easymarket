@@ -14,6 +14,7 @@ function OrderUpdate({apiRootUrl,clientRootUrl,token,requireAuth,match,errorMess
     const [status, setStatus] = useState('');
     const [redr,setRedr] = useState(false);
     const [redr2,setRedr2] = useState(false);
+    const [description,setDescription] = useState('');
 
     useEffect(()=>{
         setLoading(true);
@@ -35,11 +36,16 @@ function OrderUpdate({apiRootUrl,clientRootUrl,token,requireAuth,match,errorMess
         setStatus(e.target.value);
     }
 
+    function changeDescription(e) {
+        setDescription(e.target.value);
+    }
+
     function updateOrderStatus(e) {
         e.preventDefault();
         setLoading(true);
         axios.patch(`${apiRootUrl}order/t/${orderId}`, {
-            status
+            status,
+            description
         }, {
             headers: {
                 Authorization:`Bearer ${token}`
@@ -73,6 +79,9 @@ function OrderUpdate({apiRootUrl,clientRootUrl,token,requireAuth,match,errorMess
                                 <option value = "fulfilled">Fulfilled</option>
                                 <option value = "cancelled">Cancelled</option>
                             </select>
+                        </div>
+                        <div>
+                            <textarea onChange = {changeDescription}>{description}</textarea>
                         </div>
                         <div style = {{marginTop:'14px'}}>
                             <button className = "btn block" onClick = {updateOrderStatus}>Update Order Status</button>

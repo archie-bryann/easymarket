@@ -3,7 +3,7 @@ import Loader from '../../components/Loader/Loader';
 import axios from 'axios'
 import {toast} from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
-import {Redirect } from 'react-router-dom';
+import {Link,Redirect} from 'react-router-dom';
 import OrderProduct from '../../components/OrderProduct/OrderProduct';
 import ReactToPrint from 'react-to-print';
 toast.configure();
@@ -85,8 +85,8 @@ function OrderDetails({apiRootUrl,clientRootUrl,token,requireAuth,match,errorMes
             <main>
                 <div className = "main__container" ref={componentRef}>
                     <img src = {`${clientRootUrl}assets/images/foodnet-black.png`} style = {{width:'200px', float:'right'}} alt = "" />
-                    <div style = {{height:'70px'}}></div>
-                    <div className = "row row-2" style = {{marginTop:'-5px'}}>
+                    <div style = {{height:'15px'}}></div>
+                    <div className = "row row-2" style = {{marginTop:'-5px',fontSize:'13px'}}>
                         <h3 style = {{marginBottom:'10px'}}>SALES INVOICE</h3> 
                         <h4 style = {{marginBottom:'10px'}}>CUSTOMER DETAILS</h4>
                         <p>{firstname} {lastname}</p>
@@ -116,7 +116,7 @@ function OrderDetails({apiRootUrl,clientRootUrl,token,requireAuth,match,errorMes
                         {/* <i>{sentenceCase(status)}</i> | <Link to = {`/update/order/${orderId}`} className = "_btn">Update Status</Link> */}
                     </div>
                     
-                    <div style = {{paddingLeft:'30px'}}>
+                    <div style = {{paddingLeft:'30px',fontSize:'12px'}}>
                         <h4>Dear {firstname} {lastname},</h4>
                         <br />
                         <p>Thank you for shopping with us. Nigeria's #1 online market. We are delighted to have you as a customer.</p>
@@ -138,7 +138,7 @@ function OrderDetails({apiRootUrl,clientRootUrl,token,requireAuth,match,errorMes
                     
 
                     <div style = {{height:'15px'}}></div>
-                    <table>
+                    <table style={{fontSize:'12px'}}>
                         <tr>
                             <th>Product</th>
                             <th>Price</th>
@@ -152,7 +152,7 @@ function OrderDetails({apiRootUrl,clientRootUrl,token,requireAuth,match,errorMes
                         }
                     </table>
                     <div className = "total-price">
-                        <table>
+                        <table style={{fontSize:'12px'}}>
                             <tr>
                                 <td><b>Subtotal</b></td> 
                                 <td>₦{Number(subtotal).toLocaleString(undefined, {maximumFractionDigits:2})}</td> 
@@ -171,14 +171,18 @@ function OrderDetails({apiRootUrl,clientRootUrl,token,requireAuth,match,errorMes
                 </div>
 
                 <div className = "main__container">
+                    <p style = {{fontSize:'13px'}}><i>You can print two copies, one for the delivery agent and the other for the customer to ensure that the paper is neat when the customer collects it.</i></p>
                     <div style = {{height:'5px'}}></div>
                     <ReactToPrint 
                         trigger = {()=><button className = "btn block">Print</button>}
                         content = {() => componentRef.current}
                     />
                     
-                    <div style = {{height:'20px'}}></div>
-                    <p style = {{fontSize:'13px'}}><i>You can print two copies, one for the delivery agent and the other for the customer to ensure that the paper is neat when the customer collects it.</i></p>
+                    <div style = {{height:'15px'}}></div>
+
+                    <Link to = {`/update/order/${orderId}`}>
+                        <button className = "btn block red">Update Order Status</button>                    
+                    </Link>
 
                 </div>
             </main>

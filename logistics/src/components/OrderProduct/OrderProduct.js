@@ -37,7 +37,7 @@ function OrderProduct({productId,price,quantity,orderId,apiRootUrl,clientRootUrl
                 <td>
                     <div className = "cart-info">
                         {/* <Link to = {`/product/${productId}/${categoryId}`}> */}
-                            <img src = {`${apiRootUrl}uploads/${image}`} style = {{objectFit:'cover',borderRadius:'5px'}} alt = "" />
+                            {/* <img src = {`${apiRootUrl}uploads/${image}`} style = {{objectFit:'cover',borderRadius:'5px'}} alt = "" /> */}
                         {/* </Link> */}
                         <div>
                             {/* <Link to = {`/product/${productId}/${categoryId}`}> */}

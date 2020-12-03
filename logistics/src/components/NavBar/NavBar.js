@@ -9,6 +9,7 @@ function NavBar({toggleSidebar,clientRootUrl}) {
     function changeQ(e) {
         setQ(e.target.value);
     }
+    
 
     return (
         <nav className = "navbar">

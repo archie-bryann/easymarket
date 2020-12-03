@@ -292,3 +292,6 @@ th:last-child {
     text-align: right;
 }
 
+.red {
+    background: #ff3333 !important;
+}   

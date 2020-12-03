@@ -44,7 +44,7 @@ function Home({requireAuth,apiRootUrl,token}) {
                 <div className = "card">
                   <i className = "fas fa-burn fa-2x text-red"></i>
                   <div className = "card__inner">
-                    <p className = "text-primary">Number of Orders</p>
+                    <p className = "text-primary">Total Orders</p>
                     <big><b>{data.orders}</b></big>
                   </div>
                 </div>

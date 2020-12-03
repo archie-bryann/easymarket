@@ -272,9 +272,10 @@ exports.orders_update_order_status = (req,res,next) => {
     // users can update from unfulfilled to cancelled
     // only admin/logistics can update from unfulfilled to fulfilled
     const { orderId } = req.params;
-    const {status} = req.body;
+    const {status,description} = req.body;
     const tokenUserId = req.userData.userId;
     const tokenEmail = req.userData.email;
+    const timestamp = moment().unix();
 
     pool.getConnection(function(err,conn){
         if(err) {
@@ -283,7 +284,7 @@ exports.orders_update_order_status = (req,res,next) => {
             conn.query(`select * from orderSchema where id = ?`, [orderId], function(err,order){
                 conn.release();
                 if(err) {
-                    return res.status(500).json({eror:'An error occured. Please try again!1'});
+                    return res.status(500).json({error:'An error occured. Please try again!1'});
                 } else {
                     if(order.length > 0) {
                         if(order[0].userId === tokenUserId || tokenEmail === process.env.adminEmail || tokenEmail === process.env.logisticsUsername) {
@@ -291,7 +292,7 @@ exports.orders_update_order_status = (req,res,next) => {
                                 if(err) {
                                     return res.status(500).json({error:'An error occured. Please try again!2'});
                                 } else {
-                                    conn.query(`update orderSchema set status = ? where id = ?`, [status,orderId], function(err,result){
+                                    conn.query(`update orderSchema set status = ?,action_description=?,action_timestamp = ? where id = ?`, [status,description,timestamp,orderId], function(err,result){
                                         conn.release();
                                         if(err) {
                                             return res.status(500).json({error:'An error occured. Please try again!2'});
