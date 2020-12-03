@@ -208,7 +208,7 @@ function Account({title, clientRootUrl, apiRootUrl, loggedInStatus, cartNum,veri
                                 </form>
 
 
-                                <form id = "RegForm" style = {{transform:regFormTransform,marginTop:'-40px'}}>
+                                <form id = "RegForm" style = {{transform:regFormTransform,marginTop:'-65px'}}>
                                     <p style = {{color,fontSize:'13.5px',float:'left'}}>{signupErr}</p>
                                     <input type = "text" name = "firstname" placeholder = "Firstname" onChange = {changeFirstname} value = {firstname} />
                                     <input type = "text" name = "lastname" placeholder = "Lastname" onChange = {changeLastname} value = {lastname} />

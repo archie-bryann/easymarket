@@ -1,5 +1,6 @@
 import React from 'react'
 import './Footer.css'
+import {Link} from 'react-router-dom'
 
 function Footer({title, clientRootUrl}) {
     return (
@@ -10,21 +11,23 @@ function Footer({title, clientRootUrl}) {
                         <h3>Download Our App</h3>
                         <p>Download App for Android and ios mobile phone</p>
                         <div className = "app-logo">
-                            <img src = {`${clientRootUrl}images/app-store.png`} />
-                            <img src = {`${clientRootUrl}images/play-store.png`} />
+                            <Link to = "/not-available">
+                                <img src = {`${clientRootUrl}images/app-store.png`} />
+                                <img src = {`${clientRootUrl}images/play-store.png`} />
+                            </Link>
                         </div>
                     </div>
                     <div className = "footer-col-2">
                         <img src = {`${clientRootUrl}images/foodnet-white.png`} />
-                        <p>Our Purpose Is To Sustainably Make the Pleasure and Benefits of Sports Accessible to the Many.</p>
+                        <p>Bringing The Market To You.</p>
                     </div>
                     <div className = "footer-col-3">
                         <h3>Useful Links</h3>
                         <ul>
-                            <li>Coupons</li>
-                            <li>Blog Post</li>
-                            <li>Return Policy</li>
-                            <li>Join Affliate</li>
+                            <li>Terms of Service</li>
+                            <li>Privacy Policy</li>
+                            <li>Returns and Exchange Policy</li>
+                            <li>Shipping Policy</li>
                         </ul>
                     </div>
                     <div className = "footer-col-4">

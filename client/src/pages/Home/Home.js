@@ -78,7 +78,7 @@ function Home({title,apiRootUrl, clientRootUrl, loggedInStatus, match, cartNum,t
             <Products products = {products} apiRootUrl = {apiRootUrl}>
                 <h2 className = "title">Featured Products</h2>
             </Products>
-            <Offer />
+            {/* <Offer /> */}
             <div style = {{marginTop:'-30px'}}></div>
             <Testimonials />
             <br />

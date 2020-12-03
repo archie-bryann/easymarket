@@ -30,7 +30,7 @@ function OrderUpdate({apiRootUrl,clientRootUrl,token,requireAuth,match,errorMess
             // redirect to /404
             setRedr(true);
         })
-    }, [apiRootUrl])
+    }, [apiRootUrl]);
 
     function changeStatus(e) {
         setStatus(e.target.value);

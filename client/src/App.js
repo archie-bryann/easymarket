@@ -26,6 +26,7 @@ import Checkout from './pages/Checkout/Checkout';
 import Test from './pages/Test/Test';
 import {toast} from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+import NotAvailable from './pages/NotAvailable/NotAvailable';
 
 // export const UserContext = React.createContext();
 // export const PageContext = React.createContext();
@@ -59,9 +60,9 @@ function App() {
     
   })
   .catch(err=>{
-    toast.error(errorMessage, {
-        position: toast.POSITION.BOTTOM_RIGHT
-    })
+    // toast.error(errorMessage, {
+    //     position: toast.POSITION.BOTTOM_RIGHT
+    // })
 })
   }, [token])
 
@@ -182,16 +183,19 @@ function App() {
 
             <Route path = "/verify/:email/:v_token" exact = {true} component = {({match})=><Verify title = {title} clientRootUrl = {clientRootUrl} apiRootUrl = {apiRootUrl} match = {match} loggedInStatus = {loggedInStatus} verifyAuth = {verifyAuth} token = {token} />} />
 
+            <Route path = "/not-available" component = {()=><NotAvailable title = {title} clientRootUrl = {clientRootUrl} loggedInStatus = {loggedInStatus}  cartNum = {cartNum} token = {token} />} />
+
+
             <Route path = "/logout" exact = {true} component = {(v)=><Logout title = {title} clientRootUrl = {clientRootUrl} apiRootUrl = {apiRootUrl} loggedInStatus = {loggedInStatus} v = {v} cartNum = {cartNum} requireAuth = {requireAuth} token = {token} />} />
 
-            <Route path = "/test" exact = {true} component = {Test} />
+            {/* <Route path = "/test" exact = {true} component = {Test} /> */}
 
             <Route render = {()=><ErrorPage title = {title} clientRootUrl = {clientRootUrl} loggedInStatus = {loggedInStatus}  cartNum = {cartNum} token = {token} />} />
             
           </Switch>
           </LastLocationProvider>
+          <Footer title = {title} clientRootUrl = {clientRootUrl}/>
         </Router>
-      <Footer title = {title} clientRootUrl = {clientRootUrl}/>
     </React.Fragment>
   );
 }

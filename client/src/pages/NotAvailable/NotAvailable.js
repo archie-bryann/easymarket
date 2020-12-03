@@ -1,9 +1,8 @@
 import React, { useEffect } from 'react'
 import Header from '../../components/Header/Header'
-import './ErrorPage.css'
 import {Link} from 'react-router-dom'
 
-function ErrorPage({title,clientRootUrl, loggedInStatus, cartNum, token}) {
+function NotAvailable({title,clientRootUrl, loggedInStatus, cartNum, token}) {
     document.title = `Page Not Found - ${title}`;
 
     return (
@@ -11,14 +10,14 @@ function ErrorPage({title,clientRootUrl, loggedInStatus, cartNum, token}) {
             <Header title = {title} clientRootUrl = {clientRootUrl}  loggedInStatus = {loggedInStatus} cartNum = {cartNum} token = {token}  />
             <div style = {{height:'50px'}}></div>
             <div className = "container center-div">
-                    <h1>404</h1>
-                    <h4>Opps! Page not found</h4>
-                    <p>The page you were looking for doesn't exist. You may have mistyped the address or the page may have moved.</p>
-                    <Link to = "/" className = "btn">Back to Home</Link>
+                    <img src  = {`${clientRootUrl}images/Crying Sad Emoji.png`} width = "185px" alt = "" />
+                    <h4>Opps! We are sorry.</h4>
+                    <p>Our mobile apps are not ready yet.</p>
+                    <Link to = "/" className = "btn" style = {{marginTop:'10px'}}>Back to Home</Link>
             </div>
             <div style = {{height:'250px'}}></div>
         </React.Fragment>
     )
 }
 
-export default ErrorPage;
+export default NotAvailable;

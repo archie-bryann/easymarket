@@ -151,6 +151,7 @@ exports.user_signup = (req,res,next) => {
                                             error: err
                                         });
                                     } else {
+
                                         /** Use Website mail (when i've bought & paid for my domain & hosting) not gmail for my MAIL */
                                         const mailOptions = {
                                             from: "webfulservices@gmail.com",

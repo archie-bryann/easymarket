@@ -1,4 +1,5 @@
 const locationFee = (location) => {
+    const logisticDefaultFee = 600;
     switch (location) {
         case "ABAJI":
             return 3500;
