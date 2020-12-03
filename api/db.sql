@@ -72,6 +72,7 @@ create table orderSchema (
     userId int(255),
     status varchar(256) DEFAULT 'pending', -- fulfilled cancelled
     subtotal varchar(256),
+    logisticFee varchar(256),
     delivery varchar(256), 
     total varchar(256), -- total price
     timestamp varchar(256)

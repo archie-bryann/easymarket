@@ -26,14 +26,14 @@ function Sidebar({myClass,closeSidebar,clientRootUrl}) {
                     <i className = "fa fa-user-secret"></i>
                     <Link to  = "/pending-orders">Pending Orders</Link>
                 </div>
-                <div className = "sidebar__link">
+                {/* <div className = "sidebar__link">
                     <i className = "fas fa-building"></i>
                     <Link to  = "/fulfilled-orders">Fulfilled Orders</Link>
                 </div>
                 <div className = "sidebar__link">
                     <i className = "fa fa-archive"></i>
                     <Link to  = "/cancelled-orders">Cancelled Orders</Link>
-                </div>
+                </div> */}
                 <div className = "sidebar__link">
                     <i className = "fa fa-power-off"></i>
                     <Link to = "/logout">Logout</Link>

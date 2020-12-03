@@ -41,13 +41,14 @@ function PendingOrders({apiRootUrl, clientRootUrl, token, errorMessage, requireA
                             <th>Order</th>
                             <th>Date</th>
                             <th>Deadline</th>
-                            <th>Total</th>
+                            <th>Market Fee (₦)</th>
+                            <th>Delivery Fee (₦)</th>
                             <th>Action</th>
                         </tr>   
-                        {orders.map(({id,total,timestamp})=><Order key = {id} id = {id} total = {total} timestamp = {timestamp} more = {true} />)}
+                        {orders.map(({id,subtotal,logisticFee,timestamp})=><Order key = {id} id = {id} subtotal = {subtotal} logisticFee = {logisticFee} timestamp = {timestamp} more = {true} />)}
                     </table>
                 </div>
-            </main>
+            </main> 
         </Fragment>
     )
 }

@@ -5,7 +5,7 @@ exports.orders_create_order = (req,res,next) => {
 
     const {userId} = req.userData;
     const timestamp = moment().unix();
-    const {subtotal,delivery,total} = req.body;
+    const {subtotal,delivery,logisticFee,total} = req.body;
 
     // const { products, price } = req.body; // price stands for total price
 
@@ -63,7 +63,9 @@ exports.orders_create_order = (req,res,next) => {
                                         if(err) {
                                             return res.status(500).json({error:'An error occured. Please try again!'});
                                         } else {
-                                            conn.query(`insert into orderSchema (userId, subtotal, delivery, total, timestamp) values (?, ?, ?, ?, ?)`, [userId, subtotal, delivery, total, timestamp], function(err,r1){
+                                            // also insert the actual logistic fee
+
+                                            conn.query(`insert into orderSchema (userId, subtotal, delivery, logisticFee, total, timestamp) values (?, ?, ?, ?, ?, ?)`, [userId, subtotal, delivery, logisticFee, total, timestamp], function(err,r1){
                                                 // conn.release();
                                                 if(err) {
                                                     return res.status(500).json({error:'An error occured. Please try again!'});
@@ -236,6 +238,7 @@ exports.orders_get_order = (req,res,next) => {
                                                     userId:o.userId,
                                                     status:o.status,
                                                     subtotal:o.subtotal,
+                                                    logisticFee:o.logisticFee,
                                                     delivery:o.delivery,
                                                     total:o.total,
                                                     timestamp:o.timestamp,

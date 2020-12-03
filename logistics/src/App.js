@@ -16,6 +16,8 @@ import OrderDetails from './pages/OrderDetails/OrderDetails'
 
 function App() {
 
+  const title = "Foodnet";
+  const homeUrl = "http://localhost:3000/";
   const clientRootUrl = "http://localhost:7000/";
   const apiRootUrl = "http://localhost:9000/";
   const token = localStorage.getItem('wpt');
@@ -76,10 +78,10 @@ function App() {
             <Route path = "/" exact = {true} component = {()=><Home apiRootUrl = {apiRootUrl} token = {token} requireAuth = {requireAuth} />}/>
             <Route path = "/login" component = { ()=><Login apiRootUrl = {apiRootUrl} clientRootUrl = {clientRootUrl}  token = {token} errorMessage = {errorMessage} verifyAuth = {verifyAuth} />} />
             <Route path = "/pending-orders" component = {()=><PendingOrders apiRootUrl = {apiRootUrl} clientRootUrl = {clientRootUrl}  token = {token} errorMessage = {errorMessage} requireAuth = {requireAuth} />} />
-            <Route path = "/fulfilled-orders" component = {()=><FulfilledOrders apiRootUrl = {apiRootUrl} clientRootUrl = {clientRootUrl}  token = {token} errorMessage = {errorMessage} requireAuth = {requireAuth} />} />
-            <Route path = "/cancelled-orders" component = {()=><CancelledOrders apiRootUrl = {apiRootUrl} clientRootUrl = {clientRootUrl}  token = {token} errorMessage = {errorMessage} requireAuth = {requireAuth} />} />
+            {/* <Route path = "/fulfilled-orders" component = {()=><FulfilledOrders apiRootUrl = {apiRootUrl} clientRootUrl = {clientRootUrl}  token = {token} errorMessage = {errorMessage} requireAuth = {requireAuth} />} />
+            <Route path = "/cancelled-orders" component = {()=><CancelledOrders apiRootUrl = {apiRootUrl} clientRootUrl = {clientRootUrl}  token = {token} errorMessage = {errorMessage} requireAuth = {requireAuth} />} /> */}
           <Route path = "/update/order/:orderId" exact = {true} component = {({match})=><OrderUpdate apiRootUrl = {apiRootUrl} clientRootUrl = {clientRootUrl} token = {token} requireAuth = {requireAuth} errorMessage = {errorMessage} match = {match} />} />
-          <Route path = "/order/:orderId" exact = {true} component = {({match})=><OrderDetails apiRootUrl = {apiRootUrl} clientRootUrl = {clientRootUrl} token = {token} requireAuth = {requireAuth} errorMessage = {errorMessage} match = {match} />} />
+          <Route path = "/order/:orderId" exact = {true} component = {({match})=><OrderDetails apiRootUrl = {apiRootUrl} clientRootUrl = {clientRootUrl} token = {token} requireAuth = {requireAuth} errorMessage = {errorMessage} match = {match} title = {title} homeUrl = {homeUrl} />} />
           
           <Route path = "/logout" exact = {true} component = {()=><Logout requireAuth = {requireAuth} />} />
           <Route render = {()=>{

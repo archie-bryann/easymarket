@@ -448,7 +448,7 @@ exports.users_get_user = (req,res,next) => {
     const tokenUserId = req.userData.userId;
     const tokenEmail = req.userData.email;
     // only for specific user & for admin
-    if(userId == tokenUserId || tokenEmail === process.env.adminEmail) {
+    if(userId == tokenUserId || tokenEmail === process.env.adminEmail || tokenEmail === process.env.logisticsUsername) {
         pool.getConnection(function(err,conn){
             if(err) {
                 return res.status(500).json({error:'An error occured. Please try again!'});

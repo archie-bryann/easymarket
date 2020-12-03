@@ -115,6 +115,7 @@ function Checkout({title, clientRootUrl, apiRootUrl, loggedInStatus, token, erro
                     axios.post(`${apiRootUrl}order`, {
                         subtotal:subTotals,
                         delivery,
+                        logisticFee:logisticFees,
                         total
                     },{
                         headers: {
@@ -180,7 +181,6 @@ function Checkout({title, clientRootUrl, apiRootUrl, loggedInStatus, token, erro
     useEffect(()=>{
 
         /** GET DELIVERY FEE AS PART OF REQUEST */
-
         axios.get(`${apiRootUrl}cart/`, {
             headers: {
                 Authorization: `Bearer ${token}`

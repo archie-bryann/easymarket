@@ -263,3 +263,32 @@ form .btn:focus {
 .red {
     background: #ff291d !important;
 }
+
+.total-price {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.total-price table {
+    border-top: 3px solid #7fad39;
+    width: 100%;
+    max-width: 350px;
+}
+
+._total-price table {
+    width: 100%;
+    max-width: 350px;
+}
+
+._total-price table td {
+    padding: 2px 10px;
+}
+
+td:last-child {
+    text-align: right;
+}
+
+th:last-child {
+    text-align: right;
+}
+

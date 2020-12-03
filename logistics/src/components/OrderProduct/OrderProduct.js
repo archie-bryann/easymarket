@@ -3,6 +3,7 @@ import axios from 'axios'
 import {toast} from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { Link } from 'react-router-dom';
+import './OrderProduct.css'
 
 toast.configure();
 
@@ -35,17 +36,18 @@ function OrderProduct({productId,price,quantity,orderId,apiRootUrl,clientRootUrl
             <tr>
                 <td>
                     <div className = "cart-info">
-                        <Link to = {`/product/${productId}/${categoryId}`}>
+                        {/* <Link to = {`/product/${productId}/${categoryId}`}> */}
                             <img src = {`${apiRootUrl}uploads/${image}`} style = {{objectFit:'cover',borderRadius:'5px'}} alt = "" />
-                        </Link>
+                        {/* </Link> */}
                         <div>
-                            <Link to = {`/product/${productId}/${categoryId}`}>
+                            {/* <Link to = {`/product/${productId}/${categoryId}`}> */}
                                 <p className = "product-link-text">{name}</p>
-                            </Link>
-                            <small>Price: ₦{price}</small>
+                            {/* </Link> */}
+                            {/* <small>Price: ₦{price}</small> */}
                         </div>
                     </div>
                 </td>
+                    <td>{price}</td>
                     <td>{quantity}</td>
                 <td>₦{price*quantity}</td>
             </tr>
@@ -53,4 +55,4 @@ function OrderProduct({productId,price,quantity,orderId,apiRootUrl,clientRootUrl
     )
 }
 
-export default OrderProduct
+export default OrderProduct;
