@@ -3,6 +3,9 @@ const app = require('./app');
 // const dotenv = require('dotenv');
 // dotenv.config();
 
+// set timezone
+process.env.TZ = 'Africa/Lagos';
+
 const port = process.env.PORT || 9000;
 
 

@@ -54,7 +54,7 @@ function OrderDetails({apiRootUrl,clientRootUrl,token,requireAuth,match,errorMes
                 }
             }).then(({data})=>{
                 setLoading(false);
-                console.log(data)
+                // console.log(data)
 
                 setFirstname(data.firstname);
                 setLastname(data.lastname);

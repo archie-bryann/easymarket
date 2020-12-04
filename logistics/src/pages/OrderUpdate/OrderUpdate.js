@@ -75,7 +75,7 @@ function OrderUpdate({apiRootUrl,clientRootUrl,token,requireAuth,match,errorMess
         <Fragment>
             {requireAuth()}
             {loading&&<Loader/>}
-            {console.log(status)}
+            {/* {console.log(status)} */}
             {/* To block logistics from updating anything other than a pending order */}
             {(status!== "pending"&&t)&&<Redirect to = "/404"/>}
             {redr&&<Redirect to = "/404" />}

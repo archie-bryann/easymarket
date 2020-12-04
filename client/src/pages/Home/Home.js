@@ -58,7 +58,7 @@ function Home({title,apiRootUrl, clientRootUrl, loggedInStatus, match, cartNum,t
             <Header title={title} clientRootUrl = {clientRootUrl} loggedInStatus = {loggedInStatus} match = {match} cartNum = {cartNum} token = {token} >
                 <div className = "row"> 
                     <div className = "col-2">
-                        <h1>Give Your Workout <br/>A New Style!</h1>
+                        <h1>Bringing The Market <br/>To You!</h1>
                         <p>Success isn't always about greatness. It's about consistency. Consistent<br/>hard work gains success. Greatness will come.</p>
                         <form onSubmit = {(e)=>{
                             e.preventDefault();

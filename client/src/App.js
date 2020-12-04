@@ -27,6 +27,10 @@ import Test from './pages/Test/Test';
 import {toast} from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import NotAvailable from './pages/NotAvailable/NotAvailable';
+import TermsOfServices from './pages/TermsOfService/TermsOfService'
+import PrivacyPolicy from './pages/PrivacyPolicy/PrivacyPolicy'
+import ReturnsAndExchangePolicy from './pages/ReturnsAndExchangePolicy/ReturnsAndExchangePolicy'
+import ShippingPolicy from './pages/ShippingPolicy/ShippingPolicy'
 
 // export const UserContext = React.createContext();
 // export const PageContext = React.createContext();
@@ -175,16 +179,16 @@ function App() {
 
             <Route path = "/order/:orderId" exact = {true} component = {({match})=><Order loggedInStatus = {loggedInStatus} title = {title} apiRootUrl = {apiRootUrl} clientRootUrl = {clientRootUrl} loggedInStatus = {loggedInStatus} match = {match} cartNum = {cartNum}  requireAuth = {requireAuth} token = {token} errorMessage = {errorMessage} />}  />
 
-            {/* <Route path = "/products" exact = {true} component = {({match})=><Products loggedInStatus = {loggedInStatus} title = {title} clientRootUrl = {clientRootUrl} match = {match} cartNum = {cartNum} />} /> */}
-
-            {/* <Route path = "/product-details" exact = {true} component = {({match})=><ProductDetails loggedInStatus = {loggedInStatus} title = {title} clientRootUrl = {clientRootUrl} match = {match} cartNum = {cartNum} />} /> */}
-
             <Route path = "/account" exact = {true} component = {({match})=><Account title = {title} clientRootUrl = {clientRootUrl} apiRootUrl = {apiRootUrl} match = {match} loggedInStatus = {loggedInStatus} cartNum = {cartNum} verifyAuth = {verifyAuth} token = {token} errorMessage = {errorMessage} />  } />
 
             <Route path = "/verify/:email/:v_token" exact = {true} component = {({match})=><Verify title = {title} clientRootUrl = {clientRootUrl} apiRootUrl = {apiRootUrl} match = {match} loggedInStatus = {loggedInStatus} verifyAuth = {verifyAuth} token = {token} errorMessage = {errorMessage} />} />
 
-            <Route path = "/not-available" component = {()=><NotAvailable title = {title} clientRootUrl = {clientRootUrl} loggedInStatus = {loggedInStatus}  cartNum = {cartNum} token = {token} />} />
+            <Route path = "/not-available" exact = {true} component = {()=><NotAvailable title = {title} clientRootUrl = {clientRootUrl} loggedInStatus = {loggedInStatus}  cartNum = {cartNum} token = {token} />} />
 
+            <Route path = "/terms-of-service" exact = {true} component = {()=><TermsOfServices title = {title} clientRootUrl = {clientRootUrl} loggedInStatus = {loggedInStatus}  cartNum = {cartNum} token = {token} />} />
+            <Route path = "/privacy-policy" exact = {true} component = {()=><PrivacyPolicy title = {title} clientRootUrl = {clientRootUrl} loggedInStatus = {loggedInStatus}  cartNum = {cartNum} token = {token} />} />
+            <Route path = "/returns-and-exchange-policy" exact = {true} component = {()=><ReturnsAndExchangePolicy title = {title} clientRootUrl = {clientRootUrl} loggedInStatus = {loggedInStatus}  cartNum = {cartNum} token = {token} />} />
+            <Route path = "/shipping-policy" exact = {true} component = {()=><ShippingPolicy title = {title} clientRootUrl = {clientRootUrl} loggedInStatus = {loggedInStatus}  cartNum = {cartNum} token = {token} />} />
 
             <Route path = "/logout" exact = {true} component = {(v)=><Logout title = {title} clientRootUrl = {clientRootUrl} apiRootUrl = {apiRootUrl} loggedInStatus = {loggedInStatus} v = {v} cartNum = {cartNum} requireAuth = {requireAuth} token = {token} />} />
 

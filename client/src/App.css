@@ -1,3 +1,13 @@
 .curve {
     border-radius: 15px;
 }
+
+.law-title {
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+.law-body {
+    margin-bottom: 30px;
+}

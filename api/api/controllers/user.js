@@ -117,7 +117,6 @@ exports.get_people_online = (req,res,next) => { // put middleware - admin
 exports.verify_user = (req,res,next) => {
     const {userId,email} = req.userData;
     res.status(200).json({valid:1,userId,email});
-    // res.end();
 }
 
 exports.user_signup = (req,res,next) => {

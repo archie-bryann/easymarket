@@ -24,19 +24,19 @@ function Footer({title, clientRootUrl}) {
                     <div className = "footer-col-3">
                         <h3>Useful Links</h3>
                         <ul>
-                            <li>Terms of Service</li>
-                            <li>Privacy Policy</li>
-                            <li>Returns and Exchange Policy</li>
-                            <li>Shipping Policy</li>
+                            <li><Link to = "/terms-of-service" className = "light">Terms of Service</Link></li>
+                            <li><Link to = "/privacy-policy" className = "light">Privacy Policy</Link></li>
+                            <li><Link to = "/returns-and-exchange-policy" className = "light">Returns and Exchange Policy</Link></li>
+                            <li><Link to = "/shipping-policy" className = "light">Shipping Policy</Link></li>
                         </ul>
                     </div>
                     <div className = "footer-col-4">
                         <h3>Follow us</h3>
                         <ul>
-                            <li>Facebook</li>
-                            <li>Twitter</li>
-                            <li>Instagram</li>
-                            <li>YouTube</li>
+                            {/* <li>Facebook</li> */}
+                            <li><a href = "https://twitter.com/ItzFoodnet" className = "light">Twitter</a></li>
+                            <li><a href = "https://www.instagram.com/ItzFoodnet/"  className = "light">Instagram</a></li>
+                            <li><a href = "https://www.youtube.com/channel/UCdihDlz7AT9YXagisi5-yGg?view_as=subscriber"  className = "light">YouTube</a></li>
                         </ul>
                     </div>
                 </div>

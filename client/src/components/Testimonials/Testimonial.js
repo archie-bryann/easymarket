@@ -8,9 +8,9 @@ function Testimonial({clientRootUrl}) {
                 <div className = "row">
                     <div className = "col-3">
                         <i className =  "fa fa-quote-left"></i>
-                        <p>Whoa Foodnet is slick. They delivery the food items I ordered within the day. Their platform is just so fast and easy to use.</p>
+                        <p>Whoa Foodnet is slick. They deliver the food items I ordered within the day. Their platform is just so fast and easy to use.</p>
                         <img src = {`${clientRootUrl}images/joshua-oluwagbemiga-v_xXhGuMqsw-unsplash.jpg`} style = {{objectFit:'contain',height:'100px'}} />
-                        <h3>Sean Parker</h3>
+                        <h3>Ayomide Adeyeye</h3>
                         <div className = "rating">
                             <i className = "fa fa-star"></i>
                             <i className = "fa fa-star"></i>
@@ -32,7 +32,7 @@ function Testimonial({clientRootUrl}) {
                             <i className = "fa fa-star"></i>
                             <i className = "fa fa-star-half-o"></i>
                         </div>
-                        <h3>Sean Parker</h3>
+                        <h3>Victoria Adesoji</h3>
                     </div>
                     <div className = "col-3">
                         <i className =  "fa fa-quote-left"></i>
@@ -46,7 +46,7 @@ function Testimonial({clientRootUrl}) {
                             <i className = "fa fa-star"></i>
                             <i className = "fa fa-star-half-o"></i>
                         </div>
-                        <h3>Sean Parker</h3>
+                        <h3>Abimbola Adeyemi</h3>
                     </div>
                 </div>
             </div>
@@ -54,4 +54,4 @@ function Testimonial({clientRootUrl}) {
     )
 }
 
-export default Testimonial
+export default Testimonial;

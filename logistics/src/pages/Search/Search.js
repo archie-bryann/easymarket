@@ -24,7 +24,7 @@ function Search({apiRootUrl,clientRootUrl,token,requireAuth,errorMessage,locatio
                 }
             }).then(({data})=>{
                 setLoading(false)
-                console.log(data);
+                // console.log(data);
                 setOrders(data);
             }).catch(err=>{
                 setLoading(false);
