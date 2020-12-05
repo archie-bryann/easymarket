@@ -4,14 +4,23 @@ const fs = require('fs');
 const { products_delete_product } = require("./product");
 const enhance = require("../../utils/enhance");
 
+const dotenv = require('dotenv');
+dotenv.config();
+
+
 exports.categories_get_all_and_products = (req,res,next) => {
+
+    console.log(1);
+
     pool.getConnection(function(err,conn){
+        console.log(err)
         if(err) {
             return res.status(500).json({error:'An error occured. Please try again!'});
         } else {
             conn.query(`select * from categorySchema`, function(err,categories){
                 conn.release();
                 if(err) {
+                console.log(1);
                     return res.status(500).json({error:'An error occured. Please try again!'});
                 } else {
                     res.status(200).json(categories.map((category)=>{

@@ -1,5 +1,9 @@
 const jwt = require('jsonwebtoken');
 
+const dotenv = require('dotenv');
+dotenv.config();
+
+
 exports.login = (req,res,next) => {
     const { username, password } = req.body;
     if(username !== process.env.logisticsUsername) {

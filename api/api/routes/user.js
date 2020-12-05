@@ -3,6 +3,10 @@ const router = express.Router();
 const UserController = require('../controllers/user');
 const checkAuth = require('../middleware/check-auth');
 
+const dotenv = require('dotenv');
+dotenv.config();
+
+
 router.get('/', checkAuth, UserController.user_get_all); // only admin
 
 router.get('/online_users', checkAuth, UserController.get_users_online); // only admin

@@ -5,6 +5,10 @@ const bodyParser = require('body-parser');
 // const path = require('path');
 // const cors = require('cors');
 
+const dotenv = require('dotenv');
+dotenv.config();
+
+
 const userRoutes = require('./api/routes/user');
 const adminRoutes = require('./api/routes/admin');
 const categoryRoutes = require('./api/routes/category');
@@ -16,9 +20,14 @@ const cartRoutes = require('./api/routes/cart');
 const miscellaneousRoutes = require('./api/routes/miscellaneous');
 const logisticsRoutes = require('./api/routes/logistics');
 
+
 app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({extended:false}));
 app.use(bodyParser.json());
+
+
+console.log(process.env.rootUrl)
+
 
 // const corsOptions = {
 //     origin:true,

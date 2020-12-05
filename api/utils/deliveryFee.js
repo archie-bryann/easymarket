@@ -1,5 +1,8 @@
 const locationFee = require('./locationFee');
 
+const dotenv = require('dotenv');
+dotenv.config();
+
 const deliveryFee = (subtotal,city) => {
 
     // console.log('subtotal',subtotal)

@@ -6,6 +6,10 @@ const uuid = require('uuid');
 const jwt = require('jsonwebtoken');
 const deliveryFee = require('../../utils/deliveryFee');
 
+const dotenv = require('dotenv');
+dotenv.config();
+
+
 IsEmail = (email) => {
     if(email.includes("@")) {
         var array = email.split("@")

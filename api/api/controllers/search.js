@@ -1,6 +1,10 @@
 const pool = require("../../utils/pool");
 const enhance = require("../../utils/enhance");
 
+const dotenv = require('dotenv');
+dotenv.config();
+
+
 exports.get_search_results = (req,res,next) => {
     // categories: name
     // products: name & description

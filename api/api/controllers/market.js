@@ -2,6 +2,10 @@ const pool = require("../../utils/pool")
 
 // market id: 1 in marketSchema
 
+const dotenv = require('dotenv');
+dotenv.config();
+
+
 exports.get_market_status = (req,res,next) => {
     pool.getConnection(function(err,conn){
         if(err) {

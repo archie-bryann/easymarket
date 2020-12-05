@@ -3,6 +3,9 @@ const router = express.Router();
 const MiscellaneousController = require('../controllers/miscellaneous');
 const checkAuth = require('../middleware/check-auth');
 
+const dotenv = require('dotenv');
+dotenv.config();
+
 
 router.get('/fee/:city', checkAuth, MiscellaneousController.city_cost);
 

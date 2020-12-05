@@ -1,6 +1,10 @@
 const pool = require("../../utils/pool");
 const moment = require('moment');
 
+const dotenv = require('dotenv');
+dotenv.config();
+
+
 exports.orders_create_order = (req,res,next) => {
 
     const {userId} = req.userData;

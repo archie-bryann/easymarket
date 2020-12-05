@@ -1,5 +1,8 @@
 const nodemailer = require('nodemailer');
 
+const dotenv = require('dotenv');
+dotenv.config();
+
 // Use Traversy media when i've bought domain & hosting plan && Test Before Deployment
 const transporter = nodemailer.createTransport({
     host: "smtp.gmail.com",

@@ -6,6 +6,10 @@ const fs = require('fs');
 const enhance = require("../../utils/enhance");
 const { token } = require("morgan");
 
+const dotenv = require('dotenv');
+dotenv.config();
+
+
 exports.products_get_all = (req,res,next) => {
     const tokenEmail = req.userData.email;
     
@@ -116,6 +120,7 @@ exports.products_get_random = (req,res,next) => {
 
 exports.products_get_starred = (req,res,next) => {
     const { limit } = req.params;
+
 
     pool.getConnection(function(err,conn){
         if(err) {

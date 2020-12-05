@@ -3,9 +3,13 @@ const pool = require('../../utils/pool');
 // const locationFee = require('../../utils/locationFee');
 const deliveryFee = require('../../utils/deliveryFee');
 
+const dotenv = require('dotenv');
+dotenv.config();
+
 
 exports.cart_get_all_for_user = (req,res,next) => {
     const tokenUserId = req.userData.userId;
+    console.log(tokenUserId)
     // const tokenEmail = req.userData.email;
 
     // if(userId == tokenUserId || tokenEmail === process.env.adminEmail) {

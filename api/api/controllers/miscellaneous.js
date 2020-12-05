@@ -28,6 +28,10 @@ let wholesalersFees;
 
 /** WRITE A FUNCTION TO CALCULATE THEIR DELIVERY FEE */
 
+const dotenv = require('dotenv');
+dotenv.config();
+
+
 exports.city_cost = (req,res,next) => {
     const {city} = req.params;
     return res.status(200).json({

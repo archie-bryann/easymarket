@@ -5,6 +5,10 @@ const checkAuth = require('../middleware/check-auth');
 const multer = require('multer');
 const uuid = require('uuid');
 
+const dotenv = require('dotenv');
+dotenv.config();
+
+
 const storage = multer.diskStorage({
     destination: function(req, file, cb) { // cb stands for callback
          cb(null, './uploads/');

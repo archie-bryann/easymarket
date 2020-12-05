@@ -3,6 +3,10 @@ const router = express.Router();
 const CartController = require('../controllers/cart');
 const checkAuth = require('../middleware/check-auth');
 
+const dotenv = require('dotenv');
+dotenv.config();
+
+
 router.get('/', checkAuth, CartController.cart_get_all_for_user);
 
 router.post('/', checkAuth, CartController.add_to_cart);
